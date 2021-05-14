@@ -1,6 +1,7 @@
 package rs.sbnz.book_recommender.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,9 @@ public class User {
 
     @ManyToOne
     private Author favoriteAuthor;
+
+    @Column
+    private Date lastActive;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Score> bookScore;
@@ -50,7 +54,13 @@ public class User {
         this.id = id;
     }
 
+    public Date getLastActive() {
+        return lastActive;
+    }
 
+    public void setLastActive(Date lastActive) {
+        this.lastActive = lastActive;
+    }
 
     public String getEmail() {
         return email;
