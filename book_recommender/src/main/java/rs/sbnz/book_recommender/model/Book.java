@@ -1,5 +1,7 @@
 package rs.sbnz.book_recommender.model;
 
+import rs.sbnz.book_recommender.model.enums.TargetAudience;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,6 +17,22 @@ public class Book {
     private String title;
     @Column
     private int brPregleda;
+    @Column
+    private String series;
+    @Column
+    private int seriesNumber;
+    @Column
+    private String targetAudience;
+    @Column
+    private Boolean basedOnRealEvent;
+    @Column
+    private Boolean nobelPrize;
+    /*@Column
+    private Boolean neustadtInternationalLiteratureAward;
+    @Column
+    private Boolean internationalBotevPrize;*/
+    @Column
+    private int yearOfPublishing;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "book")
     private Set<Score> score;
@@ -51,6 +69,70 @@ public class Book {
             return 0;
         return sum / this.score.size();
     }*/
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public int getSeriesNumber() {
+        return seriesNumber;
+    }
+
+    public void setSeriesNumber(int seriesNumber) {
+        this.seriesNumber = seriesNumber;
+    }
+
+    public String getTargetAudience() {
+        return targetAudience;
+    }
+
+    public void setTargetAudience(String targetAudience) {
+        this.targetAudience = targetAudience;
+    }
+
+    public Boolean getBasedOnRealEvent() {
+        return basedOnRealEvent;
+    }
+
+    public void setBasedOnRealEvent(Boolean basedOnRealEvent) {
+        this.basedOnRealEvent = basedOnRealEvent;
+    }
+
+    public Boolean getNobelPrize() {
+        return nobelPrize;
+    }
+
+    public void setNobelPrize(Boolean nobelPrize) {
+        this.nobelPrize = nobelPrize;
+    }
+
+    /*public Boolean getNeustadtInternationalLiteratureAward() {
+        return neustadtInternationalLiteratureAward;
+    }
+
+    public void setNeustadtInternationalLiteratureAward(Boolean neustadtInternationalLiteratureAward) {
+        this.neustadtInternationalLiteratureAward = neustadtInternationalLiteratureAward;
+    }
+
+    public Boolean getInternationalBotevPrize() {
+        return internationalBotevPrize;
+    }
+
+    public void setInternationalBotevPrize(Boolean internationalBotevPrize) {
+        this.internationalBotevPrize = internationalBotevPrize;
+    }*/
+
+    public int getYearOfPublishing() {
+        return yearOfPublishing;
+    }
+
+    public void setYearOfPublishing(int yearOfPublishing) {
+        this.yearOfPublishing = yearOfPublishing;
+    }
 
     public Set<User> getUsers() {
         return users;

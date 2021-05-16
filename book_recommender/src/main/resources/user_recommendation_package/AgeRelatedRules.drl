@@ -1,0 +1,29 @@
+import rs.sbnz.book_recommender.model.Server
+
+rule "When user is a child"
+  when
+
+  then
+
+end
+
+rule "When user is a teenager"
+  when
+
+  then
+
+end
+
+rule "When user is a young adult"
+  when
+
+  then
+
+end
+
+rule "When user is an adult"
+  when
+
+  then
+
+end
