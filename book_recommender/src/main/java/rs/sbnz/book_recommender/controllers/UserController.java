@@ -31,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> addUser(@PathVariable User user) {
+    public ResponseEntity<Void> addUser(@RequestBody UserDTO dto) {
         try {
-            userService.addUser(user);
+            userService.addUser(userMapper.toEntity(dto));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
