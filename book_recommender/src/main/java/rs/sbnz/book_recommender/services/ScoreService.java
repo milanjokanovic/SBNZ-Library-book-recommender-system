@@ -34,7 +34,9 @@ public class ScoreService {
     public Score addScore(Score score) throws Exception {
         Book book = bookRepository.findByTitle(score.getBook().getTitle());
 
-
+        if(book == null){
+            throw new Exception();
+        }
 
         User user = userRepository.findByEmail(score.getUser().getEmail());
 
@@ -42,9 +44,7 @@ public class ScoreService {
             throw new Exception();
         }
 
-        if(book == null){
-            throw new Exception();
-        }
+
         score.setBook(book);
         score.setUser(user);
 
