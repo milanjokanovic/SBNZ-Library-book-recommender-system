@@ -1,10 +1,12 @@
 package rs.sbnz.book_recommender.model;
 
 import rs.sbnz.book_recommender.model.enums.TargetAudience;
+import org.kie.api.definition.type.PropertyReactive;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@PropertyReactive
 @Entity
 public class Book {
 
@@ -60,15 +62,15 @@ public class Book {
     public Book() {
     }
 
-    /*public double getAvgGrade() {
+    public double avgGrade() {
         double sum = 0;
-        for(int i = 0; i < this.score.size(); i++) {
-            sum += this.score.get(i);
+        for(Score s : this.score) {
+            sum += s.getValue();
         }
         if(sum ==0)
             return 0;
         return sum / this.score.size();
-    }*/
+    }
 
     public String getSeries() {
         return series;

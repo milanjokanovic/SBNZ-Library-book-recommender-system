@@ -4,26 +4,32 @@ import rs.sbnz.book_recommender.dto.UserDTO;
 import rs.sbnz.book_recommender.model.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserMapper implements MapperInterface<User, UserDTO>{
 
     @Override
     public User toEntity(UserDTO dto) {
-        return null;
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        return user;
     }
 
     @Override
     public List<User> toEntityList(List<UserDTO> dtoList) {
-        return null;
+
+        return dtoList.stream().map(this::toEntity).collect(Collectors.toList());
     }
 
     @Override
     public UserDTO toDto(User entity) {
-        return null;
+        return new UserDTO(entity.getId(), entity.getEmail(), entity.getPassword());
     }
 
     @Override
     public List<UserDTO> toDtoList(List<User> entityList) {
-        return null;
+
+        return entityList.stream().map(this::toDto).collect(Collectors.toList());
     }
 }
