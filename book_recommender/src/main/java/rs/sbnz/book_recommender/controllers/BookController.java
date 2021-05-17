@@ -6,11 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.dto.BookDTO;
+import rs.sbnz.book_recommender.dto.GenreDTO;
 import rs.sbnz.book_recommender.dto.UserDTO;
 import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.Genre;
 import rs.sbnz.book_recommender.services.BookService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,6 +49,17 @@ public class BookController {
                 return new ResponseEntity<>(HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity <BookDTO> updateGenre(@PathVariable(value = "id") Integer bookId, @Valid @RequestBody BookDTO dto)
+    {
+        Book book = bookMapper.toEntity(dto);
+        try {
+            return ResponseEntity.ok(bookMapper.toDto(bookService.updateBook(bookId, book)));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
