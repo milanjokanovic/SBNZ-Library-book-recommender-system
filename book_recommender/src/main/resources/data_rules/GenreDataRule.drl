@@ -1,0 +1,30 @@
+package bookdata
+
+//list any import classes here.
+
+
+import java.util.List;
+import rs.sbnz.book_recommender.model.Genre;
+
+//declare any global variables here
+
+
+
+
+rule "Your First Rule"
+	agenda-group "GenreData"
+    no-loop
+    when
+    	$g: Genre(genreName:name)
+        $set: List()
+        Integer(intValue != 1)from accumulate(Genre(genreName==name) from $set,
+	        init(int count = 0;),
+	    	action(count += 1;),
+	    	result(count))
+    then
+        //System.out.println("PRONASAO SAM GENRE");
+        //System.out.println(genreName);
+
+        throw new Exception("Genre not found");
+
+end

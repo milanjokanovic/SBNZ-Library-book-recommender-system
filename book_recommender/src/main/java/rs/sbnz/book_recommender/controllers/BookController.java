@@ -37,6 +37,7 @@ public class BookController {
         try {
             bookService.addBook(bookMapper.toEntity(dto));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);

@@ -1,5 +1,11 @@
 package rs.sbnz.book_recommender.services;
 
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.definition.KiePackage;
+import org.kie.api.definition.rule.Rule;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.sbnz.book_recommender.model.Author;
@@ -11,6 +17,7 @@ import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.GenreRepository;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,13 +48,35 @@ public class BookService {
 
         Author author = authorRepository.findByName(book.getAuthor().getName());
 
-        if(author == null){
+        /*if(author == null){
             throw new Exception();
-        }
+        }*/
 
         List<Genre> genres = genreRepository.findAll();
 
-        
+
+        /*KieServices kieServices = KieServices.Factory.get();
+
+        KieContainer kContainer = kieServices.getKieClasspathContainer();
+
+        //LOG.info("Creating kieBase");
+        KieBase kieBase = kContainer.getKieBase();
+
+        //LOG.info("Creating kieSession");
+        KieSession session = kieBase.newKieSession("data-session");
+
+        session.insert(genres);
+        List<String> names = new ArrayList<>();
+        for(Genre genre : book.getGenres()){
+            session.insert(genre);
+            names.add(genre.getName());
+        }
+
+        session.getAgenda().getAgendaGroup("GenreData").setFocus();
+
+        session.fireAllRules();*/
+        //List<Genre> genreList = genreRepository.findByGenreNames(names);
+
 
         bookRepository.save(book);
 
