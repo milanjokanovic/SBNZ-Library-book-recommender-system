@@ -39,6 +39,8 @@ public class UserService {
     {
         User activeUser = userRepository.findById(userId)
                 .orElse(null);
+        if(activeUser == null)
+            return false;
         userRepository.delete(activeUser);
         /*Map< String, Boolean > response = new HashMap< >();
         response.put("deleted", Boolean.TRUE);*/

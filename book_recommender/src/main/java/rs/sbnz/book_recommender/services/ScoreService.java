@@ -57,6 +57,8 @@ public class ScoreService {
     {
         Score score = scoreRepository.findById(scoreId)
                 .orElse(null);
+        if(score == null)
+            return false;
         scoreRepository.delete(score);
         /*Map< String, Boolean > response = new HashMap< >();
         response.put("deleted", Boolean.TRUE);*/
@@ -67,6 +69,9 @@ public class ScoreService {
     {
         Score foundScore = scoreRepository.findById(scoreId)
                 .orElse(null); //Throw(() -> new ResourceNotFoundException("Employee not found for this id :: " + userId));
+
+        if(foundScore == null)
+            return null;
 
         foundScore.setValue(score.getValue());
 
