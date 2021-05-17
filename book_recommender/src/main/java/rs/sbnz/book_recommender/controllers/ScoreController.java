@@ -20,7 +20,7 @@ public class ScoreController {
     @Autowired
     private ScoreService scoreService;
 
-    private ScoreMapper scoreMapper;
+    private ScoreMapper scoreMapper = new ScoreMapper();
 
     @GetMapping
     public ResponseEntity<List<ScoreDTO>> getScores() {
@@ -28,8 +28,8 @@ public class ScoreController {
         return ResponseEntity.ok(scoreMapper.toDtoList(scores));
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Void> addBook(@RequestBody ScoreDTO dto) {
+    @PostMapping
+    public ResponseEntity<Void> addScore(@RequestBody ScoreDTO dto) {
         try {
             scoreService.addScore(scoreMapper.toEntity(dto));
         } catch (Exception e) {

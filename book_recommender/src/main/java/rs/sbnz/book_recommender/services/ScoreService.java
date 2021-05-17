@@ -2,8 +2,11 @@ package rs.sbnz.book_recommender.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.sbnz.book_recommender.model.Author;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Score;
+import rs.sbnz.book_recommender.model.User;
+import rs.sbnz.book_recommender.repositories.AuthorRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.ScoreRepository;
 import rs.sbnz.book_recommender.repositories.UserRepository;
@@ -28,8 +31,22 @@ public class ScoreService {
         return scoreRepository.findAll();
     }
 
-    public Score addScore(Score score)
-    {
+    public Score addScore(Score score) throws Exception {
+        Book book = bookRepository.findByTitle(score.getBook().getTitle());
+
+
+
+        User user = userRepository.findByEmail(score.getUser().getEmail());
+
+        if(user == null){
+            throw new Exception();
+        }
+
+        if(book == null){
+            throw new Exception();
+        }
+        score.setBook(book);
+        score.setUser(user);
 
         scoreRepository.save(score);
 

@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private UserMapper userMapper;
+    private UserMapper userMapper = new UserMapper();
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDtoList(users));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<Void> addUser(@RequestBody UserDTO dto) {
         try {
             userService.addUser(userMapper.toEntity(dto));

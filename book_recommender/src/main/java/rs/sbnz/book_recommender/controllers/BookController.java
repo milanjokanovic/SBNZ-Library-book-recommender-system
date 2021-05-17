@@ -21,7 +21,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    private BookMapper bookMapper;
+    private BookMapper bookMapper = new BookMapper();
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> getBooks() {
@@ -29,7 +29,7 @@ public class BookController {
         return ResponseEntity.ok(bookMapper.toDtoList(books));
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<Void> addBook(@RequestBody BookDTO dto) {
         try {
             bookService.addBook(bookMapper.toEntity(dto));
