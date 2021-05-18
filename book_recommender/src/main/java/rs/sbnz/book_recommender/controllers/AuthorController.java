@@ -28,6 +28,9 @@ public class AuthorController {
     @Autowired
     AuthorService authorService;
 
+    @Autowired
+    KieContainer kieContainer;
+
     private AuthorMapper authorMapper = new AuthorMapper();
 
     @GetMapping("/id/{id}")
@@ -87,19 +90,19 @@ public class AuthorController {
     @GetMapping("/testpravila")
     public void RuleTest()
     {
-        KieServices kieServices = KieServices.Factory.get();
+        /*KieServices kieServices = KieServices.Factory.get();
 
         KieContainer kContainer = kieServices.getKieClasspathContainer();
-
+        */
         //LOG.info("Creating kieBase");
-        KieBase kieBase = kContainer.getKieBase();
+        KieBase kieBase = kieContainer.getKieBase();
 
         //LOG.info("There should be rules: ");
-        for ( KiePackage kp : kieBase.getKiePackages() ) {
+        /*for ( KiePackage kp : kieBase.getKiePackages() ) {
             for (Rule rule : kp.getRules()) {
                 //LOG.info("kp " + kp + " rule " + rule.getName());
             }
-        }
+        }*/
 
         //LOG.info("Creating kieSession");
         KieSession session = kieBase.newKieSession();
