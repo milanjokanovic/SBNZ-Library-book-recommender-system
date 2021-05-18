@@ -1,5 +1,11 @@
 package rs.sbnz.book_recommender.controllers;
 
+import org.kie.api.KieBase;
+import org.kie.api.KieServices;
+import org.kie.api.definition.KiePackage;
+import org.kie.api.definition.rule.Rule;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -8,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.dto.AuthorDTO;
 import rs.sbnz.book_recommender.helper.AuthorMapper;
 import rs.sbnz.book_recommender.model.Author;
+import rs.sbnz.book_recommender.model.Server;
 import rs.sbnz.book_recommender.services.AuthorService;
 
 import javax.validation.Valid;
@@ -75,5 +82,32 @@ public class AuthorController {
     {
         Author author = authorMapper.toEntity(authorDetails);
         return ResponseEntity.ok(authorMapper.toDto(authorService.updateAuthor(authorId, author)));
+    }
+
+    @GetMapping("/testpravila")
+    public void RuleTest()
+    {
+        KieServices kieServices = KieServices.Factory.get();
+
+        KieContainer kContainer = kieServices.getKieClasspathContainer();
+
+        //LOG.info("Creating kieBase");
+        KieBase kieBase = kContainer.getKieBase();
+
+        //LOG.info("There should be rules: ");
+        for ( KiePackage kp : kieBase.getKiePackages() ) {
+            for (Rule rule : kp.getRules()) {
+                //LOG.info("kp " + kp + " rule " + rule.getName());
+            }
+        }
+
+        //LOG.info("Creating kieSession");
+        KieSession session = kieBase.newKieSession();
+
+        //LOG.info("Now running data");
+
+        Server s1 = new Server("rhel7",2,1024,2048);
+        session.insert(s1);
+        session.fireAllRules();
     }
 }
