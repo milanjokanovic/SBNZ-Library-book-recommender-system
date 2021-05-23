@@ -138,7 +138,8 @@ public class AuthorController {
         //LOG.info("Creating kieSession");
         KieSession session = kieBase.newKieSession();
 
-        systemGradeService.getGrade(session);
+        //systemGradeService.getGrade(session);
+        systemGradeService.getSystemGrade();
 
         //LOG.info("Now running data");
 

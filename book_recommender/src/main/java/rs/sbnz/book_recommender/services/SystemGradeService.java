@@ -1,18 +1,39 @@
 package rs.sbnz.book_recommender.services;
 
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.sbnz.book_recommender.model.*;
 import rs.sbnz.book_recommender.model.enums.LengthType;
 import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
 import rs.sbnz.book_recommender.model.facts.GeneralBookData;
 import rs.sbnz.book_recommender.model.facts.SeriesData;
+import rs.sbnz.book_recommender.repositories.AuthorRepository;
+import rs.sbnz.book_recommender.repositories.BookRepository;
+import rs.sbnz.book_recommender.repositories.GenreRepository;
+import rs.sbnz.book_recommender.repositories.UserRepository;
 
 import java.util.*;
 
 @Service
 public class SystemGradeService {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
+    @Autowired
+    private KieContainer kieContainer;
 
     public void getGrade(KieSession session){
         //RuleData data = new RuleData();
@@ -231,7 +252,7 @@ public class SystemGradeService {
         session.insert(a1);
 
 
-        session.insert(4); // ove je broj neke list size nisam siguran koje proveri
+        session.insert(4); // ove je broj user-a u bazi
         //kSession.insert(types);
 
 
@@ -263,5 +284,79 @@ public class SystemGradeService {
 
         System.out.println("Author Score:" + a.getSystemGrade());
         System.out.println("Author Score:" + a1.getSystemGrade());
+    }
+
+    public  void getSystemGrade(){
+        KieBase kieBase = kieContainer.getKieBase();
+
+        KieSession session = kieBase.newKieSession();
+
+        List<User> users = userRepository.findAll();
+        List<Book> books = bookRepository.findAll();
+        List<Author> authors = authorRepository.findAll();
+        List<Genre> genres = genreRepository.findAll();
+
+        for(User user : users){
+            session.insert(user);
+        }
+
+        for (Book book : books){
+            session.insert(book);
+        }
+
+        for (Genre genre : genres){
+            session.insert(genre);
+        }
+
+        for (Author author : authors){
+            session.insert(author);
+        }
+
+        BookLengthTypeData shortData = new BookLengthTypeData(0, 100, LengthType.SHORT);
+        BookLengthTypeData mediumData = new BookLengthTypeData(100, 500, LengthType.MEDIUM);
+        BookLengthTypeData longData = new BookLengthTypeData(500, Integer.MAX_VALUE, LengthType.LONG);
+
+        SeriesData seriesData = new SeriesData();
+        GeneralBookData bookData = new GeneralBookData();
+
+        session.insert(shortData);
+        session.insert(mediumData);
+        session.insert(longData);
+        session.insert(seriesData);
+        session.insert(bookData);
+        session.insert(users.size());
+
+        session.getAgenda().getAgendaGroup("Level7").setFocus();
+        session.getAgenda().getAgendaGroup("Level6").setFocus();
+        session.getAgenda().getAgendaGroup("Level5").setFocus();
+        session.getAgenda().getAgendaGroup("Level4").setFocus();
+        session.getAgenda().getAgendaGroup("Level3").setFocus();
+        session.getAgenda().getAgendaGroup("Level2").setFocus();
+        session.getAgenda().getAgendaGroup("Level1").setFocus();
+        session.getAgenda().getAgendaGroup("Level0").setFocus();
+
+        session.fireAllRules();
+
+        for(Book book : books){
+            System.out.println("Book: " + book.getTitle() + " Score:" + book.getSystemGrade());
+        }
+
+        //userRepository.save();
+
+        for(User user : users){
+            userRepository.save(user);
+        }
+
+        for (Book book : books){
+            bookRepository.save(book);
+        }
+
+        for (Genre genre : genres){
+            genreRepository.save(genre);
+        }
+
+        for (Author author : authors){
+            authorRepository.save(author);
+        }
     }
 }
