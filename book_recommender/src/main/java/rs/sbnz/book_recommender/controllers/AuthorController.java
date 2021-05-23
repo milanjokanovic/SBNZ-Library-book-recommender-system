@@ -16,6 +16,7 @@ import rs.sbnz.book_recommender.helper.AuthorMapper;
 import rs.sbnz.book_recommender.model.Author;
 import rs.sbnz.book_recommender.model.Server;
 import rs.sbnz.book_recommender.services.AuthorService;
+import rs.sbnz.book_recommender.services.SystemGradeService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,6 +31,9 @@ public class AuthorController {
 
     @Autowired
     KieContainer kieContainer;
+
+    @Autowired
+    private SystemGradeService systemGradeService;
 
     private AuthorMapper authorMapper = new AuthorMapper();
 
@@ -112,5 +116,32 @@ public class AuthorController {
         Server s1 = new Server("rhel7",2,1024,2048);
         session.insert(s1);
         session.fireAllRules();
+    }
+
+    @GetMapping("/test/systemgrade")
+    public void RuleTestGrade()
+    {
+        /*KieServices kieServices = KieServices.Factory.get();
+
+        KieContainer kContainer = kieServices.getKieClasspathContainer();
+        */
+        //LOG.info("Creating kieBase");
+        KieBase kieBase = kieContainer.getKieBase();
+
+        //LOG.info("There should be rules: ");
+        /*for ( KiePackage kp : kieBase.getKiePackages() ) {
+            for (Rule rule : kp.getRules()) {
+                //LOG.info("kp " + kp + " rule " + rule.getName());
+            }
+        }*/
+
+        //LOG.info("Creating kieSession");
+        KieSession session = kieBase.newKieSession();
+
+        systemGradeService.getGrade(session);
+
+        //LOG.info("Now running data");
+
+
     }
 }

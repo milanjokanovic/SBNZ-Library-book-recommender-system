@@ -72,6 +72,10 @@ public class Book {
         return sum / this.score.size();
     }
 
+    public void addScore(Score score) {
+        this.score.add(score);
+    }
+
     public String getSeries() {
         return series;
     }

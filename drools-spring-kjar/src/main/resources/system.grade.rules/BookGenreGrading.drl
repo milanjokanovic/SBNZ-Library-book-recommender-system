@@ -1,0 +1,52 @@
+package bookgengrade
+
+//list any import classes here.
+
+import gens.GenreAvrageData;
+import rs.sbnz.book_recommender.model.Genre;
+import rs.sbnz.book_recommender.model.Book;
+
+
+//declare any global variables here
+
+declare GenreCoeficient
+@propertyReactive
+    id : Integer
+    coef: Integer
+end
+
+
+
+rule "Creating book coeficient data for book genres"
+	agenda-group "Level5"
+	no-loop
+	salience 2
+    when
+        $b: Book(bookId: id)
+        not GenreCoeficient(id == bookId)
+    then
+    	//System.out.println("Book:" + bookId);
+        GenreCoeficient coefGenData = new GenreCoeficient();
+	    coefGenData.setId(bookId);
+	    coefGenData.setCoef(0);
+	    insert(coefGenData);
+
+end
+
+rule "Calculating book coeficient data for book genres"
+    agenda-group "Level5"
+	no-loop
+	salience 1
+    when
+       $b: Book(bookId: id, title:title, grade: getSystemGrade(), $genList: genres) @Watch(!systemGrade)
+       $gc: GenreCoeficient(coefId: id, coefId == bookId, coef: coef) //@Watch(!coef)
+       $avg: GenreAvrageData(avgCount: count, avgGrade: grade)
+       $g: Genre(genId:id, genreName:name, genGrade: getSystemGrade(), genGrade > (avgGrade / avgCount))
+       Integer(intValue == 1)from accumulate(Genre(genId==id) from $genList,
+	        init(int count = 0;),
+	    	action(count += 1;),
+	    	result(count))
+    then
+    	modify($gc){setCoef(coef + 1)}
+
+end

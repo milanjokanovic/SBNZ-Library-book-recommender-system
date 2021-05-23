@@ -1,4 +1,4 @@
-package rs.sbnz.book_recommender.model;
+package rs.sbnz.book_recommender.model.facts;
 
 import rs.sbnz.book_recommender.model.enums.LengthType;
 

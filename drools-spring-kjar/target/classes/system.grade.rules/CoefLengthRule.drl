@@ -1,0 +1,43 @@
+package CoefLengths
+
+//list any import classes here.
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
+import rs.sbnz.book_recommender.model.enums.LengthType;
+
+
+//declare any global variables here
+
+
+rule "Max length grade"
+	agenda-group "Level2"
+    no-loop
+    salience 1
+    when
+        $bt: BookLengthTypeData( $grade : grade, $type: type, value: value)
+        not BookLengthTypeData( grade > $grade, type != $type)
+        not BookLengthTypeData( grade == $grade, type != $type)
+    then
+    	//System.out.println("MAX");
+        //System.out.println($type);
+
+        modify($bt){setValue(0.5)}
+
+end
+
+rule "Min length grade"
+	agenda-group "Level2"
+    no-loop
+    salience 2
+    when
+        $bt: BookLengthTypeData( $grade : grade, $type: type, value: value)
+        not BookLengthTypeData( grade < $grade, type != $type)
+        not BookLengthTypeData( grade == $grade, type != $type)
+    then
+    	//System.out.println("MIN");
+        //System.out.println($type);
+
+        modify($bt){setValue(-0.5)}
+
+end

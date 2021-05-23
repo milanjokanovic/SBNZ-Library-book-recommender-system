@@ -1,0 +1,43 @@
+package sytemgrade
+
+//list any import classes here.
+
+import bookgengrade.GenreCoeficient;
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.Author;
+
+//declare any global variables here
+
+
+
+rule "System Grade with Author Grade"
+	agenda-group "Level6"
+	no-loop
+	salience 10
+    when
+        $b: Book(bookId: id, title: title, grade: getSystemGrade()) @Watch(!systemGrade)
+    	$a: Author(authorGrade: getSystemGrade(), $bookList: books)
+    	Integer(intValue == 1)from accumulate(Book(bookId==id) from $bookList,
+	        init(int count = 0;),
+	    	action(count += 1;),
+	    	result(count))
+    then
+    	System.out.println("knjige");
+        modify($b){setSystemGrade(0.8 * grade + 0.1 * authorGrade)}
+
+end
+
+rule "Add genre coeficient data to book grade"
+	agenda-group "Level7"
+	no-loop
+	salience 0
+    when
+        $b: Book(bookId: id, grade: getSystemGrade(), $genList: genres) @Watch(!systemGrade)
+        GenreCoeficient(id == bookId, coef: coef, coef > 0)
+    then
+    	//System.out.println("ulazim stalno " + (1. * coef / $genList.size()));
+
+    	System.out.println("ulazim stalno coef " + coef);
+    	modify($b){setSystemGrade(grade + (1. * coef / $genList.size()))}
+
+end
