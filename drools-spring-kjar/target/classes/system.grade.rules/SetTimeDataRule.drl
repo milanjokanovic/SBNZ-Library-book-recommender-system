@@ -1,0 +1,29 @@
+package timeNow
+
+//list any import classes here.
+
+import java.util.Calendar;
+
+//declare any global variables here
+
+
+
+
+declare CurrentTimeData
+@propertyReactive
+    now : Calendar
+    activityDate: Calendar
+end
+
+rule "CreateTickTocker"
+agenda-group "Level0"
+when
+    not($timeData:CurrentTimeData())
+then
+	 CurrentTimeData timeData = new CurrentTimeData();
+     timeData.setNow(Calendar.getInstance());
+     Calendar cal = Calendar.getInstance();
+     cal.add(Calendar.MONTH, -2);
+     timeData.setActivityDate(cal);
+     insert(timeData);
+end

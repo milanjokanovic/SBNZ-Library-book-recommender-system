@@ -75,12 +75,17 @@ public class Book {
         return sum / this.score.size();
     }
 
+
     public int getUserRecommendedScore() {
         return userRecommendedScore;
     }
 
     public void setUserRecommendedScore(int userRecommendedScore) {
         this.userRecommendedScore = userRecommendedScore;
+    }
+
+    public void addScore(Score score) {
+        this.score.add(score);
     }
 
     public String getSeries() {

@@ -1,0 +1,91 @@
+package authorbooks
+
+//list any import classes here.
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.Author;
+import rs.sbnz.book_recommender.model.User;
+import timeNow.CurrentTimeData
+import java.util.Date;
+import base3.*;
+
+//declare any global variables here
+
+
+rule "Reset Author Grade"
+	agenda-group "Level4"
+    no-loop
+    salience 9
+    when
+    	$a: Author() @Watch(!systemGrade)
+    then
+    	modify($a){setSystemGrade(0)}
+
+        //throw new Exception("Genre not found");
+
+end
+
+
+
+rule "Author grade from books"
+	agenda-group "Level4"
+    no-loop
+    salience 8
+    when
+    	$b: Book(bookId: id, title: title, bookGrade: getSystemGrade())
+    	$a: Author(grade: getSystemGrade(), $bookList: books)
+    	Integer(intValue == 1)from accumulate(Book(bookId==id) from $bookList,
+	        init(int count = 0;),
+	    	action(count += 1;),
+	    	result(count))
+    then
+        //System.out.println("Broj je:" + bookGrade + " ID:" + bookId);
+
+        modify($a){setSystemGrade(grade + bookGrade)}
+
+end
+
+rule "Author grade with favorite users coeficient"
+    agenda-group "Level5"
+    no-loop
+    salience 0
+    when
+        $c: Integer()
+        $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
+   	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+   	 	userActive($activityDate, userList, $num;)
+   	 	eval($num >= ($c /  10))
+    then
+        //actions
+        //System.out.println("Usao 2 puta author " + $num);
+		modify($a){setSystemGrade(0.9 * (grade / bookList.size()) + 1)}
+end
+
+rule "Author grade from without favorite users coeficient"
+    agenda-group "Level5"
+    no-loop
+    salience 0
+    when
+        $c: Integer()
+        $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
+   	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+   	 	userActive($activityDate, userList, $num;)
+   	 	eval($num < ($c /  10))
+    then
+        //System.out.println("Usao 3 puta author " + $num);
+		modify($a){setSystemGrade(0.9 * (grade / bookList.size()))}
+end
+
+rule "Author grade no favorite users"
+    agenda-group "Level5"
+    no-loop
+    salience 0
+    when
+        $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
+   	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+   	 	not userActive($activityDate, userList, $num;)
+   	 	//eval($num == 0)
+    then
+        //System.out.println("Usao 44 puta author " + grade);
+		modify($a){setSystemGrade(0.9 * (grade / bookList.size()))}
+end

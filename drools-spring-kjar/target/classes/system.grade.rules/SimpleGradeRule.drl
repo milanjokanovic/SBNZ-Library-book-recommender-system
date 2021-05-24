@@ -1,0 +1,38 @@
+package Formula1
+
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
+import rs.sbnz.book_recommender.model.facts.SeriesData;
+
+rule "Base formula part 1"
+	agenda-group "Level3"
+	no-loop
+	salience 10
+    when
+        $bt: BookLengthTypeData(min : minLength,max : maxLength, value: value) and
+        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, numberOfScores: getScore().size()) @Watch(!systemGrade)
+    then
+    	modify($b){setSystemGrade(avgGrade * (1. * numberOfScores / brPregleda) + value)}
+
+
+end
+
+rule "Base formula part 2"
+   	agenda-group "Level3"
+	no-loop
+	salience 9
+    when
+        $b: Book(seriesNumber > 0, grade: getSystemGrade()) @Watch(!systemGrade)
+   	 	$sd: SeriesData(value: value)
+    then
+        modify($b){setSystemGrade(grade + value)}
+
+
+end

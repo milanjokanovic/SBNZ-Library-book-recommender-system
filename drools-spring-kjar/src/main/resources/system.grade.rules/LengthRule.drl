@@ -1,0 +1,27 @@
+package BookRules
+
+//list any import classes here.
+
+
+
+//declare any global variables here
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
+
+
+
+rule "Long length rule"
+    agenda-group "Level1"
+    no-loop
+    when
+    	$d: BookLengthTypeData(min : minLength,max : maxLength) and
+        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda)
+
+    then
+        //System.out.println(title);
+        //System.out.println(avgGrade);
+        modify($d){increaseGrade(avgGrade * brPregleda)}
+
+
+end

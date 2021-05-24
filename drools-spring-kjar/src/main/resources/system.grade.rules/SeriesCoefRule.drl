@@ -1,0 +1,35 @@
+package series2
+
+//list any import classes here.
+import rs.sbnz.book_recommender.model.facts.SeriesData;
+
+import rs.sbnz.book_recommender.model.facts.GeneralBookData;
+
+
+//declare any global variables here
+
+
+
+
+rule "Series value bigger then avrage rule"
+	agenda-group "Level2"
+    no-loop
+    when
+    	$d: GeneralBookData(bookscore: avgBookScore, viewNumber: avgBookViewNumber, bookCount: bookCount)
+        $sd: SeriesData((grade / count) > ((bookscore / bookCount) * (viewNumber / bookCount)))
+    then
+        modify($sd){setValue(0.5)}
+
+end
+
+
+rule "Series value smaller then avrage rule"
+	agenda-group "Level2"
+    no-loop
+    when
+    	$d: GeneralBookData(bookscore: avgBookScore, viewNumber: avgBookViewNumber, bookCount: bookCount)
+        $sd: SeriesData((grade / count) < ((bookscore / bookCount) * (viewNumber / bookCount)))
+    then
+        modify($sd){setValue(-0.5)}
+
+end

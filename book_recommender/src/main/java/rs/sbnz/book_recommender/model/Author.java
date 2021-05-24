@@ -1,8 +1,11 @@
 package rs.sbnz.book_recommender.model;
 
+import org.kie.api.definition.type.PropertyReactive;
+
 import javax.persistence.*;
 import java.util.Set;
 
+@PropertyReactive
 @Entity
 public class Author {
     @Id

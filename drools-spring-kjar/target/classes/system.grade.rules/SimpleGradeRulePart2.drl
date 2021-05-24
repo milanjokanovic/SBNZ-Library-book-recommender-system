@@ -1,0 +1,40 @@
+package base2
+
+//list any import classes here.
+
+import rs.sbnz.book_recommender.model.Book;
+
+import rs.sbnz.book_recommender.model.facts.GeneralBookData;
+
+//declare any global variables here
+
+
+
+
+rule "Base formula part 3 view number bigger then avrage"
+   	agenda-group "Level3"
+	no-loop
+	salience 8
+    when
+        $gd: GeneralBookData(viewNumber: (avgBookViewNumber / bookCount))
+        $b: Book(brPregleda > viewNumber, grade: getSystemGrade()) @Watch(!systemGrade)
+
+    then
+    	//System.out.println("rule 32");
+        modify($b){setSystemGrade(grade + 1)}
+
+end
+
+rule "Base formula part 3 view number 2 times bigger then avrage"
+   	agenda-group "Level3"
+	no-loop
+	salience 8
+    when
+        $gd: GeneralBookData(viewNumber: (avgBookViewNumber / bookCount))
+        $b: Book(brPregleda > (2 * viewNumber), grade: getSystemGrade()) @Watch(!systemGrade)
+
+    then
+    	//System.out.println("rule 32");
+        modify($b){setSystemGrade(grade + 2)}
+
+end

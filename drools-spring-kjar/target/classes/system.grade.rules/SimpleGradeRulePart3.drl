@@ -1,0 +1,58 @@
+package base3
+
+//list any import classes here.
+
+import timeNow.CurrentTimeData
+import rs.sbnz.book_recommender.model.User;
+import java.util.Date;
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.GeneralBookData;
+import java.util.Set;
+
+
+
+//declare any global variables here
+
+
+
+
+rule "Bigger then avrage views favoring grade"
+	agenda-group "Level3"
+	no-loop
+	salience 6
+    when
+   	 	$t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
+   	 	$b: Book(brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+    	$d: GeneralBookData(viewNumber: avgBookViewNumber, bookCount: bookCount)
+   	 	eval(brPregleda > (viewNumber / bookCount))
+   	 	userActive($activityDate, userList, $num;)
+   	 	eval($num >= (brPregleda / 3))
+    then
+    	//System.out.println("fav" + title);
+    	modify($b){setSystemGrade(grade + 1)}
+end
+
+
+rule "Smaller then avrage views favoring grade"
+	agenda-group "Level3"
+	no-loop
+	salience 6
+    when
+   	 	$t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
+   	 	$b: Book(brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+    	$d: GeneralBookData(viewNumber: avgBookViewNumber, bookCount: bookCount)
+   	 	eval(brPregleda < (viewNumber / bookCount))
+   	 	userActive($activityDate, userList, $num;)
+   	 	eval($num >= (2 * brPregleda / 3))
+    then
+    	//System.out.println("fav1" + title);
+    	modify($b){setSystemGrade(grade + 1)}
+end
+
+query userActive(Date givenDate, Set userList, Integer $num)
+    $num := Integer(intValue <= userList.size(), intValue > 0)
+    from accumulate(User(activeDate: lastActive, givenDate.before(activeDate)) from userList,
+    init(int count = 0;),
+    action(count += 1;),
+    result(count))
+end

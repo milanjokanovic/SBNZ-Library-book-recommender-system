@@ -1,0 +1,78 @@
+package gens
+
+//list any import classes here.
+
+import java.util.List;
+import rs.sbnz.book_recommender.model.Genre;
+import rs.sbnz.book_recommender.model.Book;
+
+//declare any global variables here
+
+declare GenreAvrageData
+@propertyReactive
+    grade : Double
+    count: Integer
+end
+
+
+
+rule "Reset Genre Grade"
+	agenda-group "Level4"
+    no-loop
+    salience 10
+    when
+    	$g: Genre() @Watch(!systemGrade)
+    then
+    	modify($g){setSystemGrade(0)}
+
+
+end
+
+
+rule "Genre Grade Rule"
+	agenda-group "Level4"
+    no-loop
+    salience 5
+    when
+    	$g: Genre(genId:id, genreName:name, genGrade: getSystemGrade())
+        $b: Book(title:title, grade: getSystemGrade(), $genList: genres) //@Watch(!systemGrade)
+        Integer(intValue == 1)from accumulate(Genre(genId==id) from $genList,
+	        init(int count = 0;),
+	    	action(count += 1;),
+	    	result(count))
+    then
+    	modify($g){setSystemGrade(genGrade + grade/$genList.size())}
+
+        //throw new Exception("Genre not found");
+
+end
+
+
+rule "Avrage Genre Data Generation Rule"
+	agenda-group "Level4"
+    no-loop
+    salience 2
+    when
+    	not GenreAvrageData()
+    then
+    	//System.out.println("kreirao se");
+    	GenreAvrageData avgGenData = new GenreAvrageData();
+	    avgGenData.setGrade(0.0);
+	    avgGenData.setCount(0);
+	    insert(avgGenData);
+
+end
+
+rule "Avrage Genre Data Modification Rule"
+	agenda-group "Level4"
+    no-loop
+    salience 2
+    when
+    	$g: Genre(genId:id, genreName:name, genGrade: getSystemGrade())
+    	$avg: GenreAvrageData(count: count, grade: grade)
+    then
+    	//System.out.println("usao 2 puta");
+    	modify($avg){setGrade(grade + genGrade)}
+    	modify($avg){setCount(count + 1)}
+
+end

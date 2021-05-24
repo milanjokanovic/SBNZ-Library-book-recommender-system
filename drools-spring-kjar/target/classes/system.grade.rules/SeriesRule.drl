@@ -1,0 +1,37 @@
+package series1
+
+//list any import classes here.
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.SeriesData;
+
+import rs.sbnz.book_recommender.model.facts.GeneralBookData;
+
+//declare any global variables here
+
+
+
+
+rule "Series Rule"
+	agenda-group "Level1"
+    no-loop
+    when
+        $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, seriesNumber > 0)
+        $sd: SeriesData(grade: grade)
+    then
+        //actions
+		//System.out.println("Series " + title);
+        modify($sd){increaseGrade(avgGrade * brPregleda)}
+end
+
+rule "General Data Rule"
+	agenda-group "Level1"
+    no-loop
+    when
+        $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda)
+        $d: GeneralBookData()
+    then
+        //actions
+		//System.out.println("Series " + title);
+        modify($d){increaseDataValues(avgGrade, brPregleda)}
+end
