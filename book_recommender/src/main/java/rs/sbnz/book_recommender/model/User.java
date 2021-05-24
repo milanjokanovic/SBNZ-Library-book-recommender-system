@@ -25,6 +25,8 @@ public class User {
     @Column
     private Date lastActive;
 
+    @Column String age;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Score> bookScore;
 
@@ -36,6 +38,14 @@ public class User {
     private Set<Book> readBooks;
 
     public User(){}
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
 
     public Set<Book> getReadBooks() {
         return readBooks;

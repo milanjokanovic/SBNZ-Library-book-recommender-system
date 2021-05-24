@@ -1,8 +1,0 @@
-import rs.sbnz.book_recommender.model.Server
-
-rule "Filter user's already read books"
-  when
-
-  then
-
-end

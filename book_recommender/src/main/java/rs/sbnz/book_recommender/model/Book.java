@@ -42,6 +42,9 @@ public class Book {
     @Column
     private double systemGrade;
 
+    @Column
+    private int userRecommendedScore;
+
     @ManyToOne
     private Author author;
 
@@ -70,6 +73,14 @@ public class Book {
         if(sum ==0)
             return 0;
         return sum / this.score.size();
+    }
+
+    public int getUserRecommendedScore() {
+        return userRecommendedScore;
+    }
+
+    public void setUserRecommendedScore(int userRecommendedScore) {
+        this.userRecommendedScore = userRecommendedScore;
     }
 
     public String getSeries() {

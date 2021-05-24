@@ -1,0 +1,37 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import java.util.List;
+
+rule "When user is a child"
+  when
+  $user : User( age == "0")
+
+  then
+
+end
+
+rule "When user is a teenager"
+  no-loop
+  when
+  $user : User( age == "1")
+  $userBooksScore: Book(targetAudience != "1")
+  then
+  System.out.println("Tinejdzer");
+  delete($userBooksScore);
+end
+
+rule "When user is a young adult"
+  when
+  //$user : User( age == "2")
+  $book: Book()
+  then
+  System.out.println($book.getTargetAudience());
+  System.out.println($book.getTitle());
+end
+
+rule "When user is an adult"
+  when
+  $user : User( age == "3")
+  then
+
+end

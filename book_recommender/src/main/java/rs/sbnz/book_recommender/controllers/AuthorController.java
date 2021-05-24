@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.dto.AuthorDTO;
 import rs.sbnz.book_recommender.helper.AuthorMapper;
 import rs.sbnz.book_recommender.model.Author;
 import rs.sbnz.book_recommender.model.Server;
 import rs.sbnz.book_recommender.services.AuthorService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
