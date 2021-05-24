@@ -11,6 +11,7 @@ rule "When user is a child"
 end
 
 rule "When user is a teenager"
+  agenda-group "test"
   no-loop
   when
   $user : User( age == "1")
@@ -21,6 +22,7 @@ rule "When user is a teenager"
 end
 
 rule "When user is a young adult"
+  agenda-group "test"
   when
   //$user : User( age == "2")
   $book: Book()
