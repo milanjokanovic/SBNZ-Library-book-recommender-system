@@ -1,0 +1,44 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import rs.sbnz.book_recommender.model.Author
+import rs.sbnz.book_recommender.model.Score
+import java.util.List;
+
+rule "Score user read authors"
+  agenda-group "AuthorScore"
+  no-loop
+  when
+  $author: Author($name : name)
+  $book: Book(author.getName() == $name, book_id : id)
+  $user: User($user_books: readBooks, user_id: id)
+  //$score: Score(book.getId() == book_id, user.getId() == user_id)
+  $noReadByAuthor: Integer(intValue >= 0)
+      from accumulate(Book(author.getName() == $name) from $user_books,
+      init(int count = 0;),
+      action(count += 1;),
+      result(count))
+  //userCumulativeAuthorScore($author, $user, $num;)
+  then
+  //System.out.println("Autor: " + $author.getName());
+  //System.out.println("Knjiga: " + $book.getTitle());
+  //System.out.println("Ukupno: " + $noReadByAuthor);
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadByAuthor)}
+end
+
+rule "Test Author"
+  agenda-group "AuthorScore"
+  no-loop
+  when
+  $book : Book()
+  then
+  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
+end
+
+/*query userCumulativeAuthorScore(Author authorParam, User userParam , Integer $num)
+    $num := Integer(intValue >= 0)
+    from accumulate(Book(author.getName() == authorParam.getName(),
+    $score : score) from userParam.getReadBooks(),
+    init(int sum = 0;),
+    action(sum += 1;),
+    result(sum))
+end*/

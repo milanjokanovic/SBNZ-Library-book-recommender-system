@@ -1,0 +1,25 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import rs.sbnz.book_recommender.model.Genre
+import java.util.List;
+
+rule "Score user read genres"
+  agenda-group "GenreScore"
+  no-loop
+  when
+  $genre: Genre($genre_name: name)
+  $book: Book($book_genres: genres, $genre memberOf $book_genres)
+  then
+  //System.out.println("Trenutni zanr :" + $genre.getName());
+  System.out.println("Knjiga: " + $book.getTitle() + ", Zanr: " + $genre.getName());
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ 1)}
+end
+
+rule "Test Genre"
+  agenda-group "GenreScore"
+  no-loop
+  when
+  $book : Book()
+  then
+  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
+end

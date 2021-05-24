@@ -31,9 +31,10 @@ INSERT INTO genre (id, name, system_grade) VALUES
 
 INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, series, series_number,
     system_grade, target_audience, title, year_of_publishing, author_id, user_recommended_score) VALUES
-    (1001, FALSE, 240, FALSE, 223, 'Harry Potter', 1, 0, '1', 'Harry Potter and the philosophers stone', 1997, 1001, 0),
-    (1008, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 1, 0, '0', 'The Lion, the witch and the wardrobe', 1950, 1002, 0),
-    (1019, FALSE, 240, FALSE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1003, 0);
+    (1001, FALSE, 240, TRUE, 223, 'Harry Potter', 1, 0, '1', 'Harry Potter and the philosophers stone', 1997, 1001, 0),
+    (1002, TRUE, 240, FALSE, 251, 'Harry Potter', 2, 0, '1', 'Harry Potter and the chamber of secrets', 1998, 1001, 0),
+    (1008, FALSE, 240, TRUE, 223, 'The chronicles of Narnia', 1, 0, '0', 'The Lion, the witch and the wardrobe', 1950, 1002, 0),
+    (1019, FALSE, 240, TRUE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1003, 0);
 
 INSERT INTO user (id, email, last_active, password,  age) VALUES
     (1, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, '1');
@@ -46,4 +47,11 @@ INSERT INTO book_genres (book_id, genre_id) values
     (1019, 1);
 
 INSERT into user_read_books (user_id, book_id) values
-    (1, 1001);
+    (1, 1001),
+    (1, 1008),
+    (1, 1002);
+
+INSERT INTO score (id, value, book_id, user_id) values
+    (1, 7, 1001, 1),
+    (2, 5, 1002, 1),
+    (3, 8, 1008, 1);

@@ -2,39 +2,22 @@ import rs.sbnz.book_recommender.model.User
 import rs.sbnz.book_recommender.model.Book
 import java.util.List;
 
-rule "When user is a child"
-  when
-  $user : User( age == "0")
-
-  then
-
-end
-
-rule "When user is a teenager"
-  agenda-group "test"
+rule "Filter books based on user age"
+  agenda-group "UserAgeFilter"
   no-loop
   when
-  $user : User( age == "1")
-  $userBooksScore: Book(targetAudience != "1")
+  $user : User(age : age)
+  $userBooksScore: Book(targetAudience != age)
   then
   System.out.println("Tinejdzer");
   delete($userBooksScore);
 end
 
 rule "When user is a young adult"
-  agenda-group "test"
+  agenda-group "UserAgeFilter"
+  no-loop
   when
-  $user: User(books : readBooks)
-  $genres: books()
-  $book: Book()
+  $book : Book()
   then
-  System.out.println($book.getTargetAudience());
   System.out.println($book.getTitle());
-end
-
-rule "When user is an adult"
-  when
-  $user : User( age == "3")
-  then
-
 end

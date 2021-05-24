@@ -1,0 +1,35 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import java.util.List;
+
+rule "Reward nobel prize"
+  agenda-group "AdditionalEvaluation"
+  no-loop
+  when
+  $book: Book(nobelPrize == true)
+  $user: User($user_books: readBooks, user_id: id)
+  $noReadWithNobel: Integer(intValue >= 0)
+      from accumulate(Book(nobelPrize == true) from $user_books,
+      init(int count = 0;),
+      action(count += 1;),
+      result(count))
+  then
+  System.out.println($book.getTitle() + " --- " + $noReadWithNobel);
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadWithNobel)}
+end
+
+rule "Reward based on true event"
+  agenda-group "AdditionalEvaluation"
+  no-loop
+  when
+  $book: Book(basedOnRealEvent == true)
+    $user: User($user_books: readBooks, user_id: id)
+    $noReadBasedOnTrueEvent: Integer(intValue >= 0)
+        from accumulate(Book(basedOnRealEvent == true) from $user_books,
+        init(int count = 0;),
+        action(count += 1;),
+        result(count))
+    then
+    System.out.println($book.getTitle() + " --- " + $noReadBasedOnTrueEvent);
+    modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadBasedOnTrueEvent)}
+end
