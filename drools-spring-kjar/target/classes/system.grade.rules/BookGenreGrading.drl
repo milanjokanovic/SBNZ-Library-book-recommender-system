@@ -42,10 +42,8 @@ rule "Calculating book coeficient data for book genres"
        $gc: GenreCoeficient(coefId: id, coefId == bookId, coef: coef) //@Watch(!coef)
        $avg: GenreAvrageData(avgCount: count, avgGrade: grade)
        $g: Genre(genId:id, genreName:name, genGrade: getSystemGrade(), genGrade > (avgGrade / avgCount))
-       Integer(intValue == 1)from accumulate(Genre(genId==id) from $genList,
-	        init(int count = 0;),
-	    	action(count += 1;),
-	    	result(count))
+       Long(intValue == 1)from accumulate(Genre($gl: this, genId==id) from $genList,
+	        count($gl))
     then
     	modify($gc){setCoef(coef + 1)}
 

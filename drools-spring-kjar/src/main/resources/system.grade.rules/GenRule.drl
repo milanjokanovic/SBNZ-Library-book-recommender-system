@@ -36,10 +36,8 @@ rule "Genre Grade Rule"
     when
     	$g: Genre(genId:id, genreName:name, genGrade: getSystemGrade())
         $b: Book(title:title, grade: getSystemGrade(), $genList: genres) //@Watch(!systemGrade)
-        Integer(intValue == 1)from accumulate(Genre(genId==id) from $genList,
-	        init(int count = 0;),
-	    	action(count += 1;),
-	    	result(count))
+        Long(intValue == 1)from accumulate(Genre($gi: this, genId==id) from $genList,
+	        count($gi))
     then
     	modify($g){setSystemGrade(genGrade + grade/$genList.size())}
 

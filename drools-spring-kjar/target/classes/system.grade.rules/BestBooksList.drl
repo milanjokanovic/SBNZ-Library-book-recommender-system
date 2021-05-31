@@ -1,0 +1,23 @@
+package bestbooks
+
+//list any import classes here.
+
+import rs.sbnz.book_recommender.model.Book;
+import java.util.List;
+
+rule "List of best books"
+	agenda-group "Level8"
+    salience 1
+    when
+        $bestList: List() and
+        eval($bestList.size() < 3)
+        $b: Book( $grade : systemGrade, $id: id)
+        not Book( systemGrade > $grade, id != $id)
+    then
+    	//System.out.println("MAX");
+        //System.out.println($type);
+
+        modify($bestList){add($b)}
+        delete($b);
+
+end

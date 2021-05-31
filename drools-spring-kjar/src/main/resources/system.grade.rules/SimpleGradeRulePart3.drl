@@ -51,8 +51,8 @@ end
 
 query userActive(Date givenDate, Set userList, Integer $num)
     $num := Integer(intValue <= userList.size(), intValue > 0)
-    from accumulate(User(activeDate: lastActive, givenDate.before(activeDate)) from userList,
-    init(int count = 0;),
-    action(count += 1;),
-    result(count))
+    from accumulate(User($u:this, activeDate: lastActive, givenDate.before(activeDate)) from userList,
+        init(int count = 0;),
+        action(count += 1;),
+        result(count))
 end
