@@ -24,6 +24,7 @@ rule "Test Genre"
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
 end
 
+//presek liste, novi rule, query
 
 query sumReadOfGenre(Genre genreParam, User userParam , Number $num)
     $num := Number()

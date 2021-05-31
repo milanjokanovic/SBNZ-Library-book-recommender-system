@@ -9,34 +9,36 @@ rule "Reward nobel prize"
   $book: Book(nobelPrize == true)
   $user: User($user_books: readBooks, user_id: id)
   numberOfNobelPrize($user, $num;)
-  //eval($num >= 0 and $num < 10)
+  eval($num.intValue() >= 0)
+  eval($num.intValue() < 10)
   then
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.01*$num.doubleValue()))}
 end
 
-/*rule "Reward nobel prize"
+rule "Reward nobel prize medium"
   agenda-group "AdditionalEvaluation"
   no-loop
   when
   $book: Book(nobelPrize == true)
   $user: User($user_books: readBooks, user_id: id)
   numberOfNobelPrize($user, $num;)
-  eval($num >= 10 and $num < 50)
+  eval($num.intValue() >= 10)
+  eval($num.intValue() < 50)
   then
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.1+0.005*$num))}
-end*/
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.1+0.005*$num.doubleValue()))}
+end
 
-/*rule "Reward nobel prize"
+rule "Reward nobel prize high"
   agenda-group "AdditionalEvaluation"
   no-loop
   when
   $book: Book(nobelPrize == true)
   $user: User($user_books: readBooks, user_id: id)
   numberOfNobelPrize($user, $num;)
-  eval($num >= 50)
+  eval($num.intValue() >= 50)
   then
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.3+0.001*$num))}
-end*/
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.3+0.001*$num.doubleValue()))}
+end
 
 query numberOfNobelPrize(User user, Number $num)
     $num := Number()
@@ -51,14 +53,11 @@ rule "Reward based on true event"
   when
   $book: Book(basedOnRealEvent == true)
     $user: User($user_books: readBooks, user_id: id)
-    $noReadBasedOnTrueEvent: Integer(intValue >= 0)
-        from accumulate(Book(basedOnRealEvent == true) from $user_books,
-        init(int count = 0;),
-        action(count += 1;),
-        result(count))
+    $noReadBasedOnTrueEvent: Number(intValue >= 0)
+        from accumulate($b:Book(basedOnRealEvent == true) from $user_books,
+        count($b))
     then
-    System.out.println($book.getTitle() + " --- " + $noReadBasedOnTrueEvent);
-    //modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadBasedOnTrueEvent)}
+    modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.01*$noReadBasedOnTrueEvent.doubleValue()))}
 end
 
 rule "Test additional"
