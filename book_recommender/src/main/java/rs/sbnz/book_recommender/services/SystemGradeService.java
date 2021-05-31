@@ -1,21 +1,29 @@
 package rs.sbnz.book_recommender.services;
 
 import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
+import org.kie.api.KieServices;
+import org.kie.api.conf.EventProcessingOption;
+import org.kie.api.definition.type.Expires;
+import org.kie.api.definition.type.Role;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.sbnz.book_recommender.config.EventSessionConfig;
 import rs.sbnz.book_recommender.model.*;
 import rs.sbnz.book_recommender.model.enums.LengthType;
 import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
 import rs.sbnz.book_recommender.model.facts.GeneralBookData;
 import rs.sbnz.book_recommender.model.facts.SeriesData;
+import rs.sbnz.book_recommender.model.facts.SystemGradingEvent;
 import rs.sbnz.book_recommender.repositories.AuthorRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.GenreRepository;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 
 import java.util.*;
+
 
 @Service
 public class SystemGradeService {
@@ -34,6 +42,58 @@ public class SystemGradeService {
 
     @Autowired
     private KieContainer kieContainer;
+
+    @Autowired
+    private EventSessionConfig config;
+
+    //private Date date = new Date();
+
+    private List<Book> bestBooksList;
+
+    public List<Book> fireEvent(){
+        //config.eventSession().insert(date);
+        config.eventSession().fireUntilHalt();
+
+        return bestBooksList;
+    }
+
+
+    public void testCall(){
+        System.out.println("Calling me");
+
+        KieServices ks = KieServices.Factory.get();
+        /*KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("rs.sbnz", "drools-spring-kjar", "0.0.1-SNAPSHOT"));*/
+
+        KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
+        kieBaseConfiguration.setOption(EventProcessingOption.STREAM);
+        KieBase kieBase = kieContainer.newKieBase(kieBaseConfiguration);//config.getBase();//kieContainer.newKieBase(kieBaseConfiguration);
+
+        KieSession session = kieBase.newKieSession();
+
+        List<Book> books = bookRepository.findAll();
+
+        for (Book book : books){
+            session.insert(book);
+        }
+
+        List<Book> bestBooks = new ArrayList<>();
+
+        session.insert(bestBooks);
+
+        session.getAgenda().getAgendaGroup("Close").setFocus();
+        session.getAgenda().getAgendaGroup("Level8").setFocus();
+
+        session.fireUntilHalt();
+
+        System.out.println("OLD BEST BOOKS");
+
+        for(Book b : bestBooks){
+            System.out.println("Book: " + b.getTitle() + " Score:" + b.getSystemGrade());
+        }
+
+        bestBooksList = bestBooks;
+    }
 
     public void getGrade(KieSession session){
         //RuleData data = new RuleData();
@@ -287,7 +347,16 @@ public class SystemGradeService {
     }
 
     public  void getSystemGrade(){
-        KieBase kieBase = kieContainer.getKieBase();
+        /*KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
+        kieBaseConfiguration.setOption(EventProcessingOption.CLOUD);*/
+
+        KieServices ks = KieServices.Factory.get();
+        /*KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("rs.sbnz", "drools-spring-kjar", "0.0.1-SNAPSHOT"));*/
+
+        KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
+        kieBaseConfiguration.setOption(EventProcessingOption.STREAM);
+        KieBase kieBase = kieContainer.newKieBase(kieBaseConfiguration);//config.getBase();//kieContainer.newKieBase(kieBaseConfiguration);
 
         KieSession session = kieBase.newKieSession();
 
@@ -319,13 +388,19 @@ public class SystemGradeService {
         SeriesData seriesData = new SeriesData();
         GeneralBookData bookData = new GeneralBookData();
 
+        List<Book> bestBooks = new ArrayList<>();
+
+
         session.insert(shortData);
         session.insert(mediumData);
         session.insert(longData);
         session.insert(seriesData);
         session.insert(bookData);
         session.insert(users.size());
+        session.insert(bestBooks);
 
+        session.getAgenda().getAgendaGroup("Close").setFocus();
+        session.getAgenda().getAgendaGroup("Level8").setFocus();
         session.getAgenda().getAgendaGroup("Level7").setFocus();
         session.getAgenda().getAgendaGroup("Level6").setFocus();
         session.getAgenda().getAgendaGroup("Level5").setFocus();
@@ -335,7 +410,7 @@ public class SystemGradeService {
         session.getAgenda().getAgendaGroup("Level1").setFocus();
         session.getAgenda().getAgendaGroup("Level0").setFocus();
 
-        session.fireAllRules();
+        session.fireUntilHalt();
 
         for(Book book : books){
             System.out.println("Book: " + book.getTitle() + " Score:" + book.getSystemGrade());
@@ -358,5 +433,15 @@ public class SystemGradeService {
         for (Author author : authors){
             authorRepository.save(author);
         }
+
+        System.out.println("BEST BOOKS");
+
+        for(Book b : bestBooks){
+            System.out.println("Book: " + b.getTitle() + " Score:" + b.getSystemGrade());
+        }
+
+        bestBooksList = bestBooks;
+        /*date = new Date();
+        config.eventSession().insert(date);*/
     }
 }

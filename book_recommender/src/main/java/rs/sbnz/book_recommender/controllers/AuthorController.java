@@ -11,8 +11,11 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import rs.sbnz.book_recommender.dto.AuthorDTO;
+import rs.sbnz.book_recommender.dto.BookDTO;
+import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.helper.AuthorMapper;
 import rs.sbnz.book_recommender.model.Author;
+import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Server;
 import rs.sbnz.book_recommender.services.AuthorService;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +39,8 @@ public class AuthorController {
     private SystemGradeService systemGradeService;
 
     private AuthorMapper authorMapper = new AuthorMapper();
+
+    private BookMapper bookMapper = new BookMapper();
 
     @GetMapping("/id/{id}")
     public ResponseEntity<AuthorDTO> findByAuthorId(@PathVariable int id)
@@ -119,30 +124,10 @@ public class AuthorController {
     }
 
     @GetMapping("/test/systemgrade")
-    public void RuleTestGrade()
+    public ResponseEntity<List<BookDTO>> RuleTestGrade()
     {
-        /*KieServices kieServices = KieServices.Factory.get();
-
-        KieContainer kContainer = kieServices.getKieClasspathContainer();
-        */
-        //LOG.info("Creating kieBase");
-        KieBase kieBase = kieContainer.getKieBase();
-
-        //LOG.info("There should be rules: ");
-        /*for ( KiePackage kp : kieBase.getKiePackages() ) {
-            for (Rule rule : kp.getRules()) {
-                //LOG.info("kp " + kp + " rule " + rule.getName());
-            }
-        }*/
-
-        //LOG.info("Creating kieSession");
-        KieSession session = kieBase.newKieSession();
-
-        //systemGradeService.getGrade(session);
-        systemGradeService.getSystemGrade();
-
-        //LOG.info("Now running data");
-
-
+        //systemGradeService.fireEvent();
+        List<Book> books = systemGradeService.fireEvent();
+        return ResponseEntity.ok(bookMapper.toDtoList(books));
     }
 }

@@ -34,10 +34,8 @@ rule "Author grade from books"
     when
     	$b: Book(bookId: id, title: title, bookGrade: getSystemGrade())
     	$a: Author(grade: getSystemGrade(), $bookList: books)
-    	Integer(intValue == 1)from accumulate(Book(bookId==id) from $bookList,
-	        init(int count = 0;),
-	    	action(count += 1;),
-	    	result(count))
+    	Long(intValue == 1)from accumulate(Book($bi: this, bookId==id) from $bookList,
+	        count($bi))
     then
         //System.out.println("Broj je:" + bookGrade + " ID:" + bookId);
 

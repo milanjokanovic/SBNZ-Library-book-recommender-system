@@ -28,7 +28,7 @@ rule "Series value smaller then avrage rule"
     no-loop
     when
     	$d: GeneralBookData(bookscore: avgBookScore, viewNumber: avgBookViewNumber, bookCount: bookCount)
-        $sd: SeriesData((grade / count) < ((bookscore / bookCount) * (viewNumber / bookCount)))
+        $sd: SeriesData((grade / count) <= ((bookscore / bookCount) * (viewNumber / bookCount)))
     then
         modify($sd){setValue(-0.5)}
 

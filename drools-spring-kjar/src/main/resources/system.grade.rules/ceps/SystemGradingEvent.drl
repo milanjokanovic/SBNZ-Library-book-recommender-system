@@ -1,0 +1,46 @@
+package cep;
+
+import rs.sbnz.book_recommender.services.SystemGradeService;
+import rs.sbnz.book_recommender.model.facts.SystemGradingEvent;
+import java.util.Date;
+
+rule "System grade not set in last 1 minutes!"
+    salience 10
+    when
+        $d : Date() and
+        $serv: SystemGradeService() and
+        not(
+            SystemGradingEvent()
+            over window:time(10s)
+        )
+    then
+        //SystemGradeService serv = new SystemGradeService();
+        SystemGradingEvent gradeEvent = new SystemGradingEvent();
+        Date currDate = new Date();
+        gradeEvent.setExecutionTime(currDate);
+        delete($d);
+        insert(gradeEvent);
+        insert(currDate);
+        $serv.getSystemGrade();
+
+        drools.halt();
+end
+
+
+rule "System grade set in last 1 minutes!"
+    salience 2
+    when
+        $d : Date() and
+        $serv: SystemGradeService() //and
+        SystemGradingEvent()
+        over window:time(10s)
+
+    then
+        //SystemGradeService serv = new SystemGradeService();
+        $serv.testCall();
+        SystemGradingEvent gradeEvent = new SystemGradingEvent();
+        gradeEvent.setExecutionTime($d);
+        insert(gradeEvent);
+        System.out.println($d);
+        drools.halt();
+end

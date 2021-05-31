@@ -17,12 +17,10 @@ rule "System Grade with Author Grade"
     when
         $b: Book(bookId: id, title: title, grade: getSystemGrade()) @Watch(!systemGrade)
     	$a: Author(authorGrade: getSystemGrade(), $bookList: books)
-    	Integer(intValue == 1)from accumulate(Book(bookId==id) from $bookList,
-	        init(int count = 0;),
-	    	action(count += 1;),
-	    	result(count))
+    	Long(intValue == 1)from accumulate(Book($bi: this,bookId==id) from $bookList,
+	        count($bi))
     then
-    	System.out.println("knjige");
+    	//System.out.println("knjige");
         modify($b){setSystemGrade(0.8 * grade + 0.1 * authorGrade)}
 
 end
@@ -37,7 +35,19 @@ rule "Add genre coeficient data to book grade"
     then
     	//System.out.println("ulazim stalno " + (1. * coef / $genList.size()));
 
-    	System.out.println("ulazim stalno coef " + coef);
+    	//System.out.println("ulazim stalno coef " + coef);
     	modify($b){setSystemGrade(grade + (1. * coef / $genList.size()))}
 
+end
+
+
+
+rule "Halt grading"
+	agenda-group "Close"
+	no-loop
+	salience 0
+    when
+
+    then
+        drools.halt();
 end
