@@ -407,6 +407,7 @@ public class SystemGradeService {
         session.getAgenda().getAgendaGroup("Level4").setFocus();
         session.getAgenda().getAgendaGroup("Level3").setFocus();
         session.getAgenda().getAgendaGroup("Level2").setFocus();
+        session.getAgenda().getAgendaGroup("Level1_5").setFocus();
         session.getAgenda().getAgendaGroup("Level1").setFocus();
         session.getAgenda().getAgendaGroup("Level0").setFocus();
 

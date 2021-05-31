@@ -10,6 +10,7 @@ package Formula1
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
 import rs.sbnz.book_recommender.model.facts.SeriesData;
+import BookRules.*;
 
 rule "Base formula part 1"
 	agenda-group "Level3"
@@ -17,11 +18,26 @@ rule "Base formula part 1"
 	salience 10
     when
         $bt: BookLengthTypeData(min : minLength,max : maxLength, value: value) and
-        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, numberOfScores: getScore().size()) @Watch(!systemGrade)
+        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, numberOfScores: getScore().size(), score: score) @Watch(!systemGrade)
+        avgBookGrade(score, $bookGrade;)
+        eval($bookGrade != 0)
     then
-    	modify($b){setSystemGrade(avgGrade * (1. * numberOfScores / brPregleda) + value)}
+        System.out.println("Zabo part 1 1");
+    	modify($b){setSystemGrade(($bookGrade / score.size()) * (1. * numberOfScores / brPregleda) + value)}
+end
 
-
+rule "Base formula part 1 no book scores"
+	agenda-group "Level3"
+	no-loop
+	salience 10
+    when
+        $bt: BookLengthTypeData(min : minLength,max : maxLength, value: value) and
+        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, numberOfScores: getScore().size(), score: score) @Watch(!systemGrade)
+        avgBookGrade(score, $bookGrade;)
+        eval($bookGrade == 0)
+    then
+        System.out.println("Zabo part 1 2");
+    	modify($b){setSystemGrade(value)}
 end
 
 rule "Base formula part 2"

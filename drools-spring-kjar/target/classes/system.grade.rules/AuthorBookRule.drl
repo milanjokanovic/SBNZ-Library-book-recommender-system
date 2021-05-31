@@ -52,7 +52,7 @@ rule "Author grade with favorite users coeficient"
         $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
    	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
    	 	userActive($activityDate, userList, $num;)
-   	 	eval($num >= ($c /  10))
+   	 	eval($num.intValue() >= ($c /  10))
     then
         //actions
         //System.out.println("Usao 2 puta author " + $num);
@@ -68,7 +68,7 @@ rule "Author grade from without favorite users coeficient"
         $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
    	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
    	 	userActive($activityDate, userList, $num;)
-   	 	eval($num < ($c /  10))
+   	 	eval($num.intValue() < ($c /  10))
     then
         //System.out.println("Usao 3 puta author " + $num);
 		modify($a){setSystemGrade(0.9 * (grade / bookList.size()))}
