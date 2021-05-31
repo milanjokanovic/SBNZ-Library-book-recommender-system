@@ -1,0 +1,12 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import java.util.List;
+
+rule "Reset user recommended scores"
+  agenda-group "ResetUserRecScores"
+  no-loop
+  when
+  $book : Book()
+  then
+  modify($book){setUserRecommendedScore(0)}
+end

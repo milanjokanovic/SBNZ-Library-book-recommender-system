@@ -8,14 +8,41 @@ rule "Reward nobel prize"
   when
   $book: Book(nobelPrize == true)
   $user: User($user_books: readBooks, user_id: id)
-  $noReadWithNobel: Integer(intValue >= 0)
-      from accumulate(Book(nobelPrize == true) from $user_books,
-      init(int count = 0;),
-      action(count += 1;),
-      result(count))
+  numberOfNobelPrize($user, $num;)
+  //eval($num >= 0 and $num < 10)
   then
-  System.out.println($book.getTitle() + " --- " + $noReadWithNobel);
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadWithNobel)}
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.01*$num.doubleValue()))}
+end
+
+/*rule "Reward nobel prize"
+  agenda-group "AdditionalEvaluation"
+  no-loop
+  when
+  $book: Book(nobelPrize == true)
+  $user: User($user_books: readBooks, user_id: id)
+  numberOfNobelPrize($user, $num;)
+  eval($num >= 10 and $num < 50)
+  then
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.1+0.005*$num))}
+end*/
+
+/*rule "Reward nobel prize"
+  agenda-group "AdditionalEvaluation"
+  no-loop
+  when
+  $book: Book(nobelPrize == true)
+  $user: User($user_books: readBooks, user_id: id)
+  numberOfNobelPrize($user, $num;)
+  eval($num >= 50)
+  then
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.3+0.001*$num))}
+end*/
+
+query numberOfNobelPrize(User user, Number $num)
+    $num := Number()
+    from accumulate($b:Book(nobelPrize == true)
+    from user.getReadBooks(),
+    count($b))
 end
 
 rule "Reward based on true event"
@@ -31,5 +58,14 @@ rule "Reward based on true event"
         result(count))
     then
     System.out.println($book.getTitle() + " --- " + $noReadBasedOnTrueEvent);
-    modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadBasedOnTrueEvent)}
+    //modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ $noReadBasedOnTrueEvent)}
+end
+
+rule "Test additional"
+  agenda-group "AdditionalEvaluation"
+  no-loop
+  when
+  $book : Book()
+  then
+  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
 end

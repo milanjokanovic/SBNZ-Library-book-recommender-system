@@ -43,7 +43,7 @@ public class Book {
     private double systemGrade;
 
     @Column
-    private int userRecommendedScore;
+    private double userRecommendedScore;
 
     @ManyToOne
     private Author author;
@@ -76,11 +76,11 @@ public class Book {
     }
 
 
-    public int getUserRecommendedScore() {
+    public double getUserRecommendedScore() {
         return userRecommendedScore;
     }
 
-    public void setUserRecommendedScore(int userRecommendedScore) {
+    public void setUserRecommendedScore(double userRecommendedScore) {
         this.userRecommendedScore = userRecommendedScore;
     }
 

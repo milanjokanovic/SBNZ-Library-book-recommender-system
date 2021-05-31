@@ -67,16 +67,17 @@ public class UserRecommendationService {
             session.insert(b);
         for(Author a: readAuthors)
             session.insert(a);
-        for(Score s : userScores)
-            session.insert(s);
+        /*for(Score s : userScores)
+            session.insert(s);*/
         for(Genre g : userGenres)
             session.insert(g);
         //LOG.info("Now running data");
         //session.getAgenda().getAgendaGroup("UserAgeFilter").setFocus();
         //session.getAgenda().getAgendaGroup("AuthorScore").setFocus();
-        //session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
+        session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
+        //session.getAgenda().getAgendaGroup("ResetUserRecScores");
         //session.getAgenda().getAgendaGroup("GenreScore").setFocus();
-        //session.fireAllRules();AuthorScore
+        session.fireAllRules();//AuthorScore
 
         System.out.println("dd");
 

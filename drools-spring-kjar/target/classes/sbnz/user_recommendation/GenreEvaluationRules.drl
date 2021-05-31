@@ -3,16 +3,16 @@ import rs.sbnz.book_recommender.model.Book
 import rs.sbnz.book_recommender.model.Genre
 import java.util.List;
 
-rule "Score user read genres"
+rule "Simple score user read genres"
   agenda-group "GenreScore"
   no-loop
   when
+  $user: User()
   $genre: Genre($genre_name: name)
   $book: Book($book_genres: genres, $genre memberOf $book_genres)
+  sumReadOfGenre($genre, $user, $num;)
   then
-  //System.out.println("Trenutni zanr :" + $genre.getName());
-  System.out.println("Knjiga: " + $book.getTitle() + ", Zanr: " + $genre.getName());
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ 1)}
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + (0.5+(0.1*$num.doubleValue())))}
 end
 
 rule "Test Genre"
@@ -22,4 +22,12 @@ rule "Test Genre"
   $book : Book()
   then
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
+end
+
+
+query sumReadOfGenre(Genre genreParam, User userParam , Number $num)
+    $num := Number()
+    from accumulate($b:Book(genreParam memberOf genres)
+    from userParam.getReadBooks(),
+    count($b))
 end
