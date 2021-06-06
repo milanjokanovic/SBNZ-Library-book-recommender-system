@@ -141,12 +141,12 @@ INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, s
     (1094, FALSE, 240, FALSE, 1061, 'A Song of Ice and Fire', 4, 0, '2', 'A Feast for Crows', 2005, 1015, 0),
     (1095, FALSE, 240, FALSE, 1125, 'A Song of Ice and Fire', 5, 0, '2', 'A Dance with Dragons', 2011, 1015, 0);
 
-INSERT INTO user (id, email, last_active, password, favorite_author_id, favorite_book_id) VALUES
-    (101, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, 1001, 1002),
-    (102, 'marko@gmail.com', '2020-12-08 17:40:50', 12345, 1011, 1054),
-    (103, 'janko@gmail.com', '2020-12-08 17:40:50', 12345, 1012, 1072),
-    (104, 'milica@gmail.com', '2020-12-08 17:40:50', 12345, 1007, 1018),
-    (105, 'sanja@gmail.com', '2020-12-08 17:40:50', 12345, 1014, 1065);
+INSERT INTO user (id, email, last_active, password, favorite_author_id, favorite_book_id, blocked_scoring_function) VALUES
+    (101, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, 1001, 1002, 0),
+    (102, 'marko@gmail.com', '2020-12-08 17:40:50', 12345, 1011, 1054, 0),
+    (103, 'janko@gmail.com', '2020-12-08 17:40:50', 12345, 1012, 1072, 0),
+    (104, 'milica@gmail.com', '2020-12-08 17:40:50', 12345, 1007, 1018, 0),
+    (105, 'sanja@gmail.com', '2020-12-08 17:40:50', 12345, 1014, 1065, 0);
 
 INSERT INTO book_genres (book_id, genre_id) values
     (1001, 1),

@@ -27,6 +27,9 @@ public class User {
 
     @Column String age;
 
+    @Column
+    private int blockedScoringFunction;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Score> bookScore;
 
@@ -110,5 +113,13 @@ public class User {
 
     public void setBookScore(Set<Score> bookScore) {
         this.bookScore = bookScore;
+    }
+
+    public int getBlockedScoringFunction() {
+        return blockedScoringFunction;
+    }
+
+    public void setBlockedScoringFunction(int blockedScoringFunction) {
+        this.blockedScoringFunction = blockedScoringFunction;
     }
 }

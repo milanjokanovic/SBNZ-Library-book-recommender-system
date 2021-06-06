@@ -130,4 +130,11 @@ public class AuthorController {
         List<Book> books = systemGradeService.fireEvent();
         return ResponseEntity.ok(bookMapper.toDtoList(books));
     }
+
+    @GetMapping("/test/scoring")
+    public String ScoringTest()
+    {
+        systemGradeService.getGrade();
+        return "Ok";
+    }
 }
