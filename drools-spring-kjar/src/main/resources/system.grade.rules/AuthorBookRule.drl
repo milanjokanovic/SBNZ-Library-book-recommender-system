@@ -105,7 +105,7 @@ rule "Author mostly writes series with high scores"
          )
          eval($seriesBooks.size() > ($books.size() / 3))
     then
-        System.out.println("Ulazi u autohor series: " + $seriesBooks.size());
-        System.out.println(($books.size() / 3));
+        //System.out.println("Ulazi u autohor series: " + $seriesBooks.size());
+        //System.out.println(($books.size() / 3));
         modify($a){setSystemGrade(grade + 1)}
 end
