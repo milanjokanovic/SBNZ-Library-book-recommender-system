@@ -77,10 +77,16 @@ public class AuthorController {
     }
 
     @PostMapping
-    public AuthorDTO addAuthor(@Valid @RequestBody AuthorDTO authorDTO)
+    public ResponseEntity<Void> addAuthor(@Valid @RequestBody AuthorDTO authorDTO)
     {
         Author author = authorMapper.toEntity(authorDTO);
-        return authorMapper.toDto(authorService.addAuthor(author));
+        //return authorMapper.toDto(authorService.addAuthor(author));
+        try {
+            authorService.addAuthor(author);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
