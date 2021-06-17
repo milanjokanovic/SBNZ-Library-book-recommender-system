@@ -4,30 +4,30 @@ INSERT INTO author (id, name, system_grade) VALUES
     (1003, 'Henry H. Neff', 0);
 
 INSERT INTO genre (id, name, system_grade) VALUES
-        (1, 'Fantasy', 0),
-        (2, 'Adventure', 0),
-        (3, 'Contemporary ', 0),
-        (4, 'Dystopian', 0),
-        (5, 'Mystery', 0),
-        (6, 'Romance', 0),
-        (7, 'Horror', 0),
-        (8, 'Thriller', 0),
-        (9, 'Paranormal', 0),
-        (10, 'Historical fiction', 0),
-        (11, 'science fiction', 0),
-        (12, 'Memoir', 0),
-        (13, 'Cooking', 0),
-        (14, 'Art', 0),
-        (15, 'self help', 0),
-        (16, 'Development', 0),
-        (17, 'Motivational', 0),
-        (18, 'Health', 0),
-        (19, 'History', 0),
-        (20, 'Travel', 0),
-        (21, 'How to', 0),
-        (22, 'Families and relationships', 0),
-        (23, 'Comedy', 0),
-        (24, 'Crime', 0);
+        (100, 'Fantasy', 0),
+        (200, 'Adventure', 0),
+        (300, 'Contemporary ', 0),
+        (400, 'Dystopian', 0),
+        (500, 'Mystery', 0),
+        (600, 'Romance', 0),
+        (700, 'Horror', 0),
+        (800, 'Thriller', 0),
+        (900, 'Paranormal', 0),
+        (1000, 'Historical fiction', 0),
+        (1100, 'science fiction', 0),
+        (1200, 'Memoir', 0),
+        (1300, 'Cooking', 0),
+        (1400, 'Art', 0),
+        (1500, 'self help', 0),
+        (1600, 'Development', 0),
+        (1700, 'Motivational', 0),
+        (1800, 'Health', 0),
+        (1900, 'History', 0),
+        (2000, 'Travel', 0),
+        (2100, 'How to', 0),
+        (2200, 'Families and relationships', 0),
+        (2300, 'Comedy', 0),
+        (2400, 'Crime', 0);
 
 INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, series, series_number,
     system_grade, target_audience, title, year_of_publishing, author_id, user_recommended_score) VALUES
@@ -37,21 +37,21 @@ INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, s
     (1019, FALSE, 240, TRUE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1003, 0);
 
 INSERT INTO user (id, email, last_active, password,  age, blocked_scoring_function) VALUES
-    (1, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, '1', 0);
+    (101, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, '1', 0);
 
 INSERT INTO book_genres (book_id, genre_id) values
-    (1001, 1),
-    (1001, 5),
-    (1008, 1),
-    (1008, 2),
-    (1019, 1);
+    (1001, 100),
+    (1001, 500),
+    (1008, 100),
+    (1008, 200),
+    (1019, 100);
 
 INSERT into user_read_books (user_id, book_id) values
-    (1, 1001),
-    (1, 1008),
-    (1, 1002);
+    (101, 1001),
+    (101, 1008),
+    (101, 1002);
 
 INSERT INTO score (id, value, book_id, user_id) values
-    (1001, 7, 1001, 1),
-    (1002, 5, 1002, 1),
-    (1003, 8, 1008, 1);
+    (1001, 7, 1001, 101),
+    (1002, 5, 1002, 101),
+    (1003, 8, 1008, 101);
