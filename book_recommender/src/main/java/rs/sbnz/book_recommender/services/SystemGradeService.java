@@ -61,12 +61,11 @@ public class SystemGradeService {
     }
 
 
-    public void testCall(){
+    public void listCall(){
         System.out.println("Calling me");
 
         KieServices ks = KieServices.Factory.get();
-        /*KieContainer kContainer = ks
-                .newKieContainer(ks.newReleaseId("rs.sbnz", "drools-spring-kjar", "0.0.1-SNAPSHOT"));*/
+
 
         KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
         kieBaseConfiguration.setOption(EventProcessingOption.STREAM);
@@ -98,38 +97,15 @@ public class SystemGradeService {
         bestBooksList = bestBooks;
     }
 
-    /*private ReentrantLock getLock(int id) {
-        synchronized (locks) {
-            ReentrantLock lock = locks.get(id);
-            if (lock == null) {
-                lock = new ReentrantLock();
-                locks.put(id, lock);
-            }
-            return lock;
-        }
-    }*/
-
 
     public void getGrade(){
-        /*KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
-        kieBaseConfiguration.setOption(EventProcessingOption.STREAM);
-        KieBase kieBase = kieContainer.newKieBase(kieBaseConfiguration);*/
 
-        KieSession session = config.userAlarmsSession();//kieBase.newKieSession();
+        KieSession session = config.userAlarmsSession();
         User user = userRepository.findAll().get(0);
-        //session.getAgenda().getAgendaGroup("Close").setFocus();
         session.getAgenda().getAgendaGroup("UserAlarms").setFocus();
 
         session.insert(user);
-        //Thread t = Thread.currentThread();
 
-        //Thread.currentThread().interrupt();
-        //session.notify();
-        /*try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         session.fireUntilHalt();
 
         System.out.println("Blocked: " + user.getBlockedScoringFunction());
@@ -137,12 +113,9 @@ public class SystemGradeService {
     }
 
     public  void getSystemGrade(){
-        /*KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
-        kieBaseConfiguration.setOption(EventProcessingOption.CLOUD);*/
 
         KieServices ks = KieServices.Factory.get();
-        /*KieContainer kContainer = ks
-                .newKieContainer(ks.newReleaseId("rs.sbnz", "drools-spring-kjar", "0.0.1-SNAPSHOT"));*/
+
 
         KieBaseConfiguration kieBaseConfiguration = KieServices.Factory.get().newKieBaseConfiguration();
         kieBaseConfiguration.setOption(EventProcessingOption.STREAM);
@@ -203,11 +176,11 @@ public class SystemGradeService {
 
         session.fireUntilHalt();
 
-        for(Book book : books){
+        /*for(Book book : books){
             System.out.println("Book: " + book.getTitle() + " Score:" + book.getSystemGrade());
-        }
+        }*/
 
-        //userRepository.save();
+
 
         for(User user : users){
             userRepository.save(user);
@@ -232,7 +205,6 @@ public class SystemGradeService {
         }
 
         bestBooksList = bestBooks;
-        /*date = new Date();
-        config.eventSession().insert(date);*/
+
     }
 }

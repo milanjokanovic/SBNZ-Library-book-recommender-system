@@ -37,7 +37,7 @@ rule "System grade set in last 1 minutes!"
 
     then
         //SystemGradeService serv = new SystemGradeService();
-        $serv.testCall();
+        $serv.listCall();
         SystemGradingEvent gradeEvent = new SystemGradingEvent();
         gradeEvent.setExecutionTime($d);
         insert(gradeEvent);

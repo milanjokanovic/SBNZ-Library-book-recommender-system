@@ -134,7 +134,7 @@ public class AuthorController {
     @GetMapping("/test/scoring")
     public String ScoringTest()
     {
-        systemGradeService.getGrade();
+        //systemGradeService.getGrade();
         return "Ok";
     }
 }

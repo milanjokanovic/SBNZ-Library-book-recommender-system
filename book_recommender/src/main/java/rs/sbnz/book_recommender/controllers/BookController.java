@@ -12,6 +12,7 @@ import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Genre;
 import rs.sbnz.book_recommender.services.BookService;
+import rs.sbnz.book_recommender.services.SystemGradeService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,6 +26,9 @@ public class BookController {
     private BookService bookService;
 
     private BookMapper bookMapper = new BookMapper();
+
+    @Autowired
+    private SystemGradeService systemGradeService;
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> getBooks() {
@@ -64,5 +68,13 @@ public class BookController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/top/systemgrade")
+    public ResponseEntity<List<BookDTO>> topBooks()
+    {
+        //systemGradeService.fireEvent();
+        List<Book> books = systemGradeService.fireEvent();
+        return ResponseEntity.ok(bookMapper.toDtoList(books));
     }
 }

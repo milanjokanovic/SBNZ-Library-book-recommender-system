@@ -43,17 +43,7 @@ public class EventSessionConfig {
     @Bean
     public KieSession userAlarmsSession(){
         KieSession session = getBase().newKieSession();
-        /*Thread kThread= new Thread( new Runnable() {
-            @Override
-            public void run() {
-                session.fireUntilHalt();
-            }
 
-        } );
-        kThread.start();*/
-
-
-        //session.fireUntilHalt();
         return session;
     }
 

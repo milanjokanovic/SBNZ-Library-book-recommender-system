@@ -52,6 +52,6 @@ INSERT into user_read_books (user_id, book_id) values
     (1, 1002);
 
 INSERT INTO score (id, value, book_id, user_id) values
-    (1, 7, 1001, 1),
-    (2, 5, 1002, 1),
-    (3, 8, 1008, 1);
+    (1001, 7, 1001, 1),
+    (1002, 5, 1002, 1),
+    (1003, 8, 1008, 1);
