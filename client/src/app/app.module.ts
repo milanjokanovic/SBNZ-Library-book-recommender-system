@@ -16,6 +16,7 @@ import { TokenInterceptorService } from './book-recommender/services/token-inter
 import { RegistrationComponent } from './book-recommender/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IvyGalleryModule } from 'angular-gallery';
+import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbooks.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { IvyGalleryModule } from 'angular-gallery';
     TestComponent,
     SafeHtmlPipe,
     LoginFormComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AllbooksComponent
   ],
   imports: [
     BrowserModule,

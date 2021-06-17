@@ -3,7 +3,7 @@ import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
 import {
   faPlus, faPencilAlt, faTrash, faNewspaper,
-  faEye, IconDefinition, faArrowRight, faEyeSlash
+  faEye, IconDefinition, faArrowRight, faEyeSlash, faBookReader
 } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
@@ -93,6 +93,9 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
         break;
       case Icons.slashPreview:
         iconDef = faEyeSlash;
+        break;
+      case Icons.read:
+        iconDef = faBookReader;
         break;
     }
 

@@ -5,5 +5,6 @@ export enum Icons {
     news = 'News',
     preview = 'Preview',
     arrowRight = 'View subtypes',
-    slashPreview = 'Unsubscribe'
+    slashPreview = 'Unsubscribe',
+    read = 'Read'
 }

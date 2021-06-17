@@ -5,10 +5,11 @@ import { LoginFormComponent } from './book-recommender/login-form/login-form/log
 import { RolesGuard } from './guards/roles.guard';
 import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './book-recommender/registration/registration.component';
+import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbooks.component';
 
 const routes: Routes = [{
   path: '',
-  component: TestComponent
+  component: AllbooksComponent
 },
 {
   path: 'login',
