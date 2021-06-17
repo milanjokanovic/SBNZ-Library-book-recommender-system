@@ -35,13 +35,17 @@ public class GenreService {
         return genreRepository.findAll();
     }
 
-    public Genre addGenre(Genre genre)
+    public Genre addGenre(Genre genre) throws Exception
     {
         /*Genre nameValidator = genreRepository.findByName(genre.getName());
         Map< Genre, Boolean > response = new HashMap< >();
 
         if(nameValidator == null)
             response.put(null, Boolean.TRUE);*/
+        Genre oldGenre = genreRepository.findByName(genre.getName());
+        if(oldGenre != null){
+            throw new Exception();
+        }
 
         genreRepository.save(genre);
         return genre;

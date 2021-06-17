@@ -58,10 +58,17 @@ public class GenreController {
     }
 
     @PostMapping
-    public GenreDTO addGenre(@Valid @RequestBody GenreDTO genreDTO)
+    public ResponseEntity<Void> addGenre(@Valid @RequestBody GenreDTO genreDTO)
     {
         Genre genre = genreMapper.toEntity(genreDTO);
-        return genreMapper.toDto(genreService.addGenre(genre));
+        try {
+            //return genreMapper.toDto(genreService.addGenre(genre));
+            genreService.addGenre(genre);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @DeleteMapping("/{id}")
