@@ -2,13 +2,15 @@ package rs.sbnz.book_recommender.dto;
 
 public class ScoreDTO {
     private int id;
-    private String userMail;
+    private int userId;
     private String bookTitle;
     private int value;
 
-    public ScoreDTO(int id, String userMail, String bookTitle, int value) {
+    public ScoreDTO() {}
+
+    public ScoreDTO(int id, int userId, String bookTitle, int value) {
         this.id = id;
-        this.userMail = userMail;
+        this.userId = userId;
         this.bookTitle = bookTitle;
         this.value = value;
     }
@@ -21,12 +23,12 @@ public class ScoreDTO {
         this.id = id;
     }
 
-    public String getUserMail() {
-        return userMail;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
+    public void setUserId(int userMail) {
+        this.userId = userMail;
     }
 
     public String getBookTitle() {

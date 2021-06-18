@@ -40,12 +40,14 @@ export class LoginFormComponent implements OnInit {
       this.loginService.login(val.username, val.password)
           .subscribe(
               (loggedIn:boolean) => {
-                  if(loggedIn){    
+                  if(loggedIn){   
+                    console.log("logovo se"); 
                     this.router.navigateByUrl('/');
                   }
                   
                 },
               (err:Error) => {
+                //console.log(err); 
                 if(err.toString()==='Ilegal login'){
                   this.wrongUsernameOrPass = true;
                   console.log(err);

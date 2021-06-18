@@ -72,7 +72,7 @@ public class UserRecTest {
 
         allBooks = bookRepository.findAll();
 
-        User user = userRepository.findById(1).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(1);
 
         List<Author> readAuthors = new ArrayList<>();
 

@@ -40,7 +40,7 @@ public class UserRecommendationService {
     public void prepareData() {
         List<Book> allBooks = bookRepository.findAll();
         
-        User user = userRepository.findById(1).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(101);
 
         SubjectUser subjectUser = new SubjectUser();
         subjectUser.setUser(user);
@@ -90,19 +90,19 @@ public class UserRecommendationService {
             session.insert(g);
         for(User u : users)
         {
-            if(u.getId() == 1)
+            if(u.getId() == 101)
                 continue;
             session.insert(u);
         }
         session.insert(bestBooksForUser);
         //LOG.info("Now running data");
 
-        //session.getAgenda().getAgendaGroup("AuthorScore").setFocus();
+
         session.getAgenda().getAgendaGroup("Close").setFocus();
         session.getAgenda().getAgendaGroup("SeriesHandler").setFocus();
         session.getAgenda().getAgendaGroup("FindBest").setFocus();
-        //session.getAgenda().getAgendaGroup("OtherUserScore").setFocus();
-        //session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
+        session.getAgenda().getAgendaGroup("OtherUserScore").setFocus();
+        session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
         session.getAgenda().getAgendaGroup("AuthorScore").setFocus();
         session.getAgenda().getAgendaGroup("GenreScore").setFocus();
         //session.getAgenda().getAgendaGroup("UserAgeFilter").setFocus();

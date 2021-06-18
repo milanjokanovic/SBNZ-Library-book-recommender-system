@@ -4,13 +4,17 @@ public class UserDTO {
     private int id;
     private String email;
     private String password;
+    private String username;
     private String age;
 
-    public UserDTO(int id, String email, String password, String age) {
+    public UserDTO(){}
+
+    public UserDTO(int id, String username, String email, String password, String age) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.age = age;
+        this.username = username;
     }
 
     public String getAge() {
@@ -43,5 +47,13 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

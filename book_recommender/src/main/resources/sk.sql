@@ -1,3 +1,7 @@
+INSERT INTO authority (name) VALUES
+    ('ROLE_ADMIN'),
+    ('ROLE_GUEST');
+
 INSERT INTO author (id, name, system_grade) VALUES
     (1001, 'J. K. Rowling', 0),
     (1002, 'C.S. Lewis', 0),
