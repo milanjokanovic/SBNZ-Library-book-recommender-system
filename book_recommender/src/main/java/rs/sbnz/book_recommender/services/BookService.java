@@ -38,6 +38,13 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public void readBook(int userId, int bookId){
+        Book book = bookRepository.findById(bookId).orElse(null);
+
+        book.setBrPregleda(book.getBrPregleda() + 1);
+        bookRepository.save(book);
+    }
+
     public Book addBook(Book book) throws Exception {
         /*User activeUser = userRepository.findById(user.getId())
                 .orElse(null);*/

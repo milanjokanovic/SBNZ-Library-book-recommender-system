@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.dto.BookDTO;
 import rs.sbnz.book_recommender.dto.GenreDTO;
+import rs.sbnz.book_recommender.dto.ReadDTO;
 import rs.sbnz.book_recommender.dto.UserDTO;
 import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.model.Book;
@@ -67,6 +68,17 @@ public class BookController {
             return ResponseEntity.ok(bookMapper.toDto(bookService.updateBook(bookId, book)));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    //@PathVariable(value = "id") Integer bookId
+    @PutMapping("/userread")
+    public ResponseEntity <ReadDTO> readBook(@RequestBody ReadDTO dto)
+    {
+        try {
+            bookService.readBook(dto.getUserId(), dto.getBookId());
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 

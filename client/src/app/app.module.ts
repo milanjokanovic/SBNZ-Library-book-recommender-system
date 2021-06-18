@@ -17,6 +17,8 @@ import { RegistrationComponent } from './book-recommender/registration/registrat
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IvyGalleryModule } from 'angular-gallery';
 import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbooks.component';
+import { SystembooksComponent } from './book-recommender/systembooks/systembooks.component';
+import { ReadbookComponent } from './book-recommender/readbook/readbook.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbook
     SafeHtmlPipe,
     LoginFormComponent,
     RegistrationComponent,
-    AllbooksComponent
+    AllbooksComponent,
+    SystembooksComponent,
+    ReadbookComponent
   ],
   imports: [
     BrowserModule,
