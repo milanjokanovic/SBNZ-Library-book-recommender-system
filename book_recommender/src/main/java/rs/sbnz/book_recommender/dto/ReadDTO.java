@@ -5,6 +5,8 @@ public class ReadDTO {
     private int bookId;
     private int userId;
 
+    public ReadDTO(){}
+
     public ReadDTO(int bookId, int userId) {
         this.bookId = bookId;
         this.userId = userId;

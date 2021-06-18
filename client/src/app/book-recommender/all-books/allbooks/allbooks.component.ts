@@ -29,6 +29,10 @@ export class AllbooksComponent implements OnInit {
       fieldName: ['viewNumber']
     },
     {
+      headerName: 'Author Name',
+      fieldName: ['authorName']
+    },
+    {
       headerName: 'Year of Publishing',
       fieldName: ['yearOfPublishing']
     },
