@@ -133,10 +133,10 @@ public class UserRecTest {
         for(Book b : allBooks)
             System.out.println(b.getUserRecommendedScore());
 
-        assertEquals(1.3, allBooks.get(0).getUserRecommendedScore(), 0.001);
+        assertEquals(1.2, allBooks.get(0).getUserRecommendedScore(), 0.001);
         assertEquals(0.0, allBooks.get(1).getUserRecommendedScore(), 0.001);
-        assertEquals(1.3, allBooks.get(2).getUserRecommendedScore(), 0.001);
-        assertEquals(0.7, allBooks.get(3).getUserRecommendedScore(), 0.001);
+        assertEquals(1.2, allBooks.get(2).getUserRecommendedScore(), 0.001);
+        assertEquals(0.6, allBooks.get(3).getUserRecommendedScore(), 0.001);
     }
 
     @Test

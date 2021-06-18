@@ -3,27 +3,95 @@ import rs.sbnz.book_recommender.model.Book
 import rs.sbnz.book_recommender.model.Genre
 import java.util.List;
 
+declare bookMultiGenre
+@propertyReactive
+    id: Integer
+    count : Integer
+    book: Book
+end
+
 rule "Simple score user read genres"
   agenda-group "GenreScore"
   no-loop
+  salience 3
   when
-  $user: User()
+
   $genre: Genre($genre_name: name)
   $book: Book($book_genres: genres, $genre memberOf $book_genres)
+  $subjectUser: SubjectUser($user: user, $book not memberOf user.getReadBooks())
   sumReadOfGenre($genre, $user, $num;)
   then
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + (0.5+(0.1*$num.doubleValue())))}
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + (0.5/*+(0.1*$num.doubleValue())*/))}
 end
 
-rule "Test Genre"
+rule "Creating book multi genre"
+	agenda-group "GenreScore"
+	no-loop
+	salience 2
+    when
+        $book: Book(bookId: id)
+        not bookMultiGenre(id == bookId)
+        $subjectUser: SubjectUser($user: user, $book not memberOf user.getReadBooks())
+    then
+    	//System.out.println("Book:" + bookId);
+        bookMultiGenre mulGenre = new bookMultiGenre();
+	    mulGenre.setId(bookId);
+	    mulGenre.setCount(0);
+	    mulGenre.setBook($book);
+	    insert(mulGenre);
+
+end
+
+rule "Complex score user read genres"
   agenda-group "GenreScore"
   no-loop
+  salience 1
+  when
+
+  $book : Book()
+  $user: SubjectUser($book not memberOf user.getReadBooks())
+  $genre: Genre($genre_name: name)
+  $ouc: bookMultiGenre($bookId: id, $bookId == $book.getId(), $cnt: count, $bk: book) @Watch(!*)
+  $oucBookGenres : List() from accumulate(
+     Genre($g: this, $g.getName() == $genre_name)
+     from $ouc.getBook().getGenres(),
+     collectList($g)
+  )
+  then
+  modify($ouc){setCount($cnt + $oucBookGenres.size())}
+end
+
+rule "Update complex genre"
+  agenda-group "GenreScore"
+  no-loop
+  salience 0
+  when
+  $book: Book()
+  $ouc: bookMultiGenre(id == $book.getId(), $cnt: count) @Watch(!*)
+  //eval($cnt > 1)
+  then
+  //System.out.println($cnt);
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ($cnt*0.1))}
+end
+
+/*rule "Test Genre"
+  agenda-group "GenreScore"
+  no-loop
+  salience -1
   when
   $book : Book()
   then
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end
+end*/
 
+//presek liste, novi rule, query
+
+/*query multiGenreCalculator(Genre genreParam, User userParam , Number $num)
+    $num := Number()
+    from accumulate($b:Book(genreParam memberOf genres)
+    from userParam.getReadBooks(),
+    count($b))
+end*/
 
 query sumReadOfGenre(Genre genreParam, User userParam , Number $num)
     $num := Number()

@@ -6,17 +6,18 @@ rule "Filter books based on user age"
   agenda-group "UserAgeFilter"
   no-loop
   when
-  $user : User(age : age)
-  $userBooksRead: Book(targetAudience != age)
+  $book: Book()
+  $subjectUser: SubjectUser($age: user.getAge(), $book not memberOf user.getReadBooks())
+  eval($book.getTargetAudience() != $age)
   then
-  delete($userBooksRead);
+  delete($book);
 end
 
-/*rule "When user is a young adult"
+rule "When user is a young adult"
   agenda-group "UserAgeFilter"
   no-loop
   when
   $book : Book()
   then
   System.out.println($book.getTitle());
-end*/
+end

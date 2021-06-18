@@ -1,0 +1,48 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import java.util.List;
+
+rule "Handle series"
+  agenda-group "SeriesHandler"
+  no-loop
+  salience 10
+  when
+  $book: Book(book_id : id, series != "")
+  $bestList: List()
+  $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(), user_id: user.getId(),
+  $book not memberOf $user_books)
+  $inABest: Book(title == $book.getTitle()) from $bestList
+  eval($inABest != null)
+  $allFromSeries: List() from collect (Book(series == $book.getSeries()))
+
+  $userSeriesProgress: Number() from accumulate(
+    $auxBook: Book(series == $book.getSeries()) from $user_books,
+    count($auxBook))
+
+  eval(($book.getSeriesNumber() - $userSeriesProgress.intValue()) != 1)
+
+  $replacementBook: Book(seriesNumber == ($userSeriesProgress.intValue() + 1)) from $allFromSeries
+
+  then
+  //System.out.println("HOHO");
+  System.out.println("Knjiga: " + $book.getTitle());
+  //System.out.println($book.getTitle() + ": " + $num);
+  modify($bestList){remove($book)}
+  modify($bestList){add($replacementBook)}
+end
+
+rule "Test series handler"
+  agenda-group "SeriesHandler"
+  no-loop
+  salience 7
+  when
+  $bestList: List()
+  then
+  System.out.println("POSTSERIES\n***************************************************************\n");
+  //System.out.println($bestList.size());
+  for(int i = 0; i < $bestList.size(); i++) {
+    Book booki = (Book) $bestList.get(i);
+    System.out.println(booki.getTitle() + ": " + booki.getUserRecommendedScore());
+  }
+
+end

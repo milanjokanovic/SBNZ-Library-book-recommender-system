@@ -10,7 +10,8 @@ rule "Score user read authors"
   when
   $author: Author($name : name)
   $book: Book(author.getName() == $name, book_id : id)
-  $user: User($user_books: readBooks, user_id: id)
+  $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(), user_id: user.getId(),
+  $book not memberOf user.getReadBooks())
   $noReadByAuthor: Integer(intValue >= 0)
       from accumulate(Book(author.getName() == $name) from $user_books,
       init(int count = 0;),
@@ -24,20 +25,51 @@ rule "Score user read authors"
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ ($noReadByAuthor*$num*0.01))}
 end
 
-rule "Test Author"
+/*rule "Test Author"
   agenda-group "AuthorScore"
   no-loop
   when
   $book : Book()
   then
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end
+end*/
 
 query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
+    $authorBooks: List() from accumulate(
+        Book($b: this, author.getName() == authorParam.getName())
+        from userParam.getReadBooks(),
+        collectList($b)
+    )
+    eval($authorBooks.size() > 0)
+    $num := Double()
+    from accumulate(
+        Book($scores: score) from $authorBooks and
+        $userScore: List(size > 0) from collect(
+            Score(user.getId() == userParam.getId()) from $scores
+        ) and
+        Score($sc: value) from $userScore,
+        average($sc)
+    )
+end
+
+/*query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
     $num := Double()
     from accumulate(Book(author.getName() == authorParam.getName(),
     $scores: score)
     from userParam.getReadBooks() and
     Score(user.getId() == userParam.getId(), $sc: value) from $scores,
     average($sc))
+end*/
+
+/*query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
+    returnScores(authorParam, userParam, $book;)
+    $num := Double() from accumulate(
+        Score(user.getId() == userParam.getId(), $sc: value) from $book.getScore(),
+        average($sc))
 end
+
+query returnScores(Author authorParam, User userParam , Book $book)
+    $book := Book()
+        from accumulate(Book(author.getName() == authorParam.getName())
+        from userParam.getReadBooks())
+end*/

@@ -1,0 +1,74 @@
+import rs.sbnz.book_recommender.model.User
+import rs.sbnz.book_recommender.model.Book
+import rs.sbnz.book_recommender.model.Genre
+import rs.sbnz.book_recommender.model.facts.SubjectUser
+import java.util.List;
+
+declare OtherUserScorer
+@propertyReactive
+    id: Integer
+    count : Integer
+    score: Double
+end
+
+rule "Creating other user scorer"
+	agenda-group "OtherUserScore"
+	no-loop
+	salience 2
+    when
+        $user: User(userId: id)
+        not OtherUserScorer(id == userId)
+    then
+    	//System.out.println("Book:" + bookId);
+        OtherUserScorer scorer = new OtherUserScorer();
+	    scorer.setId(userId);
+	    scorer.setCount(0);
+	    scorer.setScore(0.0);
+	    insert(scorer);
+
+end
+
+rule "Calculate averages"
+  agenda-group "OtherUserScore"
+  no-loop
+  when
+  $book: Book()
+  $subjectUser: SubjectUser($book memberOf user.getReadBooks())
+  $user: User($book memberOf readBooks)
+  $avgSubject: Double(intValue >= 0)
+        from accumulate(Score(user.getId() == $subjectUser.getUser().getId(), $val:value) from $book.getScore(),
+        average($val))
+  $avgUser: Double(intValue >= 0)
+          from accumulate(Score(user.getId() == $user.getId(), $val:value) from $book.getScore(),
+          average($val))
+  $ouc: OtherUserScorer($scorerId: id, $scorerId == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
+  then
+  //System.out.println("Naslov: " + $book.getTitle() + " *** " + $avgSubject);
+  //modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + $avgSubject)}
+  modify($ouc){setCount($cnt + 1)}
+  modify($ouc){setScore($scr + Math.abs($avgSubject - $avgUser))}
+end
+
+rule "Modify books"
+  agenda-group "OtherUserScore"
+  no-loop
+  when
+  $book: Book()
+  $user : User($book memberOf readBooks)
+  $subjectUser: SubjectUser($book not memberOf user.getReadBooks())
+  $ouc: OtherUserScorer(id == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
+  then
+  //System.out.println($book.getTitle() + "-9--" + $user.getId());
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/$cnt))))}
+end
+
+rule "Test other"
+  agenda-group "OtherUserScore"
+  no-loop
+  when
+  $book : Book()
+  //$ouc: OtherUserScorer()
+  then
+  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
+  //System.out.println($ouc.getCount() + ": " + $ouc.getScore());
+end
