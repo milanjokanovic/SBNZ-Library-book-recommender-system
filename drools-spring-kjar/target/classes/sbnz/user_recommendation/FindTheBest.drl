@@ -77,7 +77,7 @@ end
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
 end*/
 
-rule "Test best advanced"
+/*rule "Test best advanced"
   agenda-group "FindBest"
   no-loop
   salience 7
@@ -91,4 +91,4 @@ rule "Test best advanced"
     System.out.println(booki.getTitle() + ": " + booki.getUserRecommendedScore());
   }
 
-end
+end*/

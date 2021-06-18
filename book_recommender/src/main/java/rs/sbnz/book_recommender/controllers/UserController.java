@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rs.sbnz.book_recommender.dto.BookDTO;
 import rs.sbnz.book_recommender.dto.UserDTO;
+import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.dto.mapper.UserMapper;
+import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.User;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 import rs.sbnz.book_recommender.services.UserService;
@@ -23,6 +26,14 @@ public class UserController {
     private UserService userService;
 
     private UserMapper userMapper = new UserMapper();
+
+    private BookMapper bookMapper = new BookMapper();
+
+    @GetMapping("/read/{id}")
+    public ResponseEntity<List<BookDTO>> getUserReadBook(@PathVariable Integer id) {
+        List<Book> books = userService.findUserRead(id);
+        return ResponseEntity.ok(bookMapper.toDtoList(books));
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {

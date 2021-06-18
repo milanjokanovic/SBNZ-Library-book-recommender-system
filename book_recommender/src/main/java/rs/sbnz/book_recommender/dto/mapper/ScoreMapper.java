@@ -19,7 +19,7 @@ public class ScoreMapper implements MapperInterface<Score, ScoreDTO>{
         score.setBook(book);
 
         User user = new User();
-        user.setEmail(dto.getUserMail());
+        user.setId(dto.getUserId());
         score.setUser(user);
 
         return score;
@@ -32,7 +32,7 @@ public class ScoreMapper implements MapperInterface<Score, ScoreDTO>{
 
     @Override
     public ScoreDTO toDto(Score entity) {
-        ScoreDTO dto = new ScoreDTO(entity.getId(), entity.getUser().getEmail(),
+        ScoreDTO dto = new ScoreDTO(entity.getId(), entity.getUser().getId(),
                 entity.getBook().getTitle(), entity.getValue());
         return dto;
     }

@@ -5,17 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class User {
-    @Id
-    @GeneratedValue
-    private int id;
-
-    @Column(unique = true)
-    private String email;
-
-    @Column
-    private String password;
-
+public class User extends AbsUser{
     @ManyToOne
     private Book favoriteBook;
 
@@ -58,14 +48,7 @@ public class User {
         this.readBooks = readBooks;
     }
 
-    public int getId() {
-        return id;
-    }
 
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Date getLastActive() {
         return lastActive;
@@ -75,21 +58,6 @@ public class User {
         this.lastActive = lastActive;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Book getFavoriteBook() {
         return favoriteBook;

@@ -13,6 +13,7 @@ public class UserMapper implements MapperInterface<User, UserDTO>{
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
+        user.setUsername(dto.getUsername());
         return user;
     }
 
@@ -24,7 +25,7 @@ public class UserMapper implements MapperInterface<User, UserDTO>{
 
     @Override
     public UserDTO toDto(User entity) {
-        return new UserDTO(entity.getId(), entity.getEmail(), entity.getPassword(), entity.getAge());
+        return new UserDTO(entity.getId(), entity.getUsername(), entity.getEmail(), entity.getPassword(), entity.getAge());
     }
 
     @Override

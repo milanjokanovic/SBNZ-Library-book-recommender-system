@@ -2,6 +2,7 @@ package rs.sbnz.book_recommender.services;
 
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import rs.sbnz.book_recommender.config.EventSessionConfig;
 import rs.sbnz.book_recommender.model.Author;
@@ -43,7 +44,7 @@ public class ScoreService {
             throw new Exception();
         }
 
-        User user = userRepository.findByEmail(score.getUser().getEmail());
+        User user = userRepository.findById(score.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if(user == null){
             throw new Exception();

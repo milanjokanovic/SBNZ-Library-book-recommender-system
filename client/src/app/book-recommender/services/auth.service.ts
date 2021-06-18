@@ -38,14 +38,15 @@ export class AuthService {
 
   login(username: string, password: string): Observable<boolean> {
     // const params:HttpParams = new HttpParams().set('entry',entryText);
-    return this.http.post('api/auth/login', JSON.stringify({ username, password }),
+    return this.http.post('http://localhost:8080/auth/login', JSON.stringify({ username, password }),
       { headers: this.headers, responseType: 'json' }).pipe(
         map((res: any) => {
           const token = res && res.accessToken;
-
+          
           if (token) {
             const jwt: JwtHelperService = new JwtHelperService();
             const info = jwt.decodeToken(token);
+            console.log(info);
             const userToken: UserToken = {
               id: parseInt(info.user_id, 10),
               username: info.sub,
@@ -54,6 +55,7 @@ export class AuthService {
               token
             };
             localStorage.setItem('user', JSON.stringify(userToken));
+            console.log(userToken);
             return true;
           } else {
             return false;

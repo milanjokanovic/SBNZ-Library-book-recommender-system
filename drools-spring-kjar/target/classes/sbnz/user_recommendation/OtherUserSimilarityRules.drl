@@ -62,7 +62,7 @@ rule "Modify books"
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/$cnt))))}
 end
 
-rule "Test other"
+/*rule "Test other"
   agenda-group "OtherUserScore"
   no-loop
   when
@@ -71,4 +71,4 @@ rule "Test other"
   then
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
   //System.out.println($ouc.getCount() + ": " + $ouc.getScore());
-end
+end*/
