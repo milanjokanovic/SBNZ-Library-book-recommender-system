@@ -18,6 +18,7 @@ import rs.sbnz.book_recommender.repositories.GenreRepository;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,8 @@ public class BookService {
     BookRepository bookRepository;
 
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     GenreRepository genreRepository;
 
     public List<Book> findAll()
@@ -40,8 +43,27 @@ public class BookService {
 
     public void readBook(int userId, int bookId){
         Book book = bookRepository.findById(bookId).orElse(null);
+        User user = userRepository.findById(userId);
+        if(user.getReadBooks() != null){
+            int ind = 0;
+            for(Book b: user.getReadBooks()){
+                if(b.getId() == bookId){
+                    break;
+                }
+                ind++;
+            }
+            if(ind == user.getReadBooks().size()){
+                user.getReadBooks().add(book);
+                book.setBrPregleda(book.getBrPregleda() + 1);
+            }
 
-        book.setBrPregleda(book.getBrPregleda() + 1);
+        }
+        else{
+            user.setReadBooks(new HashSet<>());
+            user.getReadBooks().add(book);
+            book.setBrPregleda(book.getBrPregleda() + 1);
+        }
+        userRepository.save(user);
         bookRepository.save(book);
     }
 
