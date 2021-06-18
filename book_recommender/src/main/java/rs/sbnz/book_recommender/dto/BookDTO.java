@@ -16,6 +16,9 @@ public class BookDTO {
     private String authorName;
     private List<String> genres;
     private double avgScore;
+    private int userScore;
+    private boolean favored;
+
 
     public BookDTO(int id, int pageNum, int viewNumber, String title, String series,
                    int seriesNumber, String targetAudience, Boolean basedOnRealEvent, Boolean nobelPrize,
@@ -33,6 +36,22 @@ public class BookDTO {
         this.authorName = authorName;
         this.genres = genres;
         this.avgScore = avgScore;
+    }
+
+    public boolean isFavored() {
+        return favored;
+    }
+
+    public void setFavored(boolean favored) {
+        this.favored = favored;
+    }
+
+    public int getUserScore() {
+        return userScore;
+    }
+
+    public void setUserScore(int userScore) {
+        this.userScore = userScore;
     }
 
     public int getViewNumber() {

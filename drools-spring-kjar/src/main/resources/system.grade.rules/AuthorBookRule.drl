@@ -57,7 +57,7 @@ rule "Author grade with favorite users coeficient"
    	 	eval($num.intValue() >= ($c /  10))
     then
         //actions
-        //System.out.println("Usao 2 puta author " + $num);
+        System.out.println("Usao 2 puta author " + $num);
 		modify($a){setSystemGrade(0.8 * (grade / bookList.size()) + 1)}
 end
 

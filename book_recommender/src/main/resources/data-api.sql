@@ -35,7 +35,7 @@ INSERT INTO genre (id, name, system_grade) VALUES
 
 INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, series, series_number,
     system_grade, target_audience, title, year_of_publishing, author_id, user_recommended_score) VALUES
-    (1001, FALSE, 240, TRUE, 223, 'Harry Potter', 1, 0, '1', 'Harry Potter and the philosophers stone', 1997, 1001, 0),
+    (1001, FALSE, 1, TRUE, 223, 'Harry Potter', 1, 0, '1', 'Harry Potter and the philosophers stone', 1997, 1001, 0),
     (1002, TRUE, 240, FALSE, 251, 'Harry Potter', 2, 0, '1', 'Harry Potter and the chamber of secrets', 1998, 1001, 0),
     (1003, FALSE, 240, FALSE, 317, 'Harry Potter', 3, 0, '1', 'Harry Potter and the prisoner from Azkaban', 1999, 1001, 0),
     (1004, FALSE, 240, FALSE, 636, 'Harry Potter', 4, 0, '1', 'Harry Potter and the goblet of fire', 2000, 1001, 0),
@@ -73,7 +73,7 @@ INSERT INTO authority (name) VALUES
     ('ROLE_GUEST');
 
 INSERT INTO user (id, username, email, last_active, password,  age, blocked_scoring_function) VALUES
-    (101, 'pera', 'pera@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', '1', 0),
+    (101, 'pera', 'pera@gmail.com', '2021-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', '1', 0),
     (102, 'joca', 'joca@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', '1', 0);
 
 INSERT INTO admin (id, username,  email, password) VALUES

@@ -19,6 +19,11 @@ import { IvyGalleryModule } from 'angular-gallery';
 import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbooks.component';
 import { SystembooksComponent } from './book-recommender/systembooks/systembooks.component';
 import { ReadbookComponent } from './book-recommender/readbook/readbook.component';
+import { UserreadbookComponent } from './book-recommender/userreadbook/userreadbook.component';
+import { AddFavoriteBookComponent } from './book-recommender/add-favorite-book/add-favorite-book.component';
+import { AddGradeBookComponent } from './book-recommender/add-grade-book/add-grade-book.component';
+import { AddFavoriteAuthorComponent } from './book-recommender/add-favorite-author/add-favorite-author.component';
+import { ViewAuthorsComponent } from './book-recommender/view-authors/view-authors.component';
 
 
 @NgModule({
@@ -31,7 +36,12 @@ import { ReadbookComponent } from './book-recommender/readbook/readbook.componen
     RegistrationComponent,
     AllbooksComponent,
     SystembooksComponent,
-    ReadbookComponent
+    ReadbookComponent,
+    UserreadbookComponent,
+    AddFavoriteBookComponent,
+    AddGradeBookComponent,
+    AddFavoriteAuthorComponent,
+    ViewAuthorsComponent
   ],
   imports: [
     BrowserModule,

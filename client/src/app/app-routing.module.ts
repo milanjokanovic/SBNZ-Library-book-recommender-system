@@ -7,6 +7,8 @@ import { LoginGuard } from './guards/login.guard';
 import { RegistrationComponent } from './book-recommender/registration/registration.component';
 import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbooks.component';
 import { SystembooksComponent } from './book-recommender/systembooks/systembooks.component';
+import { UserreadbookComponent } from './book-recommender/userreadbook/userreadbook.component';
+import { ViewAuthorsComponent } from './book-recommender/view-authors/view-authors.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,6 +21,18 @@ const routes: Routes = [{
   component: SystembooksComponent,
   canActivate: [RolesGuard],
   data: { expectedRoles: 'ROLE_GUEST|ROLE_ADMIN' }
+},
+{
+  path: 'author-view',
+  component: ViewAuthorsComponent,
+  canActivate: [RolesGuard],
+  data: { expectedRoles: 'ROLE_GUEST' }
+},
+{
+  path: 'user-read-books',
+  component: UserreadbookComponent,
+  canActivate: [RolesGuard],
+  data: { expectedRoles: 'ROLE_GUEST' }
 },
 {
   path: 'login',

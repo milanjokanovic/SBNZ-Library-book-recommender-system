@@ -28,7 +28,10 @@ rule "Bigger then avrage views favoring grade"
    	 	userActive($activityDate, userList, $num;)
    	 	eval($num.intValue() >= (brPregleda / 3))
     then
-    	//System.out.println("fav" + title);
+    	System.out.println("fav " + title);
+    	System.out.println("fav " + userList.size());
+    	Date dat = new Date();
+    	System.out.println($activityDate.before(dat));
     	modify($b){setSystemGrade(grade + 1)}
 end
 

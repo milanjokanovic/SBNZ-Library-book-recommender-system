@@ -6,10 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.dto.BookDTO;
+import rs.sbnz.book_recommender.dto.FavoriteDTO;
 import rs.sbnz.book_recommender.dto.UserDTO;
 import rs.sbnz.book_recommender.dto.mapper.BookMapper;
 import rs.sbnz.book_recommender.dto.mapper.UserMapper;
 import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.Score;
 import rs.sbnz.book_recommender.model.User;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 import rs.sbnz.book_recommender.services.UserService;
@@ -32,7 +34,27 @@ public class UserController {
     @GetMapping("/read/{id}")
     public ResponseEntity<List<BookDTO>> getUserReadBook(@PathVariable Integer id) {
         List<Book> books = userService.findUserRead(id);
-        return ResponseEntity.ok(bookMapper.toDtoList(books));
+        List<BookDTO> bookDTOS = bookMapper.toDtoList(books);
+        for(Book book : books){
+            for (BookDTO dto : bookDTOS){
+                if(dto.getId() == book.getId()){
+                    dto.setUserScore(getUserScore(book, id));
+                    dto.setFavored(userService.isFavoriteBook(book, id));
+                }
+            }
+        }
+        return ResponseEntity.ok(bookDTOS);
+    }
+
+    private int getUserScore(Book book, int userId){
+        int score = 0;
+        for(Score s: book.getScore()){
+            if(s.getUser().getId() == userId){
+                score = s.getValue();
+                return score;
+            }
+        }
+        return score;
     }
 
     @GetMapping
@@ -45,6 +67,26 @@ public class UserController {
     public ResponseEntity<Void> addUser(@RequestBody UserDTO dto) {
         try {
             userService.addUser(userMapper.toEntity(dto));
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/favorite/book")
+    public ResponseEntity<Void> setUserFavoriteBook(@RequestBody FavoriteDTO dto) {
+        try {
+            userService.setFavoriteBook(dto.getId(), dto.getUserId());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/favorite/author")
+    public ResponseEntity<Void> setUserFavoriteAuthor(@RequestBody FavoriteDTO dto) {
+        try {
+            userService.setFavoriteAuthor(dto.getId(), dto.getUserId());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

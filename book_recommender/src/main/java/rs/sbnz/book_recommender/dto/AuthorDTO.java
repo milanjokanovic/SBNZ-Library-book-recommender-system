@@ -6,6 +6,7 @@ public class AuthorDTO {
     private int id;
     private String name;
     private double systemGrade;
+    private boolean favored;
 
     public AuthorDTO() {}
 
@@ -19,6 +20,14 @@ public class AuthorDTO {
         this.id = author.getId();
         this.name = author.getName();
         this.systemGrade = author.getSystemGrade();
+    }
+
+    public boolean isFavored() {
+        return favored;
+    }
+
+    public void setFavored(boolean favored) {
+        this.favored = favored;
     }
 
     public int getId() {

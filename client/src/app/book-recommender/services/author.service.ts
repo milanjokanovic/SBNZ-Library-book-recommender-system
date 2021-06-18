@@ -1,5 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Author } from '../model/author';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +14,24 @@ export class AuthorService {
 
 
   constructor(private http: HttpClient) { }
+
+  getAllAuthors(): Observable<any> {
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<Author[]>(this.port + '/author', queryParams);
+  }
+
+  getUserViewAuthors(id: number): Observable<any> {
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<Author[]>(this.port + '/author/userview/' + `${id}`, queryParams);
+  }
 }

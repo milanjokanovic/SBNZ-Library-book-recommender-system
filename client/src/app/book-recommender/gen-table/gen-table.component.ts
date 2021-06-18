@@ -3,7 +3,7 @@ import { FieldDecorator } from './field-decorator';
 import { TableHeader } from './table-header';
 import {
   faPlus, faPencilAlt, faTrash, faNewspaper,
-  faEye, IconDefinition, faArrowRight, faEyeSlash, faBookReader
+  faEye, IconDefinition, faArrowRight, faEyeSlash, faBookReader, faStar, faCrown
 } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableOperation } from './table-operation';
@@ -96,6 +96,12 @@ export class GenTableComponent<T> implements OnInit, DoCheck {
         break;
       case Icons.read:
         iconDef = faBookReader;
+        break;
+      case Icons.grade:
+        iconDef = faStar;
+        break;
+      case Icons.favorit:
+        iconDef = faCrown;
         break;
     }
 

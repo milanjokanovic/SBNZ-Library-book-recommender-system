@@ -1,6 +1,6 @@
 export interface Score {
     id?: number;
-    userMail: string;
+    userId: number;
     bookTitle: string;
     value: number;
 }

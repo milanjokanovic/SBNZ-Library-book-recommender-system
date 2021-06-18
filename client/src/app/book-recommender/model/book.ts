@@ -12,4 +12,6 @@ export interface Book {
     authorName: string;
     genres: string[];
     avgScore: number;
+    userScore: number;
+    favored: boolean;
 }

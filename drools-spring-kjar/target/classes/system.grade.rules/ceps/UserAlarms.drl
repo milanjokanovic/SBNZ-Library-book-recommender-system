@@ -4,13 +4,13 @@ import rs.sbnz.book_recommender.model.User;
 
 declare SystemGradeEvent
     @role(event)
-    @expires(25s)
+    @expires(250s)
     userId: Integer
 end
 
 declare SuspiciousUserAlarm
     @role(event)
-    @expires(25s)
+    @expires(250s)
     userId: Integer
     reason: String
 end
@@ -44,11 +44,11 @@ rule "Potentially suspicious user alarm"
             $sde2: SystemGradeEvent(
                 this != $sde,
                 userId == id,
-                this meets[100s] $sde
+                this meets[1000s] $sde
             ),
             count($sde2)
         )
-        not (SuspiciousUserAlarm(userId == id, this meets[25s] $sde))
+        not (SuspiciousUserAlarm(userId == id, this meets[250s] $sde))
     then
         System.out.println("Ulazim ovde alarm");
         System.out.println($num);
@@ -69,7 +69,7 @@ rule "Suspicious user alarm"
             $sde2: SystemGradeEvent(
                 this != $sde,
                 userId == id,
-                this meets[100s] $sde
+                this meets[1000s] $sde
             ),
             count($sde2)
         )

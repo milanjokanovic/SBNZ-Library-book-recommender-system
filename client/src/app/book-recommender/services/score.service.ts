@@ -1,5 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Score } from '../model/score';
 
 @Injectable({
   providedIn: 'root'
@@ -12,4 +14,8 @@ export class ScoreService {
 
 
   constructor(private http: HttpClient) { }
+
+  score(score: Score): Observable<any> {
+    return this.http.post<any>(this.port + '/scores', score, {observe: 'response'});
+  }
 }

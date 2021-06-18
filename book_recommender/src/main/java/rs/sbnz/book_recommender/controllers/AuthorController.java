@@ -1,9 +1,6 @@
 package rs.sbnz.book_recommender.controllers;
 
 import org.kie.api.KieBase;
-import org.kie.api.KieServices;
-import org.kie.api.definition.KiePackage;
-import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ import rs.sbnz.book_recommender.model.Server;
 import rs.sbnz.book_recommender.services.AuthorService;
 import org.springframework.web.bind.annotation.*;
 import rs.sbnz.book_recommender.services.SystemGradeService;
+import rs.sbnz.book_recommender.services.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,6 +32,9 @@ public class AuthorController {
 
     @Autowired
     KieContainer kieContainer;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     private SystemGradeService systemGradeService;
@@ -75,6 +76,22 @@ public class AuthorController {
         List<AuthorDTO> authors = authorMapper.toDtoList(authorService.findAllAuthors());
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }
+
+    @GetMapping("/userview/{id}")
+    public ResponseEntity<List<AuthorDTO>> findAllAuthorsUserView(@PathVariable(value = "id") Integer userId)
+    {
+        List<Author> authors = authorService.findAllAuthors();
+        List<AuthorDTO> authorsDTO = authorMapper.toDtoList(authors);
+        for(Author author : authors){
+            for (AuthorDTO dto: authorsDTO){
+                if(dto.getId() == author.getId()){
+                    dto.setFavored(userService.isFavoriteAuthor(author, userId));
+                }
+            }
+        }
+        return new ResponseEntity<>(authorsDTO, HttpStatus.OK);
+    }
+
 
     @PostMapping
     public ResponseEntity<Void> addAuthor(@Valid @RequestBody AuthorDTO authorDTO)
