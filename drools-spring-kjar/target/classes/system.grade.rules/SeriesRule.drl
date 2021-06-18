@@ -16,6 +16,7 @@ import BookRules.*;
 rule "Series Rule"
 	agenda-group "Level1"
     no-loop
+    salience 5
     when
         $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, seriesNumber > 0, score: score)
         $sd: SeriesData(grade: grade)
@@ -23,8 +24,8 @@ rule "Series Rule"
         eval($bookGrade != 0)
     then
         //actions
-		//System.out.println("Series " + title);
-		System.out.println("Zabo Series");
+		//System.out.println("Series " + id);
+		//System.out.println("Zabo Series");
         modify($sd){increaseGrade(($bookGrade / score.size()) * brPregleda)}
         //modify($sd){increaseGrade(avgGrade * brPregleda)}
 end
@@ -32,21 +33,24 @@ end
 rule "Series Rule book no scores"
 	agenda-group "Level1_5"
     no-loop
+    salience 3
     when
-        $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, seriesNumber > 0, score: score)
+        $b: Book(id: id, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, seriesNumber > 0, score: score)
         $sd: SeriesData(grade: grade)
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade == 0)
     then
         //actions
 		//System.out.println("Series " + title);
-		System.out.println("Zabo Series no score");
+		//System.out.println("Series " + id);
+		//System.out.println("Zabo Series no score");
         modify($sd){increaseGrade(0.0 * brPregleda)}
 end
 
 rule "General Data Rule"
 	agenda-group "Level1"
     no-loop
+    salience 3
     when
         $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, score: score)
         $d: GeneralBookData()
@@ -55,7 +59,7 @@ rule "General Data Rule"
     then
         //actions
 		//System.out.println("Series " + title);
-		System.out.println("Zabo general 1 1");
+		//System.out.println("Zabo general 1 1");
         modify($d){increaseDataValues(($bookGrade / score.size()), brPregleda)}
         //modify($d){increaseDataValues(avgGrade, brPregleda)}
 end
@@ -63,14 +67,16 @@ end
 rule "General Data Rule no book scores"
 	agenda-group "Level1_5"
     no-loop
+    salience 2
     when
-        $b: Book(title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, score: score)
+        $b: Book(id: id, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, score: score)
         $d: GeneralBookData()
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade == 0)
     then
         //actions
 		//System.out.println("Series " + title);
-		System.out.println("Zabo general 1 2");
+		//System.out.println("Series " + id);
+		//System.out.println("Zabo general 1 2");
         modify($d){increaseDataValues(0.0, brPregleda)}
 end

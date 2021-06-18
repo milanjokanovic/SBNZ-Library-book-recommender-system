@@ -45,7 +45,7 @@ public class Book {
     @Column
     private double userRecommendedScore;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Author author;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "favoriteBook")

@@ -36,8 +36,8 @@ INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, s
     (1008, FALSE, 240, TRUE, 223, 'The chronicles of Narnia', 1, 0, '0', 'The Lion, the witch and the wardrobe', 1950, 1002, 0),
     (1019, FALSE, 240, TRUE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1003, 0);
 
-INSERT INTO user (id, email, last_active, password,  age) VALUES
-    (1, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, '1');
+INSERT INTO user (id, email, last_active, password,  age, blocked_scoring_function) VALUES
+    (1, 'pera@gmail.com', '2020-12-08 17:40:50', 12345, '1', 0);
 
 INSERT INTO book_genres (book_id, genre_id) values
     (1001, 1),

@@ -10,20 +10,45 @@ import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
 import rs.sbnz.book_recommender.model.Score;
 import java.util.Set;
+import java.util.List;
 
 
-rule "Long length rule"
-    agenda-group "Level1"
+
+rule "High value books length rule"
+    agenda-group "Level1_5"
     no-loop
+    salience 10
     when
     	$d: BookLengthTypeData(min : minLength,max : maxLength) and
         $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, score: score)
+        List(size > (score.size() / 2)) from collect(
+            Score(value > 6) from score
+        )
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade != 0)
     then
         //System.out.println(title);
         //System.out.println(avgGrade);
-        System.out.println("Zabo start");
+        //System.out.println("Zabo start high");
+        modify($d){increaseGrade(2 * ($bookGrade / score.size()) * brPregleda)}
+end
+
+rule "Normal length rule"
+    agenda-group "Level1"
+    no-loop
+    salience 10
+    when
+    	$d: BookLengthTypeData(min : minLength,max : maxLength) and
+        $b: Book(pageNum > min, pageNum < max, title : title, avgGrade: getAvgGrade(), brPregleda: brPregleda, score: score)
+        List(size <= (score.size() / 2)) from collect(
+            Score(value > 6) from score
+        )
+        avgBookGrade(score, $bookGrade;)
+        eval($bookGrade != 0)
+    then
+        //System.out.println(title);
+        //System.out.println(avgGrade);
+        //System.out.println("Zabo start");
         modify($d){increaseGrade(($bookGrade / score.size()) * brPregleda)}
 end
 

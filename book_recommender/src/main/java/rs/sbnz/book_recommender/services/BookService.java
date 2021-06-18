@@ -19,6 +19,7 @@ import rs.sbnz.book_recommender.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BookService {
@@ -48,36 +49,17 @@ public class BookService {
 
         Author author = authorRepository.findByName(book.getAuthor().getName());
 
-        /*if(author == null){
+        if(author == null){
             throw new Exception();
-        }*/
-
-        List<Genre> genres = genreRepository.findAll();
-
-
-        /*KieServices kieServices = KieServices.Factory.get();
-
-        KieContainer kContainer = kieServices.getKieClasspathContainer();
-
-        //LOG.info("Creating kieBase");
-        KieBase kieBase = kContainer.getKieBase();
-
-        //LOG.info("Creating kieSession");
-        KieSession session = kieBase.newKieSession("data-session");
-
-        session.insert(genres);
-        List<String> names = new ArrayList<>();
-        for(Genre genre : book.getGenres()){
-            session.insert(genre);
-            names.add(genre.getName());
         }
 
-        session.getAgenda().getAgendaGroup("GenreData").setFocus();
+        List<String> names = new ArrayList<>();
+        for(Genre gen : book.getGenres()){
+            names.add(gen.getName());
+        }
+        Set<Genre> genreList = genreRepository.findByGenreNames(names);
 
-        session.fireAllRules();*/
-        //List<Genre> genreList = genreRepository.findByGenreNames(names);
-
-
+        book.setGenres(genreList);
         bookRepository.save(book);
 
         return book;

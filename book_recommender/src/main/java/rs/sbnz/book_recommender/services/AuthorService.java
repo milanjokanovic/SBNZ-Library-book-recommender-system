@@ -36,13 +36,17 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author addAuthor(Author author)
+    public Author addAuthor(Author author) throws Exception
     {
         /*Author nameValidator = authorRepository.findByName(author.getName());
         Map< Author, Boolean > response = new HashMap< >();
 
         if(nameValidator == null)
             response.put(null, Boolean.TRUE);*/
+
+        Author oldAuthor = authorRepository.findByName(author.getName());
+        if(oldAuthor != null)
+            throw new Exception();
 
         authorRepository.save(author);
         return author;

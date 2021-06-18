@@ -22,7 +22,7 @@ rule "Base formula part 1"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade != 0)
     then
-        System.out.println("Zabo part 1 1");
+        //System.out.println("Zabo part 1 1");
     	modify($b){setSystemGrade(($bookGrade / score.size()) * (1. * numberOfScores / brPregleda) + value)}
 end
 
@@ -36,7 +36,7 @@ rule "Base formula part 1 no book scores"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade == 0)
     then
-        System.out.println("Zabo part 1 2");
+        //System.out.println("Zabo part 1 2");
     	modify($b){setSystemGrade(value)}
 end
 

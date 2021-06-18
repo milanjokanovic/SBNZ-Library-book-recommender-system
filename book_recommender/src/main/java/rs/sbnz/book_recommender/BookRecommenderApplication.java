@@ -12,6 +12,7 @@ public class BookRecommenderApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookRecommenderApplication.class, args);
+		//System.setProperty("drools.multithreadEvaluation", "true");
 	}
 
 	@Bean

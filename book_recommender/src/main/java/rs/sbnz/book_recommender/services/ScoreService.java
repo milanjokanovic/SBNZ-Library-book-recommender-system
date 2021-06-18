@@ -1,7 +1,9 @@
 package rs.sbnz.book_recommender.services;
 
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.sbnz.book_recommender.config.EventSessionConfig;
 import rs.sbnz.book_recommender.model.Author;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Score;
@@ -25,6 +27,9 @@ public class ScoreService {
     @Autowired
     ScoreRepository scoreRepository;
 
+    @Autowired
+    private EventSessionConfig config;
+
 
     public List<Score> findAll()
     {
@@ -45,8 +50,36 @@ public class ScoreService {
         }
 
 
+        KieSession session = config.userAlarmsSession();
+        //User user = userRepository.findAll().get(0);
+        session.getAgenda().getAgendaGroup("UserAlarms").setFocus();
+
+        session.insert(user);
+
+        session.fireUntilHalt();
+
+        System.out.println("Blocked: " + user.getBlockedScoringFunction());
+        userRepository.save(user);
+        if(user.getBlockedScoringFunction() == 1){
+            throw new Exception();
+        }
+
         score.setBook(book);
         score.setUser(user);
+
+
+
+        Score oldScore = scoreRepository.findByUserAndBook(user, book); //TODO check if it works make
+        // a method that just returns this and check if it works
+        // TODO make a method that return user scores
+
+        if(oldScore != null){
+            oldScore.setValue(score.getValue());
+            return updateScore(oldScore.getId(), oldScore);
+        }
+
+
+
 
         scoreRepository.save(score);
 

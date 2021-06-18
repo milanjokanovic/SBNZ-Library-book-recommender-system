@@ -6,6 +6,7 @@ import org.kie.api.KieServices;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.internal.conf.MultithreadEvaluationOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,4 +39,12 @@ public class EventSessionConfig {
         session.insert(date);
         return session;
     }
+
+    @Bean
+    public KieSession userAlarmsSession(){
+        KieSession session = getBase().newKieSession();
+
+        return session;
+    }
+
 }
