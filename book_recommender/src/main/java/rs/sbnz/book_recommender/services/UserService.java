@@ -5,9 +5,11 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import rs.sbnz.book_recommender.model.Author;
+import rs.sbnz.book_recommender.model.Authority;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.User;
 import rs.sbnz.book_recommender.repositories.AuthorRepository;
+import rs.sbnz.book_recommender.repositories.AuthorityRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.UserRepository;
 
@@ -24,6 +26,9 @@ public class UserService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -85,6 +90,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setBlockedScoringFunction(0);
         user.setLastActive(new Date());
+        List<Authority> authorities = new ArrayList<Authority>();
+
+        authorities.add(authorityRepository.findByName("ROLE_GUEST"));
+        user.setAuthorities(authorities);
         userRepository.save(user);
 
         return user;

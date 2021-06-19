@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
+import { AddBookComponent } from '../../add-book/add-book.component';
 import { TableHeader } from '../../gen-table/table-header';
 import { TableOperation } from '../../gen-table/table-operation';
 import { Book } from '../../model/book';
 import { ReadbookComponent } from '../../readbook/readbook.component';
+import { AuthService } from '../../services/auth.service';
 import { BookService } from '../../services/book.service';
 
 @Component({
@@ -48,11 +50,13 @@ export class AllbooksComponent implements OnInit {
       icon: Icons.read
     }
   ];
+  authority: string;
 
-  constructor(private service: BookService, private modalService: NgbModal) { }
+  constructor(private service: BookService, private modalService: NgbModal, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadData();
+    this.authority = this.authService.getRole();
   }
 
   loadData(){
@@ -66,11 +70,20 @@ export class AllbooksComponent implements OnInit {
 
   read(book) {
     console.log(book.id);
-    //this.modalService.open(book, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
-    const modalRef = this.modalService.open(ReadbookComponent,
-      { ariaLabelledBy: 'read-book', size: 'lg', scrollable: true });
-   modalRef.componentInstance.book = book;
-   modalRef.componentInstance.refresh = () => { this.loadData(); };
+    if(this.authService.getRole() === "ROLE_GUEST"){
+
+    
+      //this.modalService.open(book, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
+      const modalRef = this.modalService.open(ReadbookComponent,
+        { ariaLabelledBy: 'read-book', size: 'lg', scrollable: true });
+      modalRef.componentInstance.book = book;
+      modalRef.componentInstance.refresh = () => { this.loadData(); };
+    }
+  }
+
+  add(){
+    const modalRef = this.modalService.open(AddBookComponent, { ariaLabelledBy: 'add-book', size: 'lg', scrollable: true });
+    modalRef.componentInstance.refresh = () => { this.loadData(); };
   }
 
 }

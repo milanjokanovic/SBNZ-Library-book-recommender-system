@@ -53,4 +53,8 @@ export class BookService {
     };
     return this.http.put<any>(this.port + '/books/userread', read, {observe: 'response'});
   }
+
+  create(book: Book): Observable<any> {
+    return this.http.post<Book>(this.port + '/books', book, { observe: 'response' });
+  }
 }

@@ -81,7 +81,7 @@ public class BookService {
         if(author == null){
             throw new Exception();
         }
-
+        book.setAuthor(author);
         List<String> names = new ArrayList<>();
         for(Genre gen : book.getGenres()){
             names.add(gen.getName());
