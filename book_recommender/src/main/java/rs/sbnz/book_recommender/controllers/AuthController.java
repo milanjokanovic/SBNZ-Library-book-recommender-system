@@ -56,6 +56,8 @@ public class AuthController {
             String jwt = tokenUtils.generateToken(user);
             int expiresIn = tokenUtils.getExpiredIn();
 
+            userService.setLastActive(user.getId());
+
             return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

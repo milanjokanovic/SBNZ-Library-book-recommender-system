@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Icons } from 'src/app/enums/icons.enum';
 import { TableHeader } from '../gen-table/table-header';
 import { TableOperation } from '../gen-table/table-operation';
@@ -18,6 +19,7 @@ export class ViewAuthorsComponent implements OnInit {
 
   authorList: Author[] = [];
   favoriteAuthor: Favorite = {id: 1, userId: 1};
+  faHomeIcon = faHome;
 
   tableHeader: TableHeader[] = [
     {

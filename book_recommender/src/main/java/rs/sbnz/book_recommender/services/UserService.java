@@ -45,6 +45,12 @@ public class UserService {
         return readBooks;
     }
 
+    public void setLastActive(int userId){
+        User user = userRepository.findById(userId);
+        user.setLastActive(new Date());
+        userRepository.save(user);
+    }
+
     public Boolean isFavoriteBook(Book book, int userId){
         User user = userRepository.findById(userId);
         if(user.getFavoriteBook() != null){

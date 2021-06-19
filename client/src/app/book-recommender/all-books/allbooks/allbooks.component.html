@@ -1,5 +1,13 @@
 <div class="container">
-    <app-gen-table id="books" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="bookList"
-        [operations]="operations">
-    </app-gen-table>
+<div class="row justify-content-md-end">
+    <div class="d-inline-block float-right">
+        <app-option-nav-bar></app-option-nav-bar>
+    </div>
+</div>
+    <div class="row">
+    
+        <app-gen-table id="books" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="bookList"
+            [operations]="operations">
+        </app-gen-table>
+    </div>
 </div>

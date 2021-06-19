@@ -6,6 +6,10 @@ import { TableOperation } from '../gen-table/table-operation';
 import { Book } from '../model/book';
 import { ReadbookComponent } from '../readbook/readbook.component';
 import { BookService } from '../services/book.service';
+import {
+  faHome
+} from '@fortawesome/free-solid-svg-icons';
+import { AddFavoriteAuthorComponent } from '../add-favorite-author/add-favorite-author.component';
 
 @Component({
   selector: 'app-systembooks',
@@ -15,6 +19,7 @@ import { BookService } from '../services/book.service';
 export class SystembooksComponent implements OnInit {
 
   bookList: Book[] = [];
+  faHomeIcon = faHome;
 
   tableHeader: TableHeader[] = [
     {

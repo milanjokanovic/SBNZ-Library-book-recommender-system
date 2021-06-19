@@ -1,5 +1,17 @@
-<div class="container">
-    <app-gen-table id="authors" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="authorList"
-        [operations]="operations">
-    </app-gen-table>
+<div>
+	<h1 class="d-inline-block float-left">
+		<a routerLink="" role="button" aria-pressed="true">
+			<fa-icon [icon]="faHomeIcon"></fa-icon>
+		</a>
+	</h1>
+	<h1>All authors</h1>
+	
+</div>
+
+<div class="row">
+    <div class="container">
+        <app-gen-table id="authors" [rowNum]="true" [tableHeader]="tableHeader" [tableData]="authorList"
+            [operations]="operations">
+        </app-gen-table>
+    </div>
 </div>

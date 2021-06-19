@@ -1,0 +1,8 @@
+<div class="btn-group m-4">
+    <a routerLink="/login" *ngIf="!authority" class="btn btn-secondary rounded-0" role="button" aria-pressed="true">Log in</a>
+    <a routerLink="/register" class="btn btn-secondary rounded-0" *ngIf="!authority" role="button" aria-pressed="true">Register</a>
+    <a routerLink="/system-books" class="btn btn-secondary rounded-0" *ngIf="['ROLE_GUEST', 'ROLE_ADMIN'].indexOf(authority) !== -1" role="button" aria-pressed="true">System books</a>
+    <a routerLink="/author-view" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">Author view</a>
+    <a routerLink="/user-read-books" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">User read books</a>
+    <a class="btn btn-secondary rounded-0" *ngIf="['ROLE_GUEST', 'ROLE_ADMIN'].indexOf(authority) !== -1" role="button" aria-pressed="true" (click)="logOut()">Log out</a>
+</div>

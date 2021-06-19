@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Icons } from 'src/app/enums/icons.enum';
 import { AddGradeBookComponent } from '../add-grade-book/add-grade-book.component';
@@ -19,6 +20,7 @@ export class UserreadbookComponent implements OnInit {
 
   bookList: Book[] = [];
   favoriteBook: Favorite = {id: 1, userId: 1};
+  faHomeIcon = faHome;
 
   tableHeader: TableHeader[] = [
     {
