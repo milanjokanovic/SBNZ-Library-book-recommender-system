@@ -181,7 +181,7 @@ public class SystemBooksTest {
         assertTrue(0. == longData.getValue());
         assertTrue(0.5 == mediumData.getValue());
 
-        assertTrue(-0.5 == seriesData.getValue());
+        assertTrue(0.5 == seriesData.getValue());
 
 
         for (Book book : books){
