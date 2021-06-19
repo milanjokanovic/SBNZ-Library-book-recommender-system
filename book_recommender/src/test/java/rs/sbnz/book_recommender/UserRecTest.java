@@ -72,7 +72,7 @@ public class UserRecTest {
 
         allBooks = bookRepository.findAll();
 
-        User user = userRepository.findById(1);
+        User user = userRepository.findById(101);
 
         List<Author> readAuthors = new ArrayList<>();
 

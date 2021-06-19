@@ -57,8 +57,9 @@ rule "Modify books"
   $user : User($book memberOf readBooks)
   $subjectUser: SubjectUser($book not memberOf user.getReadBooks())
   $ouc: OtherUserScorer(id == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
+  eval($cnt > 0)
   then
-  //System.out.println($book.getTitle() + "-9--" + $user.getId());
+  //System.out.println($cnt);
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/$cnt))))}
 end
 
@@ -69,6 +70,7 @@ end
   $book : Book()
   //$ouc: OtherUserScorer()
   then
+  System.out.println("other user");
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
   //System.out.println($ouc.getCount() + ": " + $ouc.getScore());
 end*/

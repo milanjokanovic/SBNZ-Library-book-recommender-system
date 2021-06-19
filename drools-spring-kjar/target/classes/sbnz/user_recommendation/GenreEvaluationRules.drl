@@ -81,6 +81,7 @@ end
   when
   $book : Book()
   then
+  System.out.println("Genre");
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
 end*/
 

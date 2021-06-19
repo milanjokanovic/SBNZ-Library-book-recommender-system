@@ -1,0 +1,158 @@
+
+INSERT INTO author (id, name, system_grade) VALUES
+    (1001, 'J. K. Rowling', 0),
+    (1002, 'C.S. Lewis', 0),
+    (1003, 'Henry H. Neff', 0),
+    (1004, 'Rick Riordan', 0),
+    (1005, 'Borislav Pekic', 0),
+    (1006, 'scott Lynch', 0);
+
+INSERT INTO genre (id, name, system_grade) VALUES
+        (100, 'Fantasy', 0),
+        (200, 'Adventure', 0),
+        (300, 'Contemporary ', 0),
+        (400, 'Dystopian', 0),
+        (500, 'Mystery', 0),
+        (600, 'Romance', 0),
+        (700, 'Horror', 0),
+        (800, 'Thriller', 0),
+        (900, 'Paranormal', 0),
+        (1000, 'Historical fiction', 0),
+        (1100, 'science fiction', 0),
+        (1200, 'Memoir', 0),
+        (1300, 'Cooking', 0),
+        (1400, 'Art', 0),
+        (1500, 'self help', 0),
+        (1600, 'Development', 0),
+        (1700, 'Motivational', 0),
+        (1800, 'Health', 0),
+        (1900, 'History', 0),
+        (2000, 'Travel', 0),
+        (2100, 'How to', 0),
+        (2200, 'Families and relationships', 0),
+        (2300, 'Comedy', 0),
+        (2400, 'Crime', 0);
+
+INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, series, series_number,
+    system_grade, target_audience, title, year_of_publishing, author_id, user_recommended_score) VALUES
+    (1001, FALSE, 1, TRUE, 223, 'Harry Potter', 1, 0, '1', 'Harry Potter and the philosophers stone', 1997, 1001, 0),
+    (1002, TRUE, 240, FALSE, 251, 'Harry Potter', 2, 0, '1', 'Harry Potter and the chamber of secrets', 1998, 1001, 0),
+    (1003, FALSE, 240, FALSE, 317, 'Harry Potter', 3, 0, '1', 'Harry Potter and the prisoner from Azkaban', 1999, 1001, 0),
+    (1004, FALSE, 240, FALSE, 636, 'Harry Potter', 4, 0, '1', 'Harry Potter and the goblet of fire', 2000, 1001, 0),
+    (1005, FALSE, 240, FALSE, 766, 'Harry Potter', 5, 0, '1', 'Harry Potter and the order of the phoenix', 2003, 1001, 0),
+    (1006, FALSE, 240, FALSE, 607, 'Harry Potter', 6, 0, '1', 'Harry Potter and the half blood prince', 2005, 1001, 0),
+    (1007, FALSE, 240, FALSE, 607, 'Harry Potter', 7, 0, '1', 'Harry Potter and the deathly hallows', 2007, 1001, 0),
+    (1008, FALSE, 240, TRUE, 223, 'The chronicles of Narnia', 1, 0, '0', 'The Lion, the witch and the wardrobe', 1950, 1002, 0),
+    (1009, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 2, 0, '0', 'Prince Caspian', 1951, 1002, 0),
+    (1010, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 3, 0, '0', 'The voyage of the dawn treader', 1952, 1002, 0),
+    (1011, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 4, 0, '0', 'The silver chair', 1953, 1002, 0),
+    (1012, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 5, 0, '0', 'The horse and his boy', 1954, 1002, 0),
+    (1013, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 6, 0, '0', 'The magicians nephew', 1955, 1002, 0),
+    (1014, FALSE, 240, FALSE, 223, 'The chronicles of Narnia', 7, 0, '0', 'The last battle', 1956, 1002, 0),
+    (1015, FALSE, 240, FALSE, 419, 'The tapestry', 1, 0, '1', 'The hound of Rowan', 2007, 1003, 0),
+    (1016, FALSE, 240, FALSE, 483, 'The tapestry', 2, 0, '1', 'The Second Siege', 2008, 1003, 0),
+    (1017, FALSE, 240, FALSE, 547, 'The tapestry', 3, 0, '1', 'The Fiend and the Forge', 2010, 1003, 0),
+    (1018, FALSE, 240, FALSE, 480, 'The tapestry', 4, 0, '1', 'The Maelstrom', 2012, 1003, 0),
+    (1019, FALSE, 240, TRUE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1003, 0),
+    (1020, FALSE, 240, FALSE, 377, 'Percy Jackson and the Olympians', 1, 0, '0', 'The Lightning Thief', 2006, 1004, 0),
+    (1021, FALSE, 240, FALSE, 279, 'Percy Jackson and the Olympians', 2, 0, '0', 'The Sea of Monsters', 2006, 1004, 0),
+    (1022, FALSE, 240, FALSE, 320, 'Percy Jackson and the Olympians', 3, 0, '0', 'The Titans Curse ', 2007, 1004, 0),
+    (1023, FALSE, 240, FALSE, 361, 'Percy Jackson and the Olympians', 4, 0, '0', 'The Battle of the Labyrinth', 2008, 1004, 0),
+    (1024, FALSE, 240, FALSE, 381, 'Percy Jackson and the Olympians', 5, 0, '0', 'The Last Olympian', 2009, 1004, 0),
+    (1025, FALSE, 240, FALSE, 530, 'Rabies-Atlantis-1999', 1, 0, '3', 'Rabies', 1983, 1005, 0),
+    (1026, FALSE, 240, FALSE, 381, 'Rabies-Atlantis-1999', 2, 0, '3', 'Atlantis', 1988, 1005, 0),
+    (1027, FALSE, 240, FALSE, 488, 'Rabies-Atlantis-1999', 3, 0, '3', '1999', 1984, 1005, 0),
+    (1028, FALSE, 240, FALSE, 228, '', 0, 0, '3', 'Rise and fall of Ikar Gulbenkian', 1977, 1005, 0),
+    (1029, FALSE, 240, FALSE, 289, '', 0, 0, '3', 'New Jerusalem', 1988, 1005, 0),
+    (1030, FALSE, 240, FALSE, 752, 'Gentleman Bastard', 1, 0, '2', 'The Lies of Locke Lamora', 2006, 1006, 0),
+    (1031, FALSE, 240, FALSE, 578, 'Gentleman Bastard', 2, 0, '2', 'Red Seas Under Red Skies', 2007, 1006, 0),
+    (1032, FALSE, 240, FALSE, 650, 'Gentleman Bastard', 3, 0, '2', 'The Republic of Thieves', 2013, 1006, 0);
+
+INSERT INTO authority (name) VALUES
+    ('ROLE_ADMIN'),
+    ('ROLE_GUEST');
+
+INSERT INTO user (id, username, email, last_active, password,  age, blocked_scoring_function) VALUES
+    (101, 'pera', 'pera@gmail.com', '2021-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', '1', 0),
+    (102, 'joca', 'joca@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', '1', 0);
+
+INSERT INTO admin (id, username,  email, password) VALUES
+    (201, 'admin', 'admin@gmail.com', '$2y$10$N64dQOyeyM9ngaJKCNPFWOeWG3vWGePK02xHxIcVBuwdD/aVc2YZ6');
+
+INSERT INTO user_authority (user_id, authority_id) VALUES
+    (101, 2),
+    (102, 2),
+    (201, 1);
+
+INSERT INTO book_genres (book_id, genre_id) values
+    (1001, 100),
+    (1001, 500),
+    (1002, 100),
+    (1002, 500),
+    (1003, 100),
+    (1003, 500),
+    (1004, 100),
+    (1005, 100),
+    (1005, 200),
+    (1006, 100),
+    (1006, 200),
+    (1007, 100),
+    (1007, 200),
+    (1008, 100),
+    (1008, 200),
+    (1009, 100),
+    (1009, 200),
+    (1010, 100),
+    (1010, 200),
+    (1011, 100),
+    (1011, 200),
+    (1012, 100),
+    (1012, 200),
+    (1013, 100),
+    (1013, 200),
+    (1014, 100),
+    (1014, 200),
+    (1015, 100),
+    (1016, 100),
+    (1017, 100),
+    (1018, 100),
+    (1019, 100),
+    (1020, 100),
+    (1020, 200),
+    (1021, 100),
+    (1021, 200),
+    (1022, 100),
+    (1022, 200),
+    (1023, 100),
+    (1023, 200),
+    (1024, 200),
+    (1024, 100),
+    (1025, 100),
+    (1025, 700),
+    (1026, 1100),
+    (1027, 1100),
+    (1028, 300),
+    (1029, 1000),
+    (1030, 100),
+    (1030, 200),
+    (1031, 100),
+    (1031, 200),
+    (1032, 100),
+    (1032, 200);
+
+INSERT into user_read_books (user_id, book_id) values
+    (101, 1001),
+    (101, 1008),
+    (101, 1002),
+    (101, 1003),
+    (102, 1001),
+    (102, 1002),
+    (102, 1019);
+
+INSERT INTO score (id, value, book_id, user_id) values
+    (1001, 7, 1001, 101),
+    (1002, 5, 1002, 101),
+    (1003, 8, 1008, 101),
+    (1004, 8, 1001, 102),
+    (1005, 8, 1002, 102),
+    (1006, 7, 1019, 102);

@@ -29,6 +29,7 @@ import { AllAuthorsListComponent } from './book-recommender/authors/all-authors-
 import { AddAuthorComponent } from './book-recommender/authors/add-author/add-author.component';
 import { AllGenresListComponent } from './book-recommender/genes/all-genres-list/all-genres-list.component';
 import { AddGenreComponent } from './book-recommender/genes/add-genre/add-genre.component';
+import { UserRecommendationsComponent } from './book-recommender/user-recommendations/user-recommendations.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { AddGenreComponent } from './book-recommender/genes/add-genre/add-genre.
     AllAuthorsListComponent,
     AddAuthorComponent,
     AllGenresListComponent,
-    AddGenreComponent
+    AddGenreComponent,
+    UserRecommendationsComponent
   ],
   imports: [
     BrowserModule,

@@ -37,10 +37,10 @@ public class UserRecommendationService {
     @Autowired
     KieContainer kieContainer;
 
-    public void prepareData() {
+    public List<Book> prepareData(int id) {
         List<Book> allBooks = bookRepository.findAll();
         
-        User user = userRepository.findById(101);
+        User user = userRepository.findById(id);
 
         SubjectUser subjectUser = new SubjectUser();
         subjectUser.setUser(user);
@@ -90,7 +90,7 @@ public class UserRecommendationService {
             session.insert(g);
         for(User u : users)
         {
-            if(u.getId() == 101)
+            if(u.getId() == id)
                 continue;
             session.insert(u);
         }
@@ -113,6 +113,6 @@ public class UserRecommendationService {
         session.fireUntilHalt();//AuthorScore
 
         System.out.println("dd");
-
+        return bestBooksForUser;
     }
 }

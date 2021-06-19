@@ -12,17 +12,15 @@ rule "Score user read authors"
   $book: Book(author.getName() == $name, book_id : id)
   $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(), user_id: user.getId(),
   $book not memberOf user.getReadBooks())
-  $noReadByAuthor: Integer(intValue >= 0)
-      from accumulate(Book(author.getName() == $name) from $user_books,
-      init(int count = 0;),
-      action(count += 1;),
-      result(count))
+  $noReadByAuthor: Number(intValue >= 0)
+      from accumulate($pom:Book(author.getName() == $name) from $user_books,
+      count($pom))
   userCumulativeAuthorScore($author, $user, $num;)
   then
   //System.out.println("Autor: " + $author.getName());
   //System.out.println("Knjiga: " + $book.getTitle());
   //System.out.println($book.getTitle() + ": " + $num);
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ ($noReadByAuthor*$num*0.01))}
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ ($noReadByAuthor.intValue()*$num*0.01))}
 end
 
 /*rule "Test Author"
@@ -31,6 +29,7 @@ end
   when
   $book : Book()
   then
+  System.out.println("Author");
   System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
 end*/
 

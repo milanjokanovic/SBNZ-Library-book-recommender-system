@@ -25,6 +25,16 @@ export class BookService {
     return this.http.get<Book[]>(this.port + '/books', queryParams);
   }
 
+  getUserRecBooks(id): Observable<any> {
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: 'response'
+    };
+    return this.http.get<Book[]>(this.port + '/userrec/rec/' + id, queryParams);
+  }
+
   getSystemBooks(): Observable<any> {
     let queryParams = {};
 

@@ -4,6 +4,7 @@
     <a routerLink="/system-books" class="btn btn-secondary rounded-0" *ngIf="['ROLE_GUEST', 'ROLE_ADMIN'].indexOf(authority) !== -1" role="button" aria-pressed="true">System books</a>
     <a routerLink="/author-view" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">Author view</a>
     <a routerLink="/user-read-books" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">User read books</a>
+    <a routerLink="/userrecbooks" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_GUEST'" role="button" aria-pressed="true">Recommend me books</a>
     <a routerLink="/authors" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_ADMIN'" role="button" aria-pressed="true">Author table</a>
     <a routerLink="/genres" class="btn btn-secondary rounded-0" *ngIf="authority == 'ROLE_ADMIN'" role="button" aria-pressed="true">Genre table</a>
     <a class="btn btn-secondary rounded-0" *ngIf="['ROLE_GUEST', 'ROLE_ADMIN'].indexOf(authority) !== -1" role="button" aria-pressed="true" (click)="logOut()">Log out</a>
