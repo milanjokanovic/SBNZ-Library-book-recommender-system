@@ -19,7 +19,7 @@ public class BookDTO {
     private int userScore;
     private boolean favored;
 
-
+    public BookDTO(){}
     public BookDTO(int id, int pageNum, int viewNumber, String title, String series,
                    int seriesNumber, String targetAudience, Boolean basedOnRealEvent, Boolean nobelPrize,
                    int yearOfPublishing, String authorName, List<String> genres, double avgScore) {

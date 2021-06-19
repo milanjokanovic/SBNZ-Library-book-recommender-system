@@ -29,6 +29,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //this.loginService.logout();
   }
 
   login() {

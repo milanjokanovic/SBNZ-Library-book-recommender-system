@@ -10,6 +10,7 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons';
 import { AddFavoriteAuthorComponent } from '../add-favorite-author/add-favorite-author.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-systembooks',
@@ -55,7 +56,7 @@ export class SystembooksComponent implements OnInit {
     }
   ];
 
-  constructor(private service: BookService, private modalService: NgbModal) { }
+  constructor(private service: BookService, private modalService: NgbModal, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -71,12 +72,14 @@ export class SystembooksComponent implements OnInit {
   }
 
   read(book) {
-    console.log(book.id);
-    //this.modalService.open(book, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
-    const modalRef = this.modalService.open(ReadbookComponent,
-      { ariaLabelledBy: 'read-book', size: 'lg', scrollable: true });
-   modalRef.componentInstance.book = book;
-   modalRef.componentInstance.refresh = () => { this.loadData(); };
+    if(this.authService.getRole() === "ROLE_GUEST"){
+      console.log(book.id);
+      //this.modalService.open(book, {ariaLabelledBy: 'modal-basic-title', size: 'lg', scrollable: true});
+      const modalRef = this.modalService.open(ReadbookComponent,
+        { ariaLabelledBy: 'read-book', size: 'lg', scrollable: true });
+      modalRef.componentInstance.book = book;
+      modalRef.componentInstance.refresh = () => { this.loadData(); };
+    }
   }
 
 }

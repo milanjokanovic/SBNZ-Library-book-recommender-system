@@ -3,23 +3,16 @@
         <fieldset>
             <Legend>Registration</Legend>
             <div class="mb-3">
-                <label for="firstname" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="firstname" formControlName="firstname">
-                <div class="invalid-feedback">
-                    First name is required.
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="lastname" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lastname" formControlName="lastname">
-            </div>
-            <div class="mb-3">
                 <label for="emailaddress" class="form-label">Email address</label>
                 <input type="email" class="form-control" ngModel email id="emailaddress" placeholder="name@example.com" formControlName="email">
             </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" formControlName="username">
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="text" class="form-control" id="age" name="age" formControlName="age">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -34,6 +27,10 @@
         <div class="mb-3" *ngIf="emptyField"
             class="alert alert-danger">
             <div>All fields are required</div>
+        </div>
+        <div class="mb-3" *ngIf="existName"
+            class="alert alert-danger">
+            <div>User with given name already exists</div>
         </div>
         <div class="mb-3" *ngIf="passwordmissmatch"
             class="alert alert-danger">

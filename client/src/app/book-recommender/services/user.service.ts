@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Book } from '../model/book';
 import { Favorite } from '../model/favorite';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class UserService {
 
   setFavoriteAuthor(favoriteAuthor: Favorite): Observable<any> {
     return this.http.post<any>(this.port + '/users/favorite/author', favoriteAuthor, {observe: 'response'});
+  }
+
+  create(user: User): Observable<any> {
+    return this.http.post<Book>(this.port + '/users', user, { observe: 'response' });
   }
 }

@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="add-book">Add book</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <div class="input-group">
+                <input id="title" name="title" [(ngModel)]="book.title" class="form-control">
+            </div>
+
+            <label for="genres">Author</label>
+            <div class="input-group">
+                <select id="author" 
+                [(ngModel)]="book.authorName" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let a of authors; let i = index" [value]="a.name" [selected]="i == 1">
+                        {{a.name}}
+                    </option>
+                </select>
+            
+            </div>
+
+            <label for="page">Page number</label>
+            <div class="input-group">
+                <input type="number" min="10" id="page" name="page" [(ngModel)]="book.pageNum" class="form-control">
+            </div>
+
+            <label for="genres">Genres</label>
+            <div class="input-group">
+                <select id="genre" (change) ="changeGenre" [(ngModel)]="genre" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let g of genreList; let i = index"  [value]="g.name" [selected]="i == 1">
+                        {{g.name}}
+                    </option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="addGenre()" type="button"></button>
+                </div>
+            </div>
+            <small class="text-danger" *ngIf="repeatedBook">
+                Genre name already taken</small>
+            <div style="overflow-y: scroll; height:400px;">
+                <ul id="genres">
+                    <li class="page-item" *ngFor="let i of genres index as j" (click)="remove(j)">
+                        <a class="page-link">{{i}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+<small class="text-danger" *ngIf="badRequest">
+    Cant create book name already taken</small>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="add()">Add</button>
+</div>
