@@ -14,7 +14,7 @@ end
 rule "Creating other user scorer"
 	agenda-group "OtherUserScore"
 	no-loop
-	salience 2
+	salience 8
     when
         $user: User(userId: id)
         not OtherUserScorer(id == userId)
@@ -31,6 +31,7 @@ end
 rule "Calculate averages"
   agenda-group "OtherUserScore"
   no-loop
+  salience 7
   when
   $book: Book()
   $subjectUser: SubjectUser($book memberOf user.getReadBooks())
@@ -47,25 +48,29 @@ rule "Calculate averages"
   //modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + $avgSubject)}
   modify($ouc){setCount($cnt + 1)}
   modify($ouc){setScore($scr + Math.abs($avgSubject - $avgUser))}
+  //update($ouc);
 end
 
 rule "Modify books"
   agenda-group "OtherUserScore"
   no-loop
+  salience 6
   when
   $book: Book()
   $user : User($book memberOf readBooks)
   $subjectUser: SubjectUser($book not memberOf user.getReadBooks())
-  $ouc: OtherUserScorer(id == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
-  eval($cnt > 0)
+  $ouc: OtherUserScorer(id == $user.getId(), $cnt: count, $scr: score) @Watch(count, score)
+  eval($ouc.getCount() != 0)
   then
-  //System.out.println($cnt);
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/$cnt))))}
+  System.out.println($book.getTitle());
+  System.out.println("Scorer count: " + $ouc.getCount());
+  modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/($cnt)))))}
 end
 
 /*rule "Test other"
   agenda-group "OtherUserScore"
   no-loop
+  salience 5
   when
   $book : Book()
   //$ouc: OtherUserScorer()

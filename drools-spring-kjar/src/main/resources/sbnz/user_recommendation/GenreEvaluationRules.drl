@@ -67,8 +67,8 @@ rule "Update complex genre"
   salience 0
   when
   $book: Book()
-  $ouc: bookMultiGenre(id == $book.getId(), $cnt: count) @Watch(!*)
-  //eval($cnt > 1)
+  $ouc: bookMultiGenre(id == $book.getId(), $cnt: count) @Watch(count)
+  eval($cnt > 1)
   then
   //System.out.println($cnt);
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ($cnt*0.1))}
