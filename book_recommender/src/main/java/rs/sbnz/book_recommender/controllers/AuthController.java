@@ -55,8 +55,8 @@ public class AuthController {
             AbsUser user = (AbsUser) authentication.getPrincipal();
             String jwt = tokenUtils.generateToken(user);
             int expiresIn = tokenUtils.getExpiredIn();
-
-            userService.setLastActive(user.getId());
+            if(!user.getUsername().equals("admin"))
+                userService.setLastActive(user.getId());
 
             return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
         } catch (Exception ex) {

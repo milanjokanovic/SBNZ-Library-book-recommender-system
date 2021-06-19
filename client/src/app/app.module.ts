@@ -25,6 +25,10 @@ import { AddGradeBookComponent } from './book-recommender/add-grade-book/add-gra
 import { AddFavoriteAuthorComponent } from './book-recommender/add-favorite-author/add-favorite-author.component';
 import { ViewAuthorsComponent } from './book-recommender/view-authors/view-authors.component';
 import { OptionNavBarComponent } from './book-recommender/option-nav-bar/option-nav-bar.component';
+import { AllAuthorsListComponent } from './book-recommender/authors/all-authors-list/all-authors-list.component';
+import { AddAuthorComponent } from './book-recommender/authors/add-author/add-author.component';
+import { AllGenresListComponent } from './book-recommender/genes/all-genres-list/all-genres-list.component';
+import { AddGenreComponent } from './book-recommender/genes/add-genre/add-genre.component';
 
 
 @NgModule({
@@ -43,7 +47,11 @@ import { OptionNavBarComponent } from './book-recommender/option-nav-bar/option-
     AddGradeBookComponent,
     AddFavoriteAuthorComponent,
     ViewAuthorsComponent,
-    OptionNavBarComponent
+    OptionNavBarComponent,
+    AllAuthorsListComponent,
+    AddAuthorComponent,
+    AllGenresListComponent,
+    AddGenreComponent
   ],
   imports: [
     BrowserModule,

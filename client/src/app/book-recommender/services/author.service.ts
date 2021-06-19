@@ -34,4 +34,8 @@ export class AuthorService {
     };
     return this.http.get<Author[]>(this.port + '/author/userview/' + `${id}`, queryParams);
   }
+
+  create(author: Author): Observable<any> {
+    return this.http.post<Author>(this.port + '/author', author, { observe: 'response' });
+  }
 }

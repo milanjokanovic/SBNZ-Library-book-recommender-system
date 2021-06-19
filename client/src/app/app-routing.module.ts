@@ -9,6 +9,8 @@ import { AllbooksComponent } from './book-recommender/all-books/allbooks/allbook
 import { SystembooksComponent } from './book-recommender/systembooks/systembooks.component';
 import { UserreadbookComponent } from './book-recommender/userreadbook/userreadbook.component';
 import { ViewAuthorsComponent } from './book-recommender/view-authors/view-authors.component';
+import { AllAuthorsListComponent } from './book-recommender/authors/all-authors-list/all-authors-list.component';
+import { AllGenresListComponent } from './book-recommender/genes/all-genres-list/all-genres-list.component';
 
 const routes: Routes = [{
   path: '',
@@ -27,6 +29,18 @@ const routes: Routes = [{
   component: ViewAuthorsComponent,
   canActivate: [RolesGuard],
   data: { expectedRoles: 'ROLE_GUEST' }
+},
+{
+  path: 'authors',
+  component: AllAuthorsListComponent,
+  canActivate: [RolesGuard],
+  data: { expectedRoles: 'ROLE_ADMIN' }
+},
+{
+  path: 'genres',
+  component: AllGenresListComponent,
+  canActivate: [RolesGuard],
+  data: { expectedRoles: 'ROLE_ADMIN' }
 },
 {
   path: 'user-read-books',

@@ -47,6 +47,9 @@ public class UserService {
 
     public void setLastActive(int userId){
         User user = userRepository.findById(userId);
+        if(user == null){
+            return;
+        }
         user.setLastActive(new Date());
         userRepository.save(user);
     }
