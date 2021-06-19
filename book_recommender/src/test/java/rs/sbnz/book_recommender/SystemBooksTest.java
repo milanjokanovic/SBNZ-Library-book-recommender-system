@@ -96,6 +96,22 @@ public class SystemBooksTest {
     }
 
     @Test
+    public void blockUserTest(){
+        //KieSession session = config.userAlarmsSession();
+        User user = userRepository.findAll().get(0);
+        for(int i = 0; i < 21; i++){
+
+            assertEquals(user.getBlockedScoringFunction(), 0);
+            session.getAgenda().getAgendaGroup("UserAlarms").setFocus();
+
+            session.insert(user);
+
+            session.fireUntilHalt();
+        }
+        assertEquals(user.getBlockedScoringFunction(), 1);
+    }
+
+    @Test
     public void okGradeTest() throws Exception{
 
 

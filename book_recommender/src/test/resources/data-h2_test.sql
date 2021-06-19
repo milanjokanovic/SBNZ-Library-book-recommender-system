@@ -36,8 +36,9 @@ INSERT INTO book (id, based_on_real_event, br_pregleda, nobel_prize, page_num, s
     (1108, FALSE, 240, TRUE, 223, 'The chronicles of Narnia', 1, 0, '0', 'The Lion, the witch and the wardrobe', 1950, 1102, 0),
     (1119, FALSE, 240, TRUE, 480, 'The tapestry', 5, 0, '1', 'The Red Winter', 2014, 1103, 0);
 
-INSERT INTO user (id, email, last_active, password,  age, favorite_book_id, favorite_author_id, blocked_scoring_function ) VALUES
-    (100, 'pera11@gmail.com', '2021-12-08 17:40:50', 12345, '1', 1119, 1103, 0);
+INSERT INTO user (id, username, email, last_active, password, favorite_author_id, favorite_book_id, age, blocked_scoring_function) VALUES
+    (101, 'pera', 'pera@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1101, 1102, '1', 0),
+    (102, 'marko', 'marko@gmail.com', '2021-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1103, 1119, '1', 0);
 
 INSERT INTO book_genres (book_id, genre_id) values
     (1101, 101),
@@ -47,11 +48,13 @@ INSERT INTO book_genres (book_id, genre_id) values
     (1119, 101);
 
 INSERT into user_read_books (user_id, book_id) values
-    (100, 1101),
-    (100, 1108),
-    (100, 1102);
+    (101, 1101),
+    (101, 1108),
+    (102, 1102),
+    (102, 1119);
 
 INSERT INTO score (id, value, book_id, user_id) values
-    (1, 7, 1101, 100),
-    (2, 5, 1102, 100),
-    (3, 8, 1108, 100);
+    (1, 7, 1101, 101),
+    (2, 5, 1102, 102),
+    (3, 8, 1108, 101),
+    (4, 10, 1102, 101);
