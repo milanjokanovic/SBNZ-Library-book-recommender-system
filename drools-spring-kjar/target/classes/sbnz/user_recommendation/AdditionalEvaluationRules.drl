@@ -63,13 +63,3 @@ rule "Reward based on true event"
     then
     modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ (0.01*$noReadBasedOnTrueEvent.doubleValue()))}
 end
-
-/*rule "Test additional"
-  agenda-group "AdditionalEvaluation"
-  no-loop
-  when
-  $book : Book()
-  then
-  System.out.println("Additional");
-  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end*/

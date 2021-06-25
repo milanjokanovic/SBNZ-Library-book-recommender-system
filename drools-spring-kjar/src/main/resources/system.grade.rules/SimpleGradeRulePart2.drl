@@ -20,8 +20,7 @@ rule "Base formula part 3 view number bigger then avrage"
         $b: Book(brPregleda > viewNumber, grade: getSystemGrade()) @Watch(!systemGrade)
 
     then
-    	//System.out.println("rule 32");
-        modify($b){setSystemGrade(grade + 1)}
+    	modify($b){setSystemGrade(grade + 1)}
 
 end
 
@@ -34,7 +33,6 @@ rule "Base formula part 3 view number 2 times bigger then avrage"
         $b: Book(brPregleda > (2 * viewNumber), grade: getSystemGrade()) @Watch(!systemGrade)
 
     then
-    	//System.out.println("rule 32");
-        modify($b){setSystemGrade(grade + 2)}
+    	modify($b){setSystemGrade(grade + 2)}
 
 end

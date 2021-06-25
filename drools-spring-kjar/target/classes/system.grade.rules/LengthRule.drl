@@ -27,9 +27,6 @@ rule "High value books length rule"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade != 0)
     then
-        //System.out.println(title);
-        //System.out.println(avgGrade);
-        //System.out.println("Zabo start high");
         modify($d){increaseGrade(2 * ($bookGrade / score.size()) * brPregleda)}
 end
 
@@ -46,9 +43,6 @@ rule "Normal length rule"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade != 0)
     then
-        //System.out.println(title);
-        //System.out.println(avgGrade);
-        //System.out.println("Zabo start");
         modify($d){increaseGrade(($bookGrade / score.size()) * brPregleda)}
 end
 

@@ -19,7 +19,6 @@ rule "Creating other user scorer"
         $user: User(userId: id)
         not OtherUserScorer(id == userId)
     then
-    	//System.out.println("Book:" + bookId);
         OtherUserScorer scorer = new OtherUserScorer();
 	    scorer.setId(userId);
 	    scorer.setCount(0);
@@ -33,22 +32,16 @@ rule "Calculate averages"
   no-loop
   salience 7
   when
-  $book: Book()
-  $subjectUser: SubjectUser($book memberOf user.getReadBooks())
-  $user: User($book memberOf readBooks)
-  $avgSubject: Double(intValue >= 0)
-        from accumulate(Score(user.getId() == $subjectUser.getUser().getId(), $val:value) from $book.getScore(),
-        average($val))
-  $avgUser: Double(intValue >= 0)
-          from accumulate(Score(user.getId() == $user.getId(), $val:value) from $book.getScore(),
-          average($val))
-  $ouc: OtherUserScorer($scorerId: id, $scorerId == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
+      $book: Book()
+      $subjectUser: SubjectUser($book memberOf user.getReadBooks())
+      $user: User($book memberOf readBooks)
+      $avgSubject: Score(user.getId() == $subjectUser.getUser().getId()) from $book.getScore()
+      $avgUser: Score(user.getId() == $user.getId()) from $book.getScore()
+      $ouc: OtherUserScorer($scorerId: id, $scorerId == $user.getId(), $cnt: count, $scr: score) @Watch(!*)
   then
-  //System.out.println("Naslov: " + $book.getTitle() + " *** " + $avgSubject);
-  //modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + $avgSubject)}
-  modify($ouc){setCount($cnt + 1)}
-  modify($ouc){setScore($scr + Math.abs($avgSubject - $avgUser))}
-  //update($ouc);
+      modify($ouc){setCount($cnt + 1)}
+      modify($ouc){setScore($scr + Math.abs($avgSubject.getValue() - $avgUser.getValue()))}
+
 end
 
 rule "Modify books"
@@ -66,16 +59,3 @@ rule "Modify books"
   System.out.println("Scorer count: " + $ouc.getCount());
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/($cnt)))))}
 end
-
-/*rule "Test other"
-  agenda-group "OtherUserScore"
-  no-loop
-  salience 5
-  when
-  $book : Book()
-  //$ouc: OtherUserScorer()
-  then
-  System.out.println("other user");
-  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-  //System.out.println($ouc.getCount() + ": " + $ouc.getScore());
-end*/

@@ -33,9 +33,6 @@ rule "Add genre coeficient data to book grade"
         $b: Book(bookId: id, grade: getSystemGrade(), $genList: genres) @Watch(!systemGrade)
         GenreCoeficient(id == bookId, coef: coef, coef > 0)
     then
-    	//System.out.println("ulazim stalno " + (1. * coef / $genList.size()));
-
-    	//System.out.println("ulazim stalno coef " + coef);
     	modify($b){setSystemGrade(grade + (1. * coef / $genList.size()))}
 
 end

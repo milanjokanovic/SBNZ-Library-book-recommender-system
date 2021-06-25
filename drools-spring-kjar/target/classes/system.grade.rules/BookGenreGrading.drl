@@ -25,8 +25,7 @@ rule "Creating book coeficient data for book genres"
         $b: Book(bookId: id)
         not GenreCoeficient(id == bookId)
     then
-    	//System.out.println("Book:" + bookId);
-        GenreCoeficient coefGenData = new GenreCoeficient();
+    	GenreCoeficient coefGenData = new GenreCoeficient();
 	    coefGenData.setId(bookId);
 	    coefGenData.setCoef(0);
 	    insert(coefGenData);

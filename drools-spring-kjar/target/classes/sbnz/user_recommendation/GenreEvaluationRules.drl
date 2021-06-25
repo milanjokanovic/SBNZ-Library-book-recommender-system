@@ -33,7 +33,6 @@ rule "Creating book multi genre"
         not bookMultiGenre(id == bookId)
         $subjectUser: SubjectUser($user: user, $book not memberOf user.getReadBooks())
     then
-    	//System.out.println("Book:" + bookId);
         bookMultiGenre mulGenre = new bookMultiGenre();
 	    mulGenre.setId(bookId);
 	    mulGenre.setCount(0);
@@ -73,26 +72,6 @@ rule "Update complex genre"
   //System.out.println($cnt);
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ($cnt*0.1))}
 end
-
-/*rule "Test Genre"
-  agenda-group "GenreScore"
-  no-loop
-  salience -1
-  when
-  $book : Book()
-  then
-  System.out.println("Genre");
-  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end*/
-
-//presek liste, novi rule, query
-
-/*query multiGenreCalculator(Genre genreParam, User userParam , Number $num)
-    $num := Number()
-    from accumulate($b:Book(genreParam memberOf genres)
-    from userParam.getReadBooks(),
-    count($b))
-end*/
 
 query sumReadOfGenre(Genre genreParam, User userParam , Number $num)
     $num := Number()

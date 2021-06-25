@@ -14,7 +14,6 @@ rule "System grade not set in last 1 minutes!"
             over window:time(10s)
         )
     then
-        //SystemGradeService serv = new SystemGradeService();
         SystemGradingEvent gradeEvent = new SystemGradingEvent();
         Date currDate = new Date();
         gradeEvent.setExecutionTime(currDate);
@@ -36,7 +35,6 @@ rule "System grade set in last 1 minutes!"
         over window:time(10s)
 
     then
-        //SystemGradeService serv = new SystemGradeService();
         $serv.listCall();
         SystemGradingEvent gradeEvent = new SystemGradingEvent();
         gradeEvent.setExecutionTime($d);

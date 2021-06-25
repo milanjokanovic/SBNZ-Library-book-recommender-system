@@ -22,9 +22,6 @@ rule "Reset Author Grade"
     	$a: Author() @Watch(!systemGrade)
     then
     	modify($a){setSystemGrade(0)}
-
-        //throw new Exception("Genre not found");
-
 end
 
 
@@ -39,10 +36,7 @@ rule "Author grade from books"
     	Long(intValue == 1)from accumulate(Book($bi: this, bookId==id) from $bookList,
 	        count($bi))
     then
-        //System.out.println("Broj je:" + bookGrade + " ID:" + bookId);
-
         modify($a){setSystemGrade(grade + bookGrade)}
-
 end
 
 rule "Author grade with favorite users coeficient"
@@ -56,9 +50,7 @@ rule "Author grade with favorite users coeficient"
    	 	userActive($activityDate, userList, $num;)
    	 	eval($num.intValue() >= ($c /  10))
     then
-        //actions
-        System.out.println("Usao 2 puta author " + $num);
-		modify($a){setSystemGrade(0.8 * (grade / bookList.size()) + 1)}
+        modify($a){setSystemGrade(0.8 * (grade / bookList.size()) + 1)}
 end
 
 rule "Author grade from without favorite users coeficient"
@@ -72,8 +64,7 @@ rule "Author grade from without favorite users coeficient"
    	 	userActive($activityDate, userList, $num;)
    	 	eval($num.intValue() < ($c /  10))
     then
-        //System.out.println("Usao 3 puta author " + $num);
-		modify($a){setSystemGrade(0.8 * (grade / bookList.size()))}
+        modify($a){setSystemGrade(0.8 * (grade / bookList.size()))}
 end
 
 rule "Author grade no favorite users"
@@ -86,8 +77,7 @@ rule "Author grade no favorite users"
    	 	not userActive($activityDate, userList, $num;)
    	 	//eval($num == 0)
     then
-        //System.out.println("Usao 44 puta author " + grade);
-		modify($a){setSystemGrade(0.8 * (grade / bookList.size()))}
+        modify($a){setSystemGrade(0.8 * (grade / bookList.size()))}
 end
 
 rule "Author mostly writes series with high scores"
@@ -105,7 +95,5 @@ rule "Author mostly writes series with high scores"
          )
          eval($seriesBooks.size() > ($books.size() / 3))
     then
-        //System.out.println("Ulazi u autohor series: " + $seriesBooks.size());
-        //System.out.println(($books.size() / 3));
         modify($a){setSystemGrade(grade + 1)}
 end

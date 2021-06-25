@@ -28,10 +28,8 @@ rule "Insert user grading event"
         $u: User(id: id)
     then
         SystemGradeEvent gradeEvent = new SystemGradeEvent();
-        System.out.println("Dodajem");
         gradeEvent.setUserId(id);
         insert(gradeEvent);
-        //delete($u);
 end
 
 rule "Potentially suspicious user alarm"
@@ -50,8 +48,6 @@ rule "Potentially suspicious user alarm"
         )
         not (SuspiciousUserAlarm(userId == id, this meets[250s] $sde))
     then
-        System.out.println("Ulazim ovde alarm");
-        System.out.println($num);
         SuspiciousUserAlarm alarm = new SuspiciousUserAlarm();
         alarm.setUserId(id);
         alarm.setReason("Too many book reviews in small time span");
@@ -76,8 +72,6 @@ rule "Suspicious user alarm"
         SuspiciousUserAlarm(userId == id, reason == "Too many book reviews in small time span")
         not (BlockUserScoringEvent(userId == id))
     then
-        System.out.println("User je los");
-        System.out.println($num);
         BlockUserScoringEvent blockEvent = new BlockUserScoringEvent();
         blockEvent.setUserId(id);
         insert(blockEvent);
@@ -90,8 +84,7 @@ rule "Block User scoring ability"
         $u: User(id: id, blockedScoringFunction == 0)
         $bse: BlockUserScoringEvent(userId == id)
     then
-        System.out.println("User blocked");
-		modify($u){setBlockedScoringFunction(1)}
+        modify($u){setBlockedScoringFunction(1)}
 
 end
 
@@ -101,9 +94,7 @@ rule "Remove User from memory"
     when
         $u: User()
     then
-        System.out.println("Brise");
         delete($u);
-        System.out.println("Obrisao");
         drools.halt();
 
 end

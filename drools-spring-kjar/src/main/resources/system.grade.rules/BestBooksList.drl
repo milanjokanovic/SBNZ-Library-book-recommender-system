@@ -14,10 +14,7 @@ rule "List of best books"
         $b: Book( $grade : systemGrade, $id: id)
         not Book( systemGrade > $grade, id != $id)
     then
-    	//System.out.println("MAX");
-        //System.out.println($type);
-
-        modify($bestList){add($b)}
+    	modify($bestList){add($b)}
         delete($b);
 
 end

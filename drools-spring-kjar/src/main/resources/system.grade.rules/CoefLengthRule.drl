@@ -19,10 +19,7 @@ rule "Max length grade"
         not BookLengthTypeData( grade > $grade, type != $type)
         not BookLengthTypeData( grade == $grade, type != $type)
     then
-    	//System.out.println("MAX");
-        //System.out.println($type);
-
-        modify($bt){setValue(0.5)}
+    	modify($bt){setValue(0.5)}
 
 end
 
@@ -35,9 +32,6 @@ rule "Min length grade"
         not BookLengthTypeData( grade < $grade, type != $type)
         not BookLengthTypeData( grade == $grade, type != $type)
     then
-    	//System.out.println("MIN");
-        //System.out.println($type);
-
-        modify($bt){setValue(-0.5)}
+    	modify($bt){setValue(-0.5)}
 
 end

@@ -17,21 +17,8 @@ rule "Score user read authors"
       count($pom))
   userCumulativeAuthorScore($author, $user, $num;)
   then
-  //System.out.println("Autor: " + $author.getName());
-  //System.out.println("Knjiga: " + $book.getTitle());
-  //System.out.println($book.getTitle() + ": " + $num);
-  modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ ($noReadByAuthor.intValue()*$num*0.01))}
+      modify($book){setUserRecommendedScore($book.getUserRecommendedScore()+ ($noReadByAuthor.intValue()*$num*0.01))}
 end
-
-/*rule "Test Author"
-  agenda-group "AuthorScore"
-  no-loop
-  when
-  $book : Book()
-  then
-  System.out.println("Author");
-  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end*/
 
 query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
     $authorBooks: List() from accumulate(
@@ -50,25 +37,3 @@ query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num
         average($sc)
     )
 end
-
-/*query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
-    $num := Double()
-    from accumulate(Book(author.getName() == authorParam.getName(),
-    $scores: score)
-    from userParam.getReadBooks() and
-    Score(user.getId() == userParam.getId(), $sc: value) from $scores,
-    average($sc))
-end*/
-
-/*query userCumulativeAuthorScore(Author authorParam, User userParam , Double $num)
-    returnScores(authorParam, userParam, $book;)
-    $num := Double() from accumulate(
-        Score(user.getId() == userParam.getId(), $sc: value) from $book.getScore(),
-        average($sc))
-end
-
-query returnScores(Author authorParam, User userParam , Book $book)
-    $book := Book()
-        from accumulate(Book(author.getName() == authorParam.getName())
-        from userParam.getReadBooks())
-end*/

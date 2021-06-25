@@ -40,10 +40,6 @@ rule "Series Rule book no scores"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade == 0)
     then
-        //actions
-		//System.out.println("Series " + title);
-		//System.out.println("Series " + id);
-		//System.out.println("Zabo Series no score");
         modify($sd){increaseGrade(0.0 * brPregleda)}
 end
 
@@ -57,10 +53,8 @@ rule "General Data Rule"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade != 0)
     then
-        //actions
-		//System.out.println("Series " + title);
-		//System.out.println("Zabo general 1 1");
         modify($d){increaseDataValues(($bookGrade / score.size()), brPregleda)}
+
         //modify($d){increaseDataValues(avgGrade, brPregleda)}
 end
 
@@ -74,9 +68,5 @@ rule "General Data Rule no book scores"
         avgBookGrade(score, $bookGrade;)
         eval($bookGrade == 0)
     then
-        //actions
-		//System.out.println("Series " + title);
-		//System.out.println("Series " + id);
-		//System.out.println("Zabo general 1 2");
         modify($d){increaseDataValues(0.0, brPregleda)}
 end

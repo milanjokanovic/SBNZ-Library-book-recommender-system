@@ -13,11 +13,3 @@ rule "Filter books based on user age"
   delete($book);
 end
 
-/*rule "When user is a young adult"
-  agenda-group "UserAgeFilter"
-  no-loop
-  when
-  $book : Book()
-  then
-  System.out.println($book.getTitle());
-end*/

@@ -30,7 +30,8 @@ rule "Find best for user no series"
         $b: Book( $grade : userRecommendedScore, $id: id)
         $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(),
                     user_id: user.getId(), $b not memberOf $user_books)
-        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList, count($u))
+        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList,
+         count($u))
         eval($bind.intValue() == 0)
 
         $minBookScore: Double()
@@ -54,7 +55,8 @@ rule "Find best for user series"
         $b: Book( $grade : userRecommendedScore, $id: id)
         $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(),
             user_id: user.getId(), $b not memberOf $user_books)
-        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList, count($u))
+        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList,
+         count($u))
         eval($bind.intValue() == 1)
 
 
@@ -65,30 +67,3 @@ rule "Find best for user series"
         modify($bestList){remove($minBook)}
         modify($bestList){add($b)}
 end
-
-/*rule "Test best basic"
-  agenda-group "FindBest"
-  no-loop
-  salience 8
-  when
-  $book : Book()
-  then
-  System.out.println("-----------------------------------------------------------\n");
-  System.out.println($book.getTitle() + ": " + $book.getUserRecommendedScore());
-end*/
-
-/*rule "Test best advanced"
-  agenda-group "FindBest"
-  no-loop
-  salience 7
-  when
-  $bestList: List()
-  then
-  System.out.println("PRESERIES\n***************************************************************\n");
-  System.out.println($bestList.size());
-  for(int i = 0; i < $bestList.size(); i++) {
-    Book booki = (Book) $bestList.get(i);
-    System.out.println(booki.getTitle() + ": " + booki.getUserRecommendedScore());
-  }
-
-end*/

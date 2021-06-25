@@ -24,14 +24,11 @@ rule "Handle series"
   $replacementBook: Book(seriesNumber == ($userSeriesProgress.intValue() + 1)) from $allFromSeries
 
   then
-  //System.out.println("HOHO");
-  System.out.println("Knjiga: " + $book.getTitle());
-  //System.out.println($book.getTitle() + ": " + $num);
-  modify($bestList){remove($book)}
-  modify($bestList){add($replacementBook)}
+    modify($bestList){remove($book)}
+    modify($bestList){add($replacementBook)}
 end
 
-rule "Test series handler"
+/*rule "Test series handler"
   agenda-group "SeriesHandler"
   no-loop
   salience 7
@@ -45,4 +42,4 @@ rule "Test series handler"
     System.out.println(booki.getTitle() + ": " + booki.getUserRecommendedScore());
   }
 
-end
+end*/

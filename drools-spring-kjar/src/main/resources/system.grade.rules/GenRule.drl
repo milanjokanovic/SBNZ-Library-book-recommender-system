@@ -41,7 +41,6 @@ rule "Genre Grade Rule"
     then
     	modify($g){setSystemGrade(genGrade + grade/$genList.size())}
 
-        //throw new Exception("Genre not found");
 
 end
 
@@ -53,7 +52,6 @@ rule "Avrage Genre Data Generation Rule"
     when
     	not GenreAvrageData()
     then
-    	//System.out.println("kreirao se");
     	GenreAvrageData avgGenData = new GenreAvrageData();
 	    avgGenData.setGrade(0.0);
 	    avgGenData.setCount(0);
@@ -69,7 +67,6 @@ rule "Avrage Genre Data Modification Rule"
     	$g: Genre(genId:id, genreName:name, genGrade: getSystemGrade())
     	$avg: GenreAvrageData(count: count, grade: grade)
     then
-    	//System.out.println("usao 2 puta");
     	modify($avg){setGrade(grade + genGrade)}
     	modify($avg){setCount(count + 1)}
 
