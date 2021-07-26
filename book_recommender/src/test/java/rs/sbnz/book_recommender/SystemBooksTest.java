@@ -22,6 +22,7 @@ import rs.sbnz.book_recommender.model.User;
 import rs.sbnz.book_recommender.model.enums.LengthType;
 import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
 import rs.sbnz.book_recommender.model.facts.GeneralBookData;
+import rs.sbnz.book_recommender.model.facts.PopularData;
 import rs.sbnz.book_recommender.model.facts.SeriesData;
 import rs.sbnz.book_recommender.repositories.AuthorRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
@@ -72,6 +73,90 @@ public class SystemBooksTest {
         KieBase kieBase = kieContainer.newKieBase(kieBaseConfiguration);//config.getBase();//kieContainer.newKieBase(kieBaseConfiguration);
 
         session = kieBase.newKieSession();
+    }
+
+    @Test
+    public void cepBookReadTest(){
+        KieSession readSession = config.userReadSession();
+
+        List<Book> books = bookRepository.findAll();
+        Book book = books.get(0);
+        List<User> users = userRepository.findAll();
+        User user = users.get(1);
+
+        Book book2 = books.get(1);
+        User user2 = users.get(0);
+
+        Book book3 = books.get(2);
+
+        readSession.getAgenda().getAgendaGroup("ClearMemory").setFocus();
+        readSession.getAgenda().getAgendaGroup("BookRead").setFocus();
+        readSession.getAgenda().getAgendaGroup("BookFirstTimeRead").setFocus();
+
+        readSession.insert(user);
+        readSession.insert(book);
+        readSession.insert(user2);
+        readSession.insert(book2);
+        readSession.fireUntilHalt();
+
+        readSession.insert(user2);
+        readSession.insert(book3);
+        readSession.fireUntilHalt();
+
+        PopularData data = new PopularData();
+        data.setBookId(book.getId());
+        data.setPopularFactor(0);
+        data.setNewPopularFactor(0);
+
+        PopularData data2 = new PopularData();
+        data2.setBookId(book2.getId());
+        data2.setPopularFactor(0);
+        data2.setNewPopularFactor(0);
+
+        PopularData data3 = new PopularData();
+        data3.setBookId(book3.getId());
+        data3.setPopularFactor(0);
+        data3.setNewPopularFactor(0);
+
+        readSession.getAgenda().getAgendaGroup("ClearPopular").setFocus();
+        readSession.getAgenda().getAgendaGroup("NewPopular").setFocus();
+        readSession.getAgenda().getAgendaGroup("Popular").setFocus();
+        readSession.getAgenda().getAgendaGroup("PopularBook").setFocus();
+        readSession.insert(data);
+        readSession.insert(data2);
+        readSession.insert(data3);
+        readSession.fireUntilHalt();
+
+
+        assertTrue(2 == data.getPopularFactor());
+        assertTrue(0 == data.getNewPopularFactor());
+
+        assertTrue(2 == data2.getPopularFactor());
+        assertTrue(0 == data2.getNewPopularFactor());
+
+        assertTrue(0 == data3.getPopularFactor());
+        assertTrue(0 == data3.getNewPopularFactor());
+
+        assertTrue(0 == book2.getSystemGrade());
+        assertTrue(0 == book.getSystemGrade());
+        assertTrue(0 == book3.getSystemGrade());
+
+        session.getAgenda().getAgendaGroup("Close").setFocus();
+        session.getAgenda().getAgendaGroup("Level3_5").setFocus();
+        session.insert(data);
+        session.insert(data2);
+        session.insert(data3);
+        session.insert(book);
+        session.insert(book2);
+        session.insert(book3);
+
+        session.fireUntilHalt();
+
+
+
+        assertTrue(2 == book2.getSystemGrade());
+        assertTrue(2 == book.getSystemGrade());
+        assertTrue(0 == book3.getSystemGrade());
     }
 
     @Test

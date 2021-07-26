@@ -47,4 +47,11 @@ public class EventSessionConfig {
         return session;
     }
 
+    @Bean
+    public KieSession userReadSession(){
+        KieSession session = getBase().newKieSession();
+
+        return session;
+    }
+
 }

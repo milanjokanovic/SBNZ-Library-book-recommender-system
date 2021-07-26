@@ -1,0 +1,144 @@
+package popular
+
+import rs.sbnz.book_recommender.model.User;
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.PopularData;
+
+declare BookUserReadEvent
+    @role(event)
+    @expires(250h)
+    userId: Integer
+    bookId: Integer
+end
+
+declare PopularBook
+    @role(event)
+    @expires(100s)
+    bookId: Integer
+end
+
+declare UserFirstTimeReadEvent
+    @role(event)
+    @expires(250h)
+    userId: Integer
+    bookId: Integer
+end
+
+declare PopularNewBook
+    @role(event)
+    @expires(100s)
+    bookId: Integer
+end
+
+rule "Insert user read book"
+    agenda-group "BookRead"
+	salience 7
+    when
+        $u: User(id: id)
+        $b: Book(bookId: id)
+        not(BookUserReadEvent(bookId == bookId, userId == id))
+    then
+        //System.out.println("Citam knjigu " + $b.getTitle());
+        BookUserReadEvent readEvent = new BookUserReadEvent();
+        readEvent.setUserId(id);
+        readEvent.setBookId(bookId);
+        insert(readEvent);
+end
+
+rule "Popular"
+    agenda-group "PopularBook"
+	salience 5
+    when
+        PopularData(bookId: bookId)
+        $bru: BookUserReadEvent(userId: userId, bookId == bookId)
+        $num: Number(intValue > 0) from accumulate(
+                    $sde2: BookUserReadEvent(
+                        this != $bru,
+                        bookId == bookId,
+                        this meets[1000s] $bru
+                    ),
+                    count($sde2)
+                )
+        $allNum: Number(intValue > 0) from accumulate(
+                            $sde2: BookUserReadEvent(
+                                this != $bru,
+                                this meets[1000s] $bru
+                            ),
+                            count($sde2)
+                        )
+        eval($num.intValue() > ($allNum.intValue() / 10))
+        not(PopularBook(bookId == bookId, this meets[100s] $bru))
+    then
+
+
+        PopularBook popularBook = new PopularBook();
+        popularBook.setBookId(bookId);
+        insert(popularBook);
+end
+
+
+
+rule "Insert user first time read book"
+    agenda-group "BookFirstTimeRead"
+	salience 10
+    when
+        $u: User(id: id)
+        $b: Book(bookId: id)
+        not(UserFirstTimeReadEvent(bookId == bookId, userId == id))
+    then
+        //System.out.println("Prvi put knjigu " + $b.getTitle());
+        UserFirstTimeReadEvent readEvent = new UserFirstTimeReadEvent();
+        readEvent.setUserId(id);
+        readEvent.setBookId(bookId);
+        insert(readEvent);
+end
+
+
+rule "Popular new"
+    agenda-group "BookFirstTimeRead"
+	salience 8
+    when
+        $u: User(userId: id)
+        $b: Book(bookId: id)
+        $bru: UserFirstTimeReadEvent(userId == userId, bookId == bookId)
+        $num: Number(intValue > 3) from accumulate(
+                    $sde2: UserFirstTimeReadEvent(
+                        this != $bru,
+                        bookId == bookId,
+                        this meets[1000s] $bru
+                    ),
+                    count($sde2)
+                )
+        not(PopularNewBook(bookId == bookId, this meets[100s] $bru))
+    then
+        //System.out.println("Popular new book " + $bru.getBookId() + " User: " + userId);
+
+        PopularNewBook popularBook = new PopularNewBook();
+        popularBook.setBookId(bookId);
+        insert(popularBook);
+end
+
+
+rule "Remove User from memory"
+    agenda-group "ClearMemory"
+    salience 2
+    when
+        $u: User()
+    then
+        delete($u);
+        //System.out.println("Obrisao user-a");
+
+end
+
+rule "Remove Book from memory"
+    agenda-group "ClearMemory"
+    salience 1
+    when
+        $b: Book()
+    then
+        delete($b);
+
+        //System.out.println("Obrisao book");
+        drools.halt();
+
+end

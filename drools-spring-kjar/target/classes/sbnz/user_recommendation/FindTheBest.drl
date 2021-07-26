@@ -30,7 +30,8 @@ rule "Find best for user no series"
         $b: Book( $grade : userRecommendedScore, $id: id)
         $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(),
                     user_id: user.getId(), $b not memberOf $user_books)
-        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList, count($u))
+        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList,
+         count($u))
         eval($bind.intValue() == 0)
 
         $minBookScore: Double()
@@ -54,7 +55,8 @@ rule "Find best for user series"
         $b: Book( $grade : userRecommendedScore, $id: id)
         $subjectUser: SubjectUser($user: user, $user_books: user.getReadBooks(),
             user_id: user.getId(), $b not memberOf $user_books)
-        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList, count($u))
+        $bind: Number() from accumulate($u:Book(title == $b.getTitle() || series == $b.getSeries()) from $bestList,
+         count($u))
         eval($bind.intValue() == 1)
 
 

@@ -6,6 +6,10 @@ import bookgengrade.GenreCoeficient;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Author;
 
+import rs.sbnz.book_recommender.model.User;
+
+import rs.sbnz.book_recommender.model.Genre;
+
 //declare any global variables here
 
 
@@ -36,7 +40,6 @@ rule "Add genre coeficient data to book grade"
     	modify($b){setSystemGrade(grade + (1. * coef / $genList.size()))}
 
 end
-
 
 
 rule "Halt grading"

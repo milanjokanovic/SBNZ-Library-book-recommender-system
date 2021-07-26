@@ -8,10 +8,12 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.sbnz.book_recommender.config.EventSessionConfig;
 import rs.sbnz.book_recommender.model.Author;
 import rs.sbnz.book_recommender.model.Book;
 import rs.sbnz.book_recommender.model.Genre;
 import rs.sbnz.book_recommender.model.User;
+import rs.sbnz.book_recommender.model.facts.PopularData;
 import rs.sbnz.book_recommender.repositories.AuthorRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.GenreRepository;
@@ -36,9 +38,63 @@ public class BookService {
     @Autowired
     GenreRepository genreRepository;
 
+    @Autowired
+    private EventSessionConfig config;
+
     public List<Book> findAll()
     {
         return bookRepository.findAll();
+    }
+
+
+    private void readBookRules(User user, Book book, String ruleGroup){
+        KieSession session = config.userReadSession();
+        //User user = userRepository.findAll().get(0);
+        //System.out.println("Reading events");
+
+        session.getAgenda().getAgendaGroup("ClearMemory").setFocus();
+        session.getAgenda().getAgendaGroup(ruleGroup).setFocus();
+
+        session.insert(user);
+        session.insert(book);
+        session.fireUntilHalt();
+
+
+    }
+
+    public void testIspis(){
+        KieSession session = config.userReadSession();
+
+        List<Book> books = bookRepository.findAll();
+        List<PopularData> popularData = new ArrayList<>();
+        for(Book book : books){
+            PopularData data = new PopularData();
+            data.setBookId(book.getId());
+
+            popularData.add(data);
+        }
+
+        for (PopularData data : popularData){
+
+            //System.out.println("Usao za " + data.getBookId());
+
+            session.getAgenda().getAgendaGroup("ClearPopular").setFocus();
+            session.getAgenda().getAgendaGroup("NewPopular").setFocus();
+            session.getAgenda().getAgendaGroup("Popular").setFocus();
+            session.getAgenda().getAgendaGroup("PopularBook").setFocus();
+            session.insert(data);
+            session.fireUntilHalt();
+
+            if(data.getPopularFactor() != 0){
+                System.out.println("Normal za " + data.getBookId());
+                System.out.println("Popular factor: " + data.getPopularFactor());
+            }
+
+            if(data.getNewPopularFactor() != 0){
+                System.out.println("New za " + data.getBookId());
+                System.out.println("New factor: " + data.getNewPopularFactor());
+            }
+        }
     }
 
     public void readBook(int userId, int bookId){
@@ -55,6 +111,8 @@ public class BookService {
             if(ind == user.getReadBooks().size()){
                 user.getReadBooks().add(book);
                 book.setBrPregleda(book.getBrPregleda() + 1);
+                readBookRules(user, book, "BookFirstTimeRead");
+                //System.out.println("Prvi put citam");
             }
 
         }
@@ -62,7 +120,12 @@ public class BookService {
             user.setReadBooks(new HashSet<>());
             user.getReadBooks().add(book);
             book.setBrPregleda(book.getBrPregleda() + 1);
+
+            //System.out.println("Prazan user read");
+            readBookRules(user, book, "BookFirstTimeRead");
         }
+        readBookRules(user, book, "BookRead");
+        //testIspis(book);
         userRepository.save(user);
         bookRepository.save(book);
     }

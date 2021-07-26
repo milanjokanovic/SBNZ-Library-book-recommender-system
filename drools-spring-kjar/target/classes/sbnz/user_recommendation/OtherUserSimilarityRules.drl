@@ -55,7 +55,5 @@ rule "Modify books"
   $ouc: OtherUserScorer(id == $user.getId(), $cnt: count, $scr: score) @Watch(count, score)
   eval($ouc.getCount() != 0)
   then
-  System.out.println($book.getTitle());
-  System.out.println("Scorer count: " + $ouc.getCount());
   modify($book){setUserRecommendedScore($book.getUserRecommendedScore() + ((0.01*$cnt)*(1/($scr/($cnt)))))}
 end

@@ -16,6 +16,7 @@ import rs.sbnz.book_recommender.services.BookService;
 import rs.sbnz.book_recommender.services.SystemGradeService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -88,5 +89,13 @@ public class BookController {
         //systemGradeService.fireEvent();
         List<Book> books = systemGradeService.fireEvent();
         return ResponseEntity.ok(bookMapper.toDtoList(books));
+    }
+
+    @GetMapping("/test/fun")
+    public ResponseEntity<List<BookDTO>> testRuteBooks()
+    {
+        //systemGradeService.fireEvent();
+        bookService.testIspis();
+        return ResponseEntity.ok(new ArrayList<>());
     }
 }

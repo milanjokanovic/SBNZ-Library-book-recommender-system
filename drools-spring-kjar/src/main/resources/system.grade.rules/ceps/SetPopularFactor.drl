@@ -1,0 +1,47 @@
+package popularFactor
+
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.PopularData;
+
+import popular.*;
+
+
+
+rule "Popular factor"
+    agenda-group "Popular"
+    no-loop
+	salience 7
+    when
+        $pd: PopularData(bookId: bookId)
+        PopularBook(bookId == bookId)
+    then
+        //System.out.println("Event postoji " + bookId);
+        modify($pd){setPopularFactor(2)}
+end
+
+
+rule "Popular new factor"
+    agenda-group "NewPopular"
+    no-loop
+	salience 5
+    when
+        $pd: PopularData(bookId: bookId)
+        PopularNewBook(bookId == bookId)
+    then
+        //System.out.println("Alarm new book postoji " + bookId);
+        modify($pd){setNewPopularFactor(0.5)}
+end
+
+
+rule "Stop popular"
+    agenda-group "ClearPopular"
+    salience 1
+    when
+        $pd: PopularData()
+    then
+        delete($pd);
+        //System.out.println("Izlazim");
+        drools.halt();
+
+end

@@ -1,0 +1,42 @@
+package baseCEP
+
+
+import rs.sbnz.book_recommender.model.Book;
+import rs.sbnz.book_recommender.model.facts.PopularData;
+
+
+rule "Popular new and old read"
+	agenda-group "Level3_5"
+	no-loop
+	salience 10
+    when
+   	 	$b: Book(bookId: id, brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+        $pd: PopularData(bookId == bookId, popularFactor > 0, newPopularFactor > 0)
+    then
+        System.out.println("Usao oba: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
+    	modify($b){setSystemGrade(grade + $pd.getPopularFactor() + $pd.getNewPopularFactor())}
+end
+
+rule "Popular new read"
+	agenda-group "Level3_5"
+	no-loop
+	salience 10
+    when
+   	 	$b: Book(bookId: id, brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+        $pd: PopularData(bookId == bookId, newPopularFactor > 0, popularFactor == 0)
+    then
+        System.out.println("New: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
+    	modify($b){setSystemGrade(grade + $pd.getNewPopularFactor())}
+end
+
+rule "Popular old read"
+	agenda-group "Level3_5"
+	no-loop
+	salience 10
+    when
+   	 	$b: Book(bookId: id,brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
+        $pd: PopularData(bookId == bookId, popularFactor > 0, newPopularFactor == 0)
+    then
+        System.out.println("Old: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
+    	modify($b){setSystemGrade(grade + $pd.getPopularFactor())}
+end

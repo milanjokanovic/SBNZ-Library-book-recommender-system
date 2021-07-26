@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import rs.sbnz.book_recommender.config.EventSessionConfig;
 import rs.sbnz.book_recommender.model.*;
 import rs.sbnz.book_recommender.model.enums.LengthType;
-import rs.sbnz.book_recommender.model.facts.BookLengthTypeData;
-import rs.sbnz.book_recommender.model.facts.GeneralBookData;
-import rs.sbnz.book_recommender.model.facts.SeriesData;
-import rs.sbnz.book_recommender.model.facts.SystemGradingEvent;
+import rs.sbnz.book_recommender.model.facts.*;
 import rs.sbnz.book_recommender.repositories.AuthorRepository;
 import rs.sbnz.book_recommender.repositories.BookRepository;
 import rs.sbnz.book_recommender.repositories.GenreRepository;
@@ -114,6 +111,33 @@ public class SystemGradeService {
 
     public  void getSystemGrade(){
 
+        List<User> users = userRepository.findAll();
+        List<Book> books = bookRepository.findAll();
+        List<Author> authors = authorRepository.findAll();
+        List<Genre> genres = genreRepository.findAll();
+
+        KieSession statefulSession = config.userReadSession();
+
+        List<PopularData> popularData = new ArrayList<>();
+        for(Book book : books){
+            PopularData data = new PopularData();
+            data.setBookId(book.getId());
+            data.setPopularFactor(0);
+            data.setNewPopularFactor(0);
+
+
+
+            popularData.add(data);
+        }
+
+        for (PopularData data : popularData){
+            statefulSession.getAgenda().getAgendaGroup("ClearPopular").setFocus();
+            statefulSession.getAgenda().getAgendaGroup("NewPopular").setFocus();
+            statefulSession.getAgenda().getAgendaGroup("Popular").setFocus();
+            statefulSession.getAgenda().getAgendaGroup("PopularBook").setFocus();
+            statefulSession.insert(data);
+            statefulSession.fireUntilHalt();
+        }
         KieServices ks = KieServices.Factory.get();
 
 
@@ -123,10 +147,12 @@ public class SystemGradeService {
 
         KieSession session = kieBase.newKieSession();
 
-        List<User> users = userRepository.findAll();
-        List<Book> books = bookRepository.findAll();
-        List<Author> authors = authorRepository.findAll();
-        List<Genre> genres = genreRepository.findAll();
+        //KieSession session = config.userReadSession();
+
+        for (PopularData data : popularData){
+
+            session.insert(data);
+        }
 
         for(User user : users){
             session.insert(user);
@@ -168,6 +194,7 @@ public class SystemGradeService {
         session.getAgenda().getAgendaGroup("Level6").setFocus();
         session.getAgenda().getAgendaGroup("Level5").setFocus();
         session.getAgenda().getAgendaGroup("Level4").setFocus();
+        session.getAgenda().getAgendaGroup("Level3_5").setFocus();
         session.getAgenda().getAgendaGroup("Level3").setFocus();
         session.getAgenda().getAgendaGroup("Level2").setFocus();
         session.getAgenda().getAgendaGroup("Level1_5").setFocus();
