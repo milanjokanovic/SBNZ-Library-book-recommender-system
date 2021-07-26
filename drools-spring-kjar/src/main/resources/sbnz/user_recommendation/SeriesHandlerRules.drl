@@ -27,19 +27,3 @@ rule "Handle series"
     modify($bestList){remove($book)}
     modify($bestList){add($replacementBook)}
 end
-
-/*rule "Test series handler"
-  agenda-group "SeriesHandler"
-  no-loop
-  salience 7
-  when
-  $bestList: List()
-  then
-  System.out.println("POSTSERIES\n***************************************************************\n");
-  //System.out.println($bestList.size());
-  for(int i = 0; i < $bestList.size(); i++) {
-    Book booki = (Book) $bestList.get(i);
-    System.out.println(booki.getTitle() + ": " + booki.getUserRecommendedScore());
-  }
-
-end*/

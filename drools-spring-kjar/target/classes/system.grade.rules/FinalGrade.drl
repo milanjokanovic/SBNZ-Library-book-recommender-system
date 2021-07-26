@@ -24,7 +24,7 @@ rule "System Grade with Author Grade"
     	Long(intValue == 1)from accumulate(Book($bi: this,bookId==id) from $bookList,
 	        count($bi))
     then
-    	//System.out.println("knjige");
+
         modify($b){setSystemGrade(0.8 * grade + 0.1 * authorGrade)}
 
 end

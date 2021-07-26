@@ -91,11 +91,4 @@ public class BookController {
         return ResponseEntity.ok(bookMapper.toDtoList(books));
     }
 
-    @GetMapping("/test/fun")
-    public ResponseEntity<List<BookDTO>> testRuteBooks()
-    {
-        //systemGradeService.fireEvent();
-        bookService.testIspis();
-        return ResponseEntity.ok(new ArrayList<>());
-    }
 }

@@ -75,7 +75,7 @@ rule "Author grade no favorite users"
         $t: CurrentTimeData(now: now, $activityDate: activityDate.getTime())
    	 	$a: Author(bookList: books, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
    	 	not userActive($activityDate, userList, $num;)
-   	 	//eval($num == 0)
+
     then
         modify($a){setSystemGrade(0.8 * (grade / bookList.size()))}
 end

@@ -38,7 +38,6 @@ rule "Insert user read book"
         $b: Book(bookId: id)
         not(BookUserReadEvent(bookId == bookId, userId == id))
     then
-        //System.out.println("Citam knjigu " + $b.getTitle());
         BookUserReadEvent readEvent = new BookUserReadEvent();
         readEvent.setUserId(id);
         readEvent.setBookId(bookId);
@@ -86,7 +85,6 @@ rule "Insert user first time read book"
         $b: Book(bookId: id)
         not(UserFirstTimeReadEvent(bookId == bookId, userId == id))
     then
-        //System.out.println("Prvi put knjigu " + $b.getTitle());
         UserFirstTimeReadEvent readEvent = new UserFirstTimeReadEvent();
         readEvent.setUserId(id);
         readEvent.setBookId(bookId);
@@ -111,8 +109,6 @@ rule "Popular new"
                 )
         not(PopularNewBook(bookId == bookId, this meets[100s] $bru))
     then
-        //System.out.println("Popular new book " + $bru.getBookId() + " User: " + userId);
-
         PopularNewBook popularBook = new PopularNewBook();
         popularBook.setBookId(bookId);
         insert(popularBook);
@@ -126,7 +122,6 @@ rule "Remove User from memory"
         $u: User()
     then
         delete($u);
-        //System.out.println("Obrisao user-a");
 
 end
 
@@ -138,7 +133,6 @@ rule "Remove Book from memory"
     then
         delete($b);
 
-        //System.out.println("Obrisao book");
         drools.halt();
 
 end

@@ -23,7 +23,6 @@ rule "Reset Genre Grade"
     when
     	$g: Genre() @Watch(!systemGrade)
     then
-        //System.out.println("Zanrovi ispis");
     	modify($g){setSystemGrade(0)}
 
 

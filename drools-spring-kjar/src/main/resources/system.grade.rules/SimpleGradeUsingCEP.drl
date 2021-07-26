@@ -13,8 +13,7 @@ rule "Popular new and old read"
    	 	$b: Book(bookId: id, brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
         $pd: PopularData(bookId == bookId, popularFactor > 0, newPopularFactor > 0)
     then
-        System.out.println("Usao oba: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
-    	modify($b){setSystemGrade(grade + $pd.getPopularFactor() + $pd.getNewPopularFactor())}
+        modify($b){setSystemGrade(grade + $pd.getPopularFactor() + $pd.getNewPopularFactor())}
 end
 
 rule "Popular new read"
@@ -25,8 +24,7 @@ rule "Popular new read"
    	 	$b: Book(bookId: id, brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
         $pd: PopularData(bookId == bookId, newPopularFactor > 0, popularFactor == 0)
     then
-        System.out.println("New: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
-    	modify($b){setSystemGrade(grade + $pd.getNewPopularFactor())}
+        modify($b){setSystemGrade(grade + $pd.getNewPopularFactor())}
 end
 
 rule "Popular old read"
@@ -37,6 +35,5 @@ rule "Popular old read"
    	 	$b: Book(bookId: id,brPregleda: brPregleda, title: title, userList: favoredByUsers, grade: getSystemGrade()) @Watch(!systemGrade)
         $pd: PopularData(bookId == bookId, popularFactor > 0, newPopularFactor == 0)
     then
-        System.out.println("Old: " + $b.getId() + " Popular: " + $pd.getPopularFactor() + " New: " + $pd.getNewPopularFactor());
-    	modify($b){setSystemGrade(grade + $pd.getPopularFactor())}
+        modify($b){setSystemGrade(grade + $pd.getPopularFactor())}
 end
