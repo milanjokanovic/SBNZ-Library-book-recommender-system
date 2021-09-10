@@ -8,7 +8,7 @@ import { Score } from '../model/score';
 })
 export class ScoreService {
 
-  private readonly port = 'http://localhost:8080';
+  private readonly port = 'http://localhost:8081';
   private readonly path = '/scores/';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

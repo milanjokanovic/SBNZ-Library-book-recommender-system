@@ -10,7 +10,7 @@ import { User } from '../model/user';
 })
 export class UserService {
 
-  private readonly port = 'http://localhost:8080';
+  private readonly port = 'http://localhost:8081';
   private readonly path = '/users/';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

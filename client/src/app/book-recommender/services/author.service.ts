@@ -8,7 +8,7 @@ import { Author } from '../model/author';
 })
 export class AuthorService {
 
-  private readonly port = 'http://localhost:8080';
+  private readonly port = 'http://localhost:8081';
   private readonly path = '/author/';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

@@ -163,8 +163,8 @@ INSERT INTO user (id, username, email, last_active, password, favorite_author_id
     (116, 'porfirije', 'porfirije@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '1', 0),
     (117, 'aleksandar', 'aleksandar@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '1', 0),
     (118, 'una', 'una@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '1', 0),
-    (119, 'zizel', 'zizel@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '1', 0),
-    (120, 'dragan', 'dragan@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '1', 0);
+    (119, 'zizel', 'zizel@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '2', 0),
+    (120, 'dragan', 'dragan@gmail.com', '2020-12-08 17:40:50', '$2a$04$iLVT9N/5RKaS1bMXEmueauu7pU1ZROAxtRT0x8pAGGuQtmp9E8LH.', 1014, 1065, '3', 0);
 
 INSERT INTO admin (id, username,  email, password) VALUES
     (201, 'admin', 'admin@gmail.com', '$2y$10$N64dQOyeyM9ngaJKCNPFWOeWG3vWGePK02xHxIcVBuwdD/aVc2YZ6');

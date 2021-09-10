@@ -101,18 +101,23 @@ public class UserRecommendationService {
         session.getAgenda().getAgendaGroup("Close").setFocus();
         session.getAgenda().getAgendaGroup("SeriesHandler").setFocus();
         session.getAgenda().getAgendaGroup("FindBest").setFocus();
-        session.getAgenda().getAgendaGroup("OtherUserScore").setFocus();
-        session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
-        session.getAgenda().getAgendaGroup("AuthorScore").setFocus();
-        session.getAgenda().getAgendaGroup("GenreScore").setFocus();
-        //session.getAgenda().getAgendaGroup("UserAgeFilter").setFocus();
+        if(user.getReadBooks().size() > 0) {
+            session.getAgenda().getAgendaGroup("OtherUserScore").setFocus();
+            session.getAgenda().getAgendaGroup("AdditionalEvaluation").setFocus();
+            session.getAgenda().getAgendaGroup("AuthorScore").setFocus();
+            session.getAgenda().getAgendaGroup("GenreScore").setFocus();
+        }
+        else{
+            session.getAgenda().getAgendaGroup("UserAgeFilter").setFocus();
+        }
 
         session.getAgenda().getAgendaGroup("ResetUserRecScores").setFocus();
-
-
         session.fireUntilHalt();//AuthorScore
 
-        System.out.println("dd");
+        for(Book b : bestBooksForUser){
+            System.out.println(b.getTitle());
+            System.out.println(b.getUserRecommendedScore());
+        }
         return bestBooksForUser;
     }
 }

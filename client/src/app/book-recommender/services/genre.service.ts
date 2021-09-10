@@ -8,7 +8,7 @@ import { Genre } from '../model/genre';
 })
 export class GenreService {
 
-  private readonly port = 'http://localhost:8080';
+  private readonly port = 'http://localhost:8081';
   private readonly path = '/genre/';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

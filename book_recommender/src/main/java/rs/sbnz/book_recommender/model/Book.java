@@ -1,6 +1,5 @@
 package rs.sbnz.book_recommender.model;
 
-import rs.sbnz.book_recommender.model.enums.TargetAudience;
 import org.kie.api.definition.type.PropertyReactive;
 
 import javax.persistence.*;
@@ -29,10 +28,6 @@ public class Book {
     private Boolean basedOnRealEvent;
     @Column
     private Boolean nobelPrize;
-    /*@Column
-    private Boolean neustadtInternationalLiteratureAward;
-    @Column
-    private Boolean internationalBotevPrize;*/
     @Column
     private int yearOfPublishing;
 

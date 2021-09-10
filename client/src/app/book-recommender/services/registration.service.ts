@@ -8,7 +8,7 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class RegistrationService {
 
-  private readonly port = "http://localhost:8080"
+  private readonly port = "http://localhost:8081"
   private readonly path = "/auth/register";
 	private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
